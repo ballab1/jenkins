@@ -1,3 +1,4 @@
 jenkins_home/*
+container/.gitconfig
 container/.ssh
 container/slaves/id_rsa*
