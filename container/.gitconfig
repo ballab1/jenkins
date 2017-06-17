@@ -1,7 +1,0 @@
-[user]
-	email = bob.ballantyne@emc.com
-	name = Bob Ballantyne
-
-[credential "https://github.com"]
-	username = ballab1:6eff330ac917de63296f588c7e0fe527b44658d4
-
