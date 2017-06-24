@@ -1,4 +1,4 @@
-FROM jenkins:2.46.3-alpine
+FROM jenkins:2.60.1-alpine
 
 USER jenkins
 
@@ -7,12 +7,20 @@ COPY container/init.groovy.d/* /usr/share/jenkins/ref/init.groovy.d/
 COPY container/plugins.txt /usr/share/jenkins/ref/
 
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false
 
 USER root
-RUN git config --system user.email "${CFG_GITHUB_JENKINS_EMAIL}" && \
-    git config --system user.name "${CFG_GITHUB_JENKINS_NAME}" && \
-    git config --system credential.user "${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_TOKEN}"
+
+RUN apk add --no-cache sudo && \
+    echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+
+ARG JENKINS_GITHUB_EMAIL
+ARG JENKINS_GITHUB_NAME
+ARG JENKINS_GITHUB_USER
+ARG JENKINS_GITHUB_TOKEN
+RUN git config --system user.email "${JENKINS_GITHUB_EMAIL}" && \
+    git config --system user.name "${JENKINS_GITHUB_NAME}" && \
+    git config --system credential.user "${JENKINS_GITHUB_USER}:${JENKINS_GITHUB_TOKEN}"
 
 USER jenkins
 ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
