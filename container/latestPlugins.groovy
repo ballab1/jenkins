@@ -1,6 +1,8 @@
 import groovy.json.*
 
+def currentCore = '2.60.2'
 def isUpdated = 0
+def VersionComparator = new GroovyScriptEngine('.').loadScriptByName('VersionComparator.groovy').newInstance()
 
 def f = new File('plugins.txt')
 def pluginList = [:] 
@@ -17,7 +19,7 @@ jsonText = jsonText.substring(0, jsonText.length()-3)
 def slurper = new JsonSlurper()
 def json = slurper.parseText(jsonText)
 json.plugins.each { k,v ->
-    if (pluginList.containsKey(k) && pluginList[k] != v.version) {
+    if (pluginList.containsKey(k) && pluginList[k] != v.version && VersionComparator.compare( currentCore, v.requiredCore ) > 0 ) {
         println k+' updated from '+pluginList[k] + ' to '+ v.version
         pluginList[k] = v.version
         isUpdated++
