@@ -11,7 +11,10 @@ ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false
 
 USER root
 
-RUN apk add --no-cache sudo && \
+ARG TZ=UTC
+RUN apk upgrade --update && \
+    apk add --no-cache sudo && \
+    apk add tzdata && cp /usr/share/zoneinfo/$TZ /etc/timezone && apk del tzdata && \
     echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 ARG JENKINS_GITHUB_EMAIL
