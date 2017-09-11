@@ -1,6 +1,7 @@
 #! /bin/bash -e
 
 : "${JENKINS_HOME:="/var/jenkins_home"}"
+#su chown jenkins:jenkins -R "${JENKINS_HOME}"
 
 # clean out old plugins to ensure we are always at specified versions
 [[ -d "${JENKINS_HOME}/plugins" ]] && rm -rf "${JENKINS_HOME}/plugins" 

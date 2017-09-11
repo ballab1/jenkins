@@ -1,20 +1,24 @@
 FROM jenkins/jenkins:2.60.3-alpine
 
+USER jenkins
 USER root
 
 ARG TZ=UTC
-RUN apk upgrade --update && \
-    apk add --no-cache sudo && \
-    apk add tzdata && cp /usr/share/zoneinfo/$TZ /etc/localtime && echo "$TZ" > /etc/timezone && apk del tzdata && \
-    echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+RUN apk update \
+    && apk add tzdata \
+    && echo "$TZ" > /etc/TZ \
+    && cp /usr/share/zoneinfo/$TZ /etc/timezone \
+    && apk del tzdata \
+    && apk add --no-cache sudo \
+    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 ARG JENKINS_GITHUB_EMAIL
 ARG JENKINS_GITHUB_NAME
 ARG JENKINS_GITHUB_USER
 ARG JENKINS_GITHUB_TOKEN
-RUN git config --system user.email "${JENKINS_GITHUB_EMAIL}" && \
-    git config --system user.name "${JENKINS_GITHUB_NAME}" && \
-    git config --system credential.user "${JENKINS_GITHUB_USER}:${JENKINS_GITHUB_TOKEN}"
+RUN git config --system user.email "${JENKINS_GITHUB_EMAIL}" \
+    && git config --system user.name "${JENKINS_GITHUB_NAME}" \
+    && git config --system credential.user "${JENKINS_GITHUB_USER}:${JENKINS_GITHUB_TOKEN}"
 
 USER jenkins
 
