@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.60.3-alpine
+FROM jenkins/jenkins:2.73.1-alpine
 
 USER jenkins
 USER root
@@ -8,7 +8,7 @@ RUN apk update \
     && apk add tzdata \
     && echo "$TZ" > /etc/TZ \
     && cp /usr/share/zoneinfo/$TZ /etc/timezone \
-    && cp /usr/share/zoneinfo/$TZ /etc/localtime \
+    && apk del tzdata \
     && apk add --no-cache sudo \
     && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 

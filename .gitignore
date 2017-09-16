@@ -3,3 +3,5 @@ container/.gitconfig
 container/.ssh
 container/gitconfig
 container/slaves/id_rsa*
+PluginUpdator/*.class
+PluginUpdator/plugins*txt

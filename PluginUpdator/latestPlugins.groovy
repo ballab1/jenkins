@@ -1,10 +1,12 @@
 import groovy.json.*
 
-def currentCore = '2.60.2'
-def isUpdated = 0
 def VersionComparator = new GroovyScriptEngine('.').loadScriptByName('VersionComparator.groovy').newInstance()
+def currentCore = new File('latestCore.txt').text
+if (!currentCore  || currentCore.length() == 0) currentCore = '2.60.3'
 
-def f = new File('plugins.txt')
+def isUpdated = 0
+
+def f = new File('../container/plugins.txt')
 def pluginList = [:] 
 f.readLines().each { line ->
     def details = line.split(':')

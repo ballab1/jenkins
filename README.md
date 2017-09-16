@@ -1,6 +1,7 @@
-# Basic jenkins container populated with required plugins for home setup
+# Jenkins_container
+## Basic jenkins container populated with required plugins for home setup
 
- based on standard container:  Jenkins::2.60.3-alpine
+based on standard container:  [Jenkins:2.73.1-alpine](https://hub.docker.com/r/jenkins/jenkins)
 
 to build & run
 ```bash
@@ -10,8 +11,17 @@ to build & run
               --build-arg JENKINS_GITHUB_TOKEN=${CFG_GITHUB_JENKINS_TOKEN} \
               --build-arg JENKINS_GITHUB_USER=${CFG_GITHUB_JENKINS_USER} \
         https://github.com/ballab1/jenkins.git
+ mkdir jenkins_home
  docker run --name jenkins -p 8080:8080 -v $PWD/jenkins_home:/var/jenkins_home -d jenkins:latest
 ```
 
-gotchas:
-  if the local '$PWD/jenkins_home' folder does not exist, or does not have write permissions, the container may not run
+###gotchas:
+  if the local 'jenkins_home' folder does not exist, or does not have write permissions, the container may not run
+  to ensure that 'jenkins_home' does have the correct permissions, you can run the command
+```bash
+      find jenkins_home -type d -exec chmod ugo+rwx '{}' \;
+      find jenkins_home -type f -exec chmod ugo+rw '{}' \;  
+```
+
+###Updating to latest plugins
+For details about updating the 'plugins.txt' file refer to [README](PluginUpdator/README.md) in the PluginUpdator folder
