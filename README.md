@@ -1,7 +1,7 @@
 # Jenkins_container
 ## Basic jenkins container populated with required plugins for home setup
 
-based on standard container:  [Jenkins:2.73.1-alpine](https://hub.docker.com/r/jenkins/jenkins)
+based on standard container:  [Jenkins:2.73.2-alpine](https://hub.docker.com/r/jenkins/jenkins)
 
 to build & run
 ```bash

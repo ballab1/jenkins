@@ -1,8 +1,15 @@
 import groovy.json.*
 
 def VersionComparator = new GroovyScriptEngine('.').loadScriptByName('VersionComparator.groovy').newInstance()
-def currentCore = new File('latestCore.txt').text
-if (!currentCore  || currentCore.length() == 0) currentCore = '2.60.3'
+def currentCore = '2.60.3'
+def pattern = ~/^FROM\s+.*:([.0-9]+)-alpine/
+new File('../Dockerfile').readLines().each { line ->
+	def m =  (line =~ pattern)
+	if (m.matches()) {
+		currentCore = m[0][1]
+	}
+}
+println 'Jenkins version v'+currentCore
 
 def isUpdated = 0
 
