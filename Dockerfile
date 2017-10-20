@@ -11,7 +11,7 @@ RUN apk update \
     && echo "$TZ" > /etc/TZ \
     && cp /usr/share/zoneinfo/$TZ /etc/timezone \
     && cp /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+    && echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ARG JENKINS_GITHUB_EMAIL
 ARG JENKINS_GITHUB_NAME
