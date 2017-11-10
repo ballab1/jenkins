@@ -1,9 +1,9 @@
 import groovy.json.*
 
-def VersionComparator = new GroovyScriptEngine('.').loadScriptByName('VersionComparator.groovy').newInstance()
+def VersionComparator = new GroovyScriptEngine('PluginUpdator').loadScriptByName('VersionComparator.groovy').newInstance()
 def currentCore = '2.60.3'
 def pattern = ~/^FROM\s+.*:([.0-9]+)-alpine/
-new File('../Dockerfile').readLines().each { line ->
+new File('./Dockerfile').readLines().each { line ->
 	def m =  (line =~ pattern)
 	if (m.matches()) {
 		currentCore = m[0][1]
@@ -13,7 +13,7 @@ println 'Jenkins version v'+currentCore
 
 def isUpdated = 0
 
-def f = new File('../container/plugins.txt')
+def f = new File('container/plugins.txt')
 def pluginList = [:] 
 f.readLines().each { line ->
     def details = line.split(':')
@@ -40,9 +40,9 @@ if (isUpdated == 0) {
 }
 else {
     def fmt = new java.text.SimpleDateFormat("yyyyymmdd_hhmmss")
-    f = new File('plugins.txt')
-    f = f.renameTo( new File('plugins.' + fmt.format(Calendar.instance.time) + '.txt') )
-    f = new File('plugins.txt')
+    f = new File('container/plugins.txt')
+    f = f.renameTo( new File('PluginUpdator/plugins.' + fmt.format(Calendar.instance.time) + '.txt') )
+    f = new File('container/plugins.txt')
     pluginList.each { k,v ->
         f << k + ':' + v + "\n"
     }
