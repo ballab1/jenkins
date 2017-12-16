@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.89.1-alpine
+FROM jenkins/jenkins:2.89.2-alpine
 
 ENV JENKINS_PKGS="tzdata sudo" \
     JAVA_OPTS="-Djenkins.install.runSetupWizard=false"

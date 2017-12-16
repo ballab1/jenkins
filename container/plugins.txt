@@ -15,7 +15,7 @@ credentials-binding:1.13
 credentials:2.1.16
 display-url-api:2.2.0
 docker-commons:1.10
-docker-plugin:1.1.1
+docker-plugin:1.1.2
 docker-workflow:1.14
 durable-task:1.17
 email-ext:2.61
@@ -68,7 +68,7 @@ plain-credentials:1.4
 resource-disposer:0.8
 role-strategy:2.6.1
 run-condition:1.0
-scm-api:2.2.5
+scm-api:2.2.6
 scm-sync-configuration:0.0.10
 script-security:1.39
 slack:2.3
@@ -78,7 +78,7 @@ ssh-credentials:1.13
 ssh-slaves:1.23
 statistics-gatherer:1.1.2
 structs:1.10
-subversion:2.10.1
+subversion:2.10.2
 timestamper:1.8.8
 token-macro:2.3
 workflow-aggregator:2.5
