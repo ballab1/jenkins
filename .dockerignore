@@ -1,4 +1,6 @@
 README.md
-jenkins_home/*
-PluginUpdator/*
-jenkins_home/*
+docker-compose.yml
+PluginUpdator
+vols/*
+.git*
+.lfs*

@@ -1,5 +1,4 @@
 ace-editor:1.1
-ansicolor:0.5.2
 ant:1.7
 antisamy-markup-formatter:1.5
 audit-trail:2.2
@@ -21,12 +20,12 @@ durable-task:1.17
 email-ext:2.61
 envinject:2.1.5
 ghprb:1.39.0
-git-changelog:1.52
-git-client:2.6.0
+git-changelog:1.53
+git-client:2.7.0
 git-server:1.7
 git:3.6.4
 github-api:1.90
-github-branch-source:2.3.1
+github-branch-source:2.3.2
 github-organization-folder:1.6
 github:1.28.1
 groovy-postbuild:2.3.1
@@ -75,11 +74,11 @@ slack:2.3
 slave-status:1.6
 ssh-agent:1.15
 ssh-credentials:1.13
-ssh-slaves:1.23
+ssh-slaves:1.24
 statistics-gatherer:1.1.2
 structs:1.10
 subversion:2.10.2
-timestamper:1.8.8
+timestamper:1.8.9
 token-macro:2.3
 workflow-aggregator:2.5
 workflow-api:2.24

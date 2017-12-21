@@ -1,8 +1,4 @@
-jenkins_home/*
-container/.gitconfig
-container/.ssh
-container/gitconfig
-container/slaves/id_rsa*
 PluginUpdator/*.class
-PluginUpdator/plugins*txt
-log/*
+PluginUpdator/*plugins.txt
+/*.class
+vols/*
