@@ -5,13 +5,12 @@ set -o errexit
 set -o nounset 
 #set -o verbose
 
+declare -r CONTAINER='JENKINS'
+  
 export TZ=${TZ:-'America/New_York'}
-export JENKINS_GITHUB_EMAIL=${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}
-export JENKINS_GITHUB_NAME=${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}
-export JENKINS_GITHUB_USER=${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}
-export JENKINS_GITHUB_TOKEN=${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}
-
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" 
+
+
 declare -r JENKINS_PKGS="tzdata sudo" \
 
 # global exceptions
@@ -50,26 +49,18 @@ function die() {
 }  
 
 #############################################################################
-function installAlpinePackages()
-{
-    apk update
-    apk add --no-cache $JENKINS_PKGS
-}
-
-#############################################################################
-function installTimezone()
-{
-    echo "$TZ" > /etc/TZ
-    cp /usr/share/zoneinfo/$TZ /etc/timezone
-    cp /usr/share/zoneinfo/$TZ /etc/localtime
-}
-
-#############################################################################
 function cleanup()
 {
     printf "\nclean up\n"
 }
 
+#############################################################################
+function header()
+{
+    local -r bars='+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+    printf "\n\n\e[1;34m%s\nBuilding container: \e[0m%s\e[1;34m\n%s\e[0m\n" $bars $CONTAINER $bars
+}
+   
 #############################################################################
 function install_CUSTOMIZATIONS()
 {
@@ -89,6 +80,21 @@ function install_CUSTOMIZATIONS()
 }
 
 #############################################################################
+function installAlpinePackages()
+{
+    apk update
+    apk add --no-cache $JENKINS_PKGS
+}
+
+#############################################################################
+function installTimezone()
+{
+    echo "$TZ" > /etc/TZ
+    cp /usr/share/zoneinfo/$TZ /etc/timezone
+    cp /usr/share/zoneinfo/$TZ /etc/localtime
+}
+
+#############################################################################
 function setPermissions()
 {
     printf "\nmake sure that ownership & permissions are correct\n"
@@ -103,6 +109,12 @@ trap catch_int INT
 trap catch_pipe PIPE 
 
 set -o verbose
+
+header
+export JENKINS_GITHUB_EMAIL=${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}
+export JENKINS_GITHUB_NAME=${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}
+export JENKINS_GITHUB_USER=${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}
+export JENKINS_GITHUB_TOKEN=${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}
 
 installAlpinePackages
 installTimezone 
