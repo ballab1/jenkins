@@ -5,14 +5,14 @@ set -o errexit
 set -o nounset 
 #set -o verbose
 
+export TZ=${TZ:-'America/New_York'}
+export JENKINS_GITHUB_EMAIL=${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}
+export JENKINS_GITHUB_NAME=${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}
+export JENKINS_GITHUB_USER=${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}
+export JENKINS_GITHUB_TOKEN=${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}
+
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" 
 declare -r JENKINS_PKGS="tzdata sudo" \
-declare -x TZ=${TZ:-'America/New_York'}
-declare -x JENKINS_GITHUB_EMAIL=${JENKINS_GITHUB_EMAIL:-''}
-declare -x JENKINS_GITHUB_NAME=${JENKINS_GITHUB_NAME:-''}
-declare -x JENKINS_GITHUB_USER=${JENKINS_GITHUB_USER:-''}
-declare -x JENKINS_GITHUB_TOKEN=${JENKINS_GITHUB_TOKEN:-''}
-
 
 # global exceptions
 declare -i dying=0
@@ -50,13 +50,15 @@ function die() {
 }  
 
 #############################################################################
-function installPackages() {
+function installAlpinePackages()
+{
     apk update
     apk add --no-cache $JENKINS_PKGS
 }
 
 #############################################################################
-function installTimezone() {
+function installTimezone()
+{
     echo "$TZ" > /etc/TZ
     cp /usr/share/zoneinfo/$TZ /etc/timezone
     cp /usr/share/zoneinfo/$TZ /etc/localtime
@@ -69,11 +71,12 @@ function cleanup()
 }
 
 #############################################################################
-function installCUSTOMIZATIONS()
+function install_CUSTOMIZATIONS()
 {
     printf "\nAdd configuration and customizations\n"
-    cp -r "${TOOLS}/etc"/* /etc
+
     cp -r "${TOOLS}/usr"/* /usr
+    echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
     
     ln -s /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh 
 
@@ -90,9 +93,6 @@ function setPermissions()
 {
     printf "\nmake sure that ownership & permissions are correct\n"
 
-    chown root:root /etc/sudoers.d/*
-    chmod 600 /etc/sudoers.d/*
-    
     chmod 775 /usr/local/bin/* 
 }
 
@@ -104,9 +104,8 @@ trap catch_pipe PIPE
 
 set -o verbose
 
-installPackages
+installAlpinePackages
 installTimezone 
-installCUSTOMIZATIONS
+install_CUSTOMIZATIONS
 setPermissions
-cleanup
 exit 0
