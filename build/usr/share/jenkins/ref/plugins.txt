@@ -24,7 +24,7 @@ ghprb:1.39.0
 git-changelog:1.53
 git-client:2.7.0
 git-server:1.7
-git:3.6.4
+git:3.7.0
 github-api:1.90
 github-branch-source:2.3.2
 github-organization-folder:1.6

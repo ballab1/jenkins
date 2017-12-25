@@ -29,5 +29,5 @@ RUN set -o verbose \
     && rm -rf /tmp/* 
 
 USER jenkins
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["jenkins"] 

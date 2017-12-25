@@ -6,7 +6,7 @@ import java.text.*
 class Updater {
     final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
-    static String PATH = '../'
+    static String PATH = './'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
@@ -47,6 +47,7 @@ class Updater {
             def m =  (line =~ DOCKER_FROM_PATTERN)
             if (m.matches()) {
                 jenkinsVersion = m[0][1]
+                println "Dockerfile is currently using Jenkins LTS: ${jenkinsVersion}"
             }
         }
         return jenkinsVersion
@@ -63,6 +64,7 @@ class Updater {
            items += [ title : it.title, update : fmt.parse(tm.trim()).time  ]
         }
         String title = items.sort{ a,b -> b.update <=> a.update }[0].title
+        println "Latest version of Jenkins LTS: ${title}"
         return title.split(' ')[1]
     }
     
