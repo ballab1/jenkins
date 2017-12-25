@@ -1,5 +1,5 @@
 
-def compare(a,b) {
+int compare(String a, String b) {
   def VALID_TOKENS = /._/
   a = a.tokenize(VALID_TOKENS)
   b = b.tokenize(VALID_TOKENS)
