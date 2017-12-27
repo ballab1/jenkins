@@ -1,6 +1,7 @@
 README.md
 docker-compose.yml
 PluginUpdator
+plugins.txt
 vols/*
 .git*
 .lfs*
