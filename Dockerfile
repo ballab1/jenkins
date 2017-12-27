@@ -29,9 +29,5 @@ RUN set -o verbose \
     && rm -rf /tmp/* 
 
 USER jenkins
-<<<<<<< .merge_file_YJ5FZC
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-=======
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
->>>>>>> .merge_file_pFyHUC
 CMD ["jenkins"] 
