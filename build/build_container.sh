@@ -6,13 +6,8 @@ set -o nounset
 #set -o verbose
 
 declare -r CONTAINER='JENKINS'
-<<<<<<< .merge_file_qrTTHL
 
 declare -r TZ=${TZ:-'America/New_York'}
-=======
-  
-export TZ=${TZ:-'America/New_York'}
->>>>>>> .merge_file_Ba88wM
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" 
 
 
@@ -100,7 +95,6 @@ function installTimezone()
 }
 
 #############################################################################
-<<<<<<< .merge_file_qrTTHL
 function setGitConfig()
 {
     local -r github_email=$1
@@ -110,8 +104,6 @@ function setGitConfig()
 }
 
 #############################################################################
-=======
->>>>>>> .merge_file_Ba88wM
 function setPermissions()
 {
     printf "\nmake sure that ownership & permissions are correct\n"
@@ -128,18 +120,10 @@ trap catch_pipe PIPE
 set -o verbose
 
 header
-<<<<<<< .merge_file_qrTTHL
 setGitConfig  "${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}" \
               "${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}" \
               "${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}" \
               "${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}"
-=======
-export JENKINS_GITHUB_EMAIL=${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}
-export JENKINS_GITHUB_NAME=${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}
-export JENKINS_GITHUB_USER=${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}
-export JENKINS_GITHUB_TOKEN=${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}
-
->>>>>>> .merge_file_Ba88wM
 installAlpinePackages
 installTimezone 
 install_CUSTOMIZATIONS
