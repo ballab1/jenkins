@@ -64,10 +64,12 @@ function header()
 #############################################################################
 function install_CUSTOMIZATIONS()
 {
+    local -r user=$1
+    
     printf "\nAdd configuration and customizations\n"
 
     cp -r "${TOOLS}/usr"/* /usr
-    echo 'jenkins ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+    echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
     
     ln -s /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh 
 
@@ -120,12 +122,12 @@ trap catch_pipe PIPE
 set -o verbose
 
 header
-setGitConfig  "${JENKINS_GITHUB_EMAIL?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}" \
-              "${JENKINS_GITHUB_NAME?'Envorinment variable JENKINS_GITHUB_NAME must be defined'}" \
-              "${JENKINS_GITHUB_USER?'Envorinment variable JENKINS_GITHUB_USER must be defined'}" \
-              "${JENKINS_GITHUB_TOKEN?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}"
+setGitConfig  "${JENKINS_GITHUB_EMAIL:?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}" \
+              "${JENKINS_GITHUB_NAME?:'Envorinment variable JENKINS_GITHUB_NAME must be defined'}" \
+              "${JENKINS_GITHUB_USER:?'Envorinment variable JENKINS_GITHUB_USER must be defined'}" \
+              "${JENKINS_GITHUB_TOKEN:?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}"
 installAlpinePackages
 installTimezone 
-install_CUSTOMIZATIONS
+install_CUSTOMIZATIONS 'jenkins'
 setPermissions
 exit 0
