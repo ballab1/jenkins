@@ -11,7 +11,7 @@ declare -r TZ=${TZ:-'America/New_York'}
 declare TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" 
 
 
-declare -r JENKINS_PKGS="tzdata sudo" \
+declare -r JENKINS_PKGS="shadow sudo tzdata"
 
 # global exceptions
 declare -i dying=0
@@ -68,17 +68,24 @@ function install_CUSTOMIZATIONS()
     
     printf "\nAdd configuration and customizations\n"
 
-    cp -r "${TOOLS}/usr"/* /usr
-    echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-    
+    declare -a DIRECTORYLIST="/etc /usr /opt /var"
+    for dir in ${DIRECTORYLIST}; do
+        [[ -d "${TOOLS}/${dir}" ]] && cp -r "${TOOLS}/${dir}/"* "${dir}/"
+    done
+  
     ln -s /usr/local/bin/docker-entrypoint.sh /docker-entrypoint.sh 
 
+    echo "${user} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    
     git config --system user.email "${JENKINS_GITHUB_EMAIL}"
     git config --system user.name "${JENKINS_GITHUB_NAME}"
     git config --system credential.user "${JENKINS_GITHUB_USER}:${JENKINS_GITHUB_TOKEN}"
 
     chmod 775 /usr/local/bin/plugins.sh 
     /usr/local/bin/plugins.sh /usr/share/jenkins/ref/plugins.txt
+    
+    groupmod -n docker $(  getent group 999 | awk -F ':' '{ printf $1 }' )
+    usermod -G docker -a $user
 }
 
 #############################################################################
