@@ -129,10 +129,10 @@ trap catch_pipe PIPE
 set -o verbose
 
 header
-setGitConfig  "${JENKINS_GITHUB_EMAIL:?'Envorinment variable JENKINS_GITHUB_EMAIL must be defined'}" \
-              "${JENKINS_GITHUB_NAME?:'Envorinment variable JENKINS_GITHUB_NAME must be defined'}" \
-              "${JENKINS_GITHUB_USER:?'Envorinment variable JENKINS_GITHUB_USER must be defined'}" \
-              "${JENKINS_GITHUB_TOKEN:?'Envorinment variable JENKINS_GITHUB_TOKEN must be defined'}"
+setGitConfig  "${JENKINS_GITHUB_EMAIL:?'Environment variable JENKINS_GITHUB_EMAIL must be defined'}" \
+              "${JENKINS_GITHUB_NAME?:'Environment variable JENKINS_GITHUB_NAME must be defined'}" \
+              "${JENKINS_GITHUB_USER:?'Environment variable JENKINS_GITHUB_USER must be defined'}" \
+              "${JENKINS_GITHUB_TOKEN:?'Environment variable JENKINS_GITHUB_TOKEN must be defined'}"
 installAlpinePackages
 installTimezone 
 install_CUSTOMIZATIONS 'jenkins'
