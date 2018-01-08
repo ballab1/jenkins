@@ -1,4 +1,6 @@
 PluginUpdator/*.class
-PluginUpdator/*plugins.txt
+PluginUpdator/*.txt
+test/*.txt
+.groovy
 /*.class
 vols/*

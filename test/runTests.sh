@@ -6,7 +6,7 @@ if [[ $EUID != 0 ]]; then
     exit
 fi
       
-declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )" 
+declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"  
 
 cd "$TOOLS"
 chown -R jenkins:jenkins build PluginUpdator test
@@ -16,6 +16,6 @@ docker run --rm \
            --volume "$TOOLS":/home/groovy/scripts \
            --workdir /home/groovy/scripts \
            groovy:2.6-jre-alpine \
-           groovy PluginUpdator/latestPlugins.groovy
+           groovy test/test-dockerfile.groovy
 
 chown -R bobb:bobb build PluginUpdator test
