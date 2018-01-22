@@ -79,11 +79,29 @@ class Updater {
     }
     
     void saveBackupFile(File file) {
+        if (! file.canRead()) {
+            println 'failed to read '+file.name+' ('+b.absolutePath+')'
+            System.exit(1)
+        }
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd_HHmmss")
         File b = new File(BACKUP_DIR, fmt.format(tm)+'.'+file.name)
         if (! file.renameTo( b )) {
-            println 'failed to create backup of '+file.name
-            System.exit(1)
+//            if (! b.canWrite()) {
+//                println 'failed to write backup '+b.absolutePath+' of file: ('+file.name+')'
+//                System.exit(1)
+//            }
+            b << file
+            RandomAccessFile raf = new RandomAccessFile(file, 'rw')
+            try {
+                raf.setLength(0)
+            }
+            finally {
+                raf.close()
+            }
+//            if (! file.delete()) {
+//                println 'failed to create backup of '+file.name+' ('+b.absolutePath+')'
+//                System.exit(1)
+//            }
         }
         println 'creating backup of '+file.name
     }
