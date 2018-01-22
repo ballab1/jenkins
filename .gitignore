@@ -1,5 +1,6 @@
 PluginUpdator/*.class
 PluginUpdator/*.txt
+PluginUpdator/*.Dockerfile
 test/*.txt
 .groovy
 /*.class
