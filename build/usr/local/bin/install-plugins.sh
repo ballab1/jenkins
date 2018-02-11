@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+# original file:  https://github.com/jenkinsci/docker/blob/master/install-plugins.sh
+#                 commit 2a248906013e9c162482110261fab8e0ae21e886
+
 # Resolve dependencies and download plugins given on the command line
 #
 # FROM jenkins
@@ -133,7 +136,6 @@ bundledPlugins() {
     local JENKINS_WAR=/usr/share/jenkins/jenkins.war
     if [ -f $JENKINS_WAR ]
     then
-set -o xtrace
         TEMP_PLUGIN_DIR=/tmp/plugintemp.$$
         for i in $(jar tf $JENKINS_WAR | grep -E '[^detached-]plugins.*\..pi' | sort)
         do
@@ -145,7 +147,6 @@ set -o xtrace
             echo "$PLUGIN:$VER"
         done
         rm -fr $TEMP_PLUGIN_DIR
-set +o xtrace
     else
         rm -f "$TEMP_ALREADY_INSTALLED"
         echo "ERROR file not found: $JENKINS_WAR"

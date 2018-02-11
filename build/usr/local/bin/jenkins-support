@@ -1,5 +1,8 @@
 #!/bin/bash -eu
 
+# original file:  https://github.com/jenkinsci/docker/blob/master/jenkins-support
+#                 commit aa517f2db161c52bee8c6bbd083ff9a10abe18e4
+  
 # compare if version1 < version2
 versionLT() {
     local v1; v1=$(echo "$1" | cut -d '-' -f 1 )
