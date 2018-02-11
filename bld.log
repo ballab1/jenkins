@@ -1,0 +1,485 @@
+Building jenkins
+Step 1/21 : ARG CODE_VERSION=openjdk:20180207
+Step 2/21 : FROM $CODE_VERSION
+ ---> 9ca9d0901a17
+Step 3/21 : ARG JENKINS_VERSION
+ ---> Running in 6ad44b94c2e7
+Removing intermediate container 6ad44b94c2e7
+ ---> 29a0aefa0caa
+Step 4/21 : ARG jenkins_uid=1000
+ ---> Running in 43460ad60a10
+Removing intermediate container 43460ad60a10
+ ---> 078ece124493
+Step 5/21 : ARG jenkins_gid=1000
+ ---> Running in 2b9e85531ab4
+Removing intermediate container 2b9e85531ab4
+ ---> 9050a5d674a9
+Step 6/21 : ARG JENKINS_GITHUB_EMAIL=${CFG_GITHUB_JENKINS_EMAIL}
+ ---> Running in 00fa229a651c
+Removing intermediate container 00fa229a651c
+ ---> 655d734e8269
+Step 7/21 : ARG JENKINS_GITHUB_NAME=${CFG_GITHUB_JENKINS_NAME}
+ ---> Running in b392e2fa93b1
+Removing intermediate container b392e2fa93b1
+ ---> 5026cd149412
+Step 8/21 : ARG JENKINS_GITHUB_CREDENTIALS=${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_TOKEN}
+ ---> Running in c57d6c94640f
+Removing intermediate container c57d6c94640f
+ ---> 6cefc1ef9ec6
+Step 9/21 : ARG JENKINS_HOME=${JENKINS_HOME:-/var/jenkins_home}
+ ---> Running in 0a6fa0b45a41
+Removing intermediate container 0a6fa0b45a41
+ ---> 69c246a945e9
+Step 10/21 : ENV JENKINS_VERSION=${JENKINS_VERSION:-2.89.3}     COPY_REFERENCE_FILE_LOG=$JENKINS_HOME/copy_reference_file.log     JENKINS_SLAVE_AGENT_PORT=${agent_port}     VERSION=1.0.0
+ ---> Running in fda3fe70e745
+Removing intermediate container fda3fe70e745
+ ---> bdccfae66795
+Step 11/21 : LABEL version=$VERSION
+ ---> Running in 6491c771b5d2
+Removing intermediate container 6491c771b5d2
+ ---> a3d4fc4ee8b4
+Step 12/21 : LABEL jenkins_version=$JENKINS_VERSION
+ ---> Running in 4f39644a5be0
+Removing intermediate container 4f39644a5be0
+ ---> 51e3e1226c86
+Step 13/21 : COPY build /tmp/
+ ---> bc73eb8d4063
+Step 14/21 : RUN set -o verbose     && chmod u+rwx /tmp/container/build.sh     && /tmp/container/build.sh 'JENKINS'
+ ---> Running in bd327f41d2d8
+[34m
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[0m[94mBuilding container: [97mJENKINS
+[0m[34m+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[0m[96mInstall OS Support
+[0m[92m..executing /tmp/container/02.packages/01.jenkins.packages
+[0mfetch http://dl-cdn.alpinelinux.org/alpine/v3.6/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.6/community/x86_64/APKINDEX.tar.gz
+(1/21) Installing libattr (2.4.47-r6)
+(2/21) Installing libacl (2.2.52-r3)
+(3/21) Installing coreutils (8.27-r0)
+(4/21) Installing libcurl (7.58.0-r0)
+(5/21) Installing curl (7.58.0-r0)
+(6/21) Installing expat (2.2.0-r1)
+(7/21) Installing pcre (8.41-r0)
+(8/21) Installing git (2.13.5-r0)
+(9/21) Installing openssh-keygen (7.5_p1-r2)
+(10/21) Installing openssh-client (7.5_p1-r2)
+(11/21) Installing linux-pam (1.2.1-r1)
+(12/21) Installing shadow (4.2.1-r11)
+(13/21) Installing sudo (1.8.19_p2-r0)
+(14/21) Installing tini (0.14.0-r0)
+(15/21) Installing fontconfig (2.12.1-r0)
+(16/21) Installing encodings (1.0.4-r0)
+(17/21) Installing libfontenc (1.1.3-r1)
+(18/21) Installing mkfontscale (1.0.7-r2)
+(19/21) Installing mkfontdir (1.0.5-r1)
+(20/21) Installing ttf-dejavu (2.35-r0)
+(21/21) Installing unzip (6.0-r2)
+Executing busybox-1.26.2-r9.trigger
+Executing fontconfig-2.12.1-r0.trigger
+Executing mkfontscale-1.0.7-r2.trigger
+Executing mkfontdir-1.0.5-r1.trigger
+OK: 145 MiB in 81 packages
+[96mVerify users and groups
+[0m[92m..executing /tmp/container/03.users_groups/01.jenkins
+[0m[92mINFO: group/gid (jenkins:1000):  is currently ()/()
+[0m[92mcreate group:  jenkins
+[0m[92mINFO: user/uid (jenkins:1000):  is currently ()/()
+[0m[92mcreate user: jenkins
+[0m[91mCreating mailbox file: No such file or directory
+[0m[96mDownloading from definition:  01.JENKINS
+[0m[92m....file:  /tmp/jenkins.war
+[0m[92m.....url:  https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/2.89.3/jenkins-war-2.89.3.war
+[0m[92m..sha256:  79f176e9388cdeb0deb0e6af49ff9d1ff4b7a3c47102af11e3e9461bf268983a
+[0m[91mConnecting to repo.jenkins-ci.org (130.211.20.35:443)
+[0m[91mjenkins.war         [0m[91m   0%[0m[91m |                               |[0m[91m   237k[0m[91m  0:05:05 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m   8%[0m[91m |**                             |[0m[91m  6185k  0:00:21 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  16%[0m[91m |*****                          |[0m[91m 12071k[0m[91m  0:00:15 ETA[0m[91m
+[0m[91mjenkins.war           25%[0m[91m |*******                        |[0m[91m 18234k[0m[91m  0:00:11 ETA
+[0m[91mjenkins.war         [0m[91m  32%[0m[91m |**********                     |[0m[91m 23927k[0m[91m  0:00:10 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  41%[0m[91m |************                   |[0m[91m 30023k[0m[91m  0:00:08 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  49%[0m[91m |***************                |[0m[91m 36215k[0m[91m  0:00:07 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  58%[0m[91m |******************             |[0m[91m 42295k[0m[91m  0:00:05 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  66%[0m[91m |********************           |[0m[91m 48375k[0m[91m  0:00:04 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  75%[0m[91m |***********************        |[0m[91m 54471k[0m[91m  0:00:03 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m  83% |*************************      | 60567k  0:00:02 ETA
+[0m[91mjenkins.war         [0m[91m  91%[0m[91m |****************************   |[0m[91m 66698k[0m[91m  0:00:01 ETA[0m[91m
+[0m[91mjenkins.war         [0m[91m 100%[0m[91m |*******************************|[0m[91m 72550k[0m[91m  0:00:00 ETA[0m[91m
+[0m[91m
+[0m[92m/tmp/jenkins.war: OK
+[0m[96mInstall applications
+[0m[92m..executing /tmp/container/05.applications/01.jenkins
+[0m[96mAdd configuration and customizations
+[0m[92m..executing /tmp/container/06.customizations/01.custom_folders.sh
+[0m[92m..executing /tmp/container/06.customizations/02.jenkins.sh
+[0mCreating initial locks...
+Analyzing war...
+[91m++ [0m[91mTEMP_PLUGIN_DIR=/tmp/plugintemp.165
+[0m[91m+++ [0m[91msort[0m[91m
+[0m[91m+++ [0m[91mgrep [0m[91m-E [0m[91m'[^detached-]plugins.*\..pi'[0m[91m
+[0m[91m+++ [0m[91mjar [0m[91mtf [0m[91m/usr/share/jenkins/jenkins.war[0m[91m
+[0m[91m/usr/local/bin/install-plugins.sh: line 138: [0m[91mjar: command not found[0m[91m
+[0m[91m++ [0m[91mrm [0m[91m-fr [0m[91m/tmp/plugintemp.165[0m[91m
+[0m[91m++ [0m[91mset [0m[91m+o [0m[91mxtrace[0m[91m
+[0mRegistering preinstalled plugins...
+Using version-specific update center: https://updates.jenkins.io/2.89...
+Downloading plugins...
+Downloading plugin: ace-editor from https://updates.jenkins.io/download/plugins/ace-editor/1.1/ace-editor.hpi
+Downloading plugin: ansicolor from https://updates.jenkins.io/download/plugins/ansicolor/0.5.2/ansicolor.hpi
+Downloading plugin: ant from https://updates.jenkins.io/download/plugins/ant/1.8/ant.hpi
+Downloading plugin: antisamy-markup-formatter from https://updates.jenkins.io/download/plugins/antisamy-markup-formatter/1.5/antisamy-markup-formatter.hpi
+Downloading plugin: audit2db from https://updates.jenkins.io/download/plugins/audit2db/0.5/audit2db.hpi
+Downloading plugin: audit-trail from https://updates.jenkins.io/download/plugins/audit-trail/2.2/audit-trail.hpi
+Downloading plugin: authentication-tokens from https://updates.jenkins.io/download/plugins/authentication-tokens/1.3/authentication-tokens.hpi
+Downloading plugin: branch-api from https://updates.jenkins.io/download/plugins/branch-api/2.0.18/branch-api.hpi
+Downloading plugin: build-timeout from https://updates.jenkins.io/download/plugins/build-timeout/1.19/build-timeout.hpi
+Downloading plugin: bouncycastle-api from https://updates.jenkins.io/download/plugins/bouncycastle-api/2.16.2/bouncycastle-api.hpi
+Downloading plugin: cloudbees-folder from https://updates.jenkins.io/download/plugins/cloudbees-folder/6.3/cloudbees-folder.hpi
+Downloading plugin: conditional-buildstep from https://updates.jenkins.io/download/plugins/conditional-buildstep/1.3.6/conditional-buildstep.hpi
+Downloading plugin: copyartifact from https://updates.jenkins.io/download/plugins/copyartifact/1.39/copyartifact.hpi
+Downloading plugin: credentials from https://updates.jenkins.io/download/plugins/credentials/2.1.16/credentials.hpi
+Downloading plugin: credentials-binding from https://updates.jenkins.io/download/plugins/credentials-binding/1.15/credentials-binding.hpi
+Downloading plugin: display-url-api from https://updates.jenkins.io/download/plugins/display-url-api/2.2.0/display-url-api.hpi
+Downloading plugin: docker-commons from https://updates.jenkins.io/download/plugins/docker-commons/1.11/docker-commons.hpi
+Downloading plugin: docker-plugin from https://updates.jenkins.io/download/plugins/docker-plugin/1.1.2/docker-plugin.hpi
+Downloading plugin: docker-workflow from https://updates.jenkins.io/download/plugins/docker-workflow/1.15/docker-workflow.hpi
+Downloading plugin: durable-task from https://updates.jenkins.io/download/plugins/durable-task/1.17/durable-task.hpi
+Downloading plugin: email-ext from https://updates.jenkins.io/download/plugins/email-ext/2.61/email-ext.hpi
+Downloading plugin: envinject from https://updates.jenkins.io/download/plugins/envinject/2.1.5/envinject.hpi
+Downloading plugin: ghprb from https://updates.jenkins.io/download/plugins/ghprb/1.40.0/ghprb.hpi
+Downloading plugin: git from https://updates.jenkins.io/download/plugins/git/3.7.0/git.hpi
+Downloading plugin: git-changelog from https://updates.jenkins.io/download/plugins/git-changelog/1.57/git-changelog.hpi
+Downloading plugin: git-client from https://updates.jenkins.io/download/plugins/git-client/2.7.1/git-client.hpi
+Downloading plugin: github from https://updates.jenkins.io/download/plugins/github/1.29.0/github.hpi
+Downloading plugin: github-api from https://updates.jenkins.io/download/plugins/github-api/1.90/github-api.hpi
+Downloading plugin: github-branch-source from https://updates.jenkins.io/download/plugins/github-branch-source/2.3.2/github-branch-source.hpi
+Downloading plugin: github-organization-folder from https://updates.jenkins.io/download/plugins/github-organization-folder/1.6/github-organization-folder.hpi
+Downloading plugin: git-server from https://updates.jenkins.io/download/plugins/git-server/1.7/git-server.hpi
+Downloading plugin: groovy from https://updates.jenkins.io/download/plugins/groovy/2.0/groovy.hpi
+Downloading plugin: groovy-postbuild from https://updates.jenkins.io/download/plugins/groovy-postbuild/2.3.1/groovy-postbuild.hpi
+Downloading plugin: handlebars from https://updates.jenkins.io/download/plugins/handlebars/1.1.1/handlebars.hpi
+Downloading plugin: htmlpublisher from https://updates.jenkins.io/download/plugins/htmlpublisher/1.14/htmlpublisher.hpi
+Downloading plugin: icon-shim from https://updates.jenkins.io/download/plugins/icon-shim/2.0.3/icon-shim.hpi
+Downloading plugin: javadoc from https://updates.jenkins.io/download/plugins/javadoc/1.4/javadoc.hpi
+Downloading plugin: jenkins-multijob-plugin from https://updates.jenkins.io/download/plugins/jenkins-multijob-plugin/1.28/jenkins-multijob-plugin.hpi
+Downloading plugin: jira-ext from https://updates.jenkins.io/download/plugins/jira-ext/0.7/jira-ext.hpi
+Downloading plugin: jquery-detached from https://updates.jenkins.io/download/plugins/jquery-detached/1.2.1/jquery-detached.hpi
+Downloading plugin: junit from https://updates.jenkins.io/download/plugins/junit/1.24/junit.hpi
+Downloading plugin: ldap from https://updates.jenkins.io/download/plugins/ldap/1.19/ldap.hpi
+Downloading plugin: log-parser from https://updates.jenkins.io/download/plugins/log-parser/2.0/log-parser.hpi
+Downloading plugin: logstash from https://updates.jenkins.io/download/plugins/logstash/1.4.0/logstash.hpi
+Downloading plugin: mailer from https://updates.jenkins.io/download/plugins/mailer/1.20/mailer.hpi
+Downloading plugin: mapdb-api from https://updates.jenkins.io/download/plugins/mapdb-api/1.0.9.0/mapdb-api.hpi
+Downloading plugin: matrix-auth from https://updates.jenkins.io/download/plugins/matrix-auth/2.2/matrix-auth.hpi
+Downloading plugin: matrix-project from https://updates.jenkins.io/download/plugins/matrix-project/1.12/matrix-project.hpi
+Downloading plugin: maven-plugin from https://updates.jenkins.io/download/plugins/maven-plugin/3.1/maven-plugin.hpi
+Downloading plugin: momentjs from https://updates.jenkins.io/download/plugins/momentjs/1.1.1/momentjs.hpi
+ > ansicolor depends on workflow-step-api:2.12;resolution:=optional
+Downloading plugin: monitoring from https://updates.jenkins.io/download/plugins/monitoring/1.71.0/monitoring.hpi
+ > ant depends on structs:1.6
+Downloading plugin: pam-auth from https://updates.jenkins.io/download/plugins/pam-auth/1.3/pam-auth.hpi
+Skipping optional dependency workflow-step-api
+Downloading plugin: parameterized-trigger from https://updates.jenkins.io/download/plugins/parameterized-trigger/2.35.2/parameterized-trigger.hpi
+Downloading plugin: pipeline-build-step from https://updates.jenkins.io/download/plugins/pipeline-build-step/2.7/pipeline-build-step.hpi
+Downloading plugin: pipeline-github-lib from https://updates.jenkins.io/download/plugins/pipeline-github-lib/1.0/pipeline-github-lib.hpi
+ > authentication-tokens depends on credentials:1.22
+Downloading plugin: pipeline-graph-analysis from https://updates.jenkins.io/download/plugins/pipeline-graph-analysis/1.6/pipeline-graph-analysis.hpi
+ > build-timeout depends on naginator:1.16;resolution:=optional,token-macro:1.5.1
+Downloading plugin: pipeline-input-step from https://updates.jenkins.io/download/plugins/pipeline-input-step/2.8/pipeline-input-step.hpi
+Downloading plugin: pipeline-milestone-step from https://updates.jenkins.io/download/plugins/pipeline-milestone-step/1.3.1/pipeline-milestone-step.hpi
+Skipping optional dependency naginator
+Downloading plugin: pipeline-model-api from https://updates.jenkins.io/download/plugins/pipeline-model-api/1.2.7/pipeline-model-api.hpi
+Downloading plugin: pipeline-model-declarative-agent from https://updates.jenkins.io/download/plugins/pipeline-model-declarative-agent/1.1.1/pipeline-model-declarative-agent.hpi
+ > branch-api depends on cloudbees-folder:6.1.0,scm-api:2.2.6,structs:1.9
+ > conditional-buildstep depends on maven-plugin:2.13,matrix-project:1.0,run-condition:1.0,token-macro:1.5.1
+ > copyartifact depends on maven-plugin:2.7.1;resolution:=optional,matrix-project:1.3,structs:1.6
+Downloading plugin: pipeline-model-definition from https://updates.jenkins.io/download/plugins/pipeline-model-definition/1.2.7/pipeline-model-definition.hpi
+Downloading plugin: pipeline-model-extensions from https://updates.jenkins.io/download/plugins/pipeline-model-extensions/1.2.7/pipeline-model-extensions.hpi
+Downloading plugin: pipeline-rest-api from https://updates.jenkins.io/download/plugins/pipeline-rest-api/2.9/pipeline-rest-api.hpi
+ > cloudbees-folder depends on credentials:2.1.11;resolution:=optional
+Downloading plugin: pipeline-stage-step from https://updates.jenkins.io/download/plugins/pipeline-stage-step/2.3/pipeline-stage-step.hpi
+Skipping optional dependency maven-plugin
+Downloading plugin: pipeline-stage-tags-metadata from https://updates.jenkins.io/download/plugins/pipeline-stage-tags-metadata/1.2.7/pipeline-stage-tags-metadata.hpi
+ > credentials-binding depends on workflow-step-api:2.10,credentials:2.1.7,plain-credentials:1.3,ssh-credentials:1.11,structs:1.7
+ > docker-commons depends on authentication-tokens:1.1,credentials-binding:1.12,credentials:2.1.11
+Downloading plugin: pipeline-stage-view from https://updates.jenkins.io/download/plugins/pipeline-stage-view/2.9/pipeline-stage-view.hpi
+Downloading plugin: plain-credentials from https://updates.jenkins.io/download/plugins/plain-credentials/1.4/plain-credentials.hpi
+Skipping optional dependency credentials
+Downloading plugin: resource-disposer from https://updates.jenkins.io/download/plugins/resource-disposer/0.8/resource-disposer.hpi
+Downloading plugin: role-strategy from https://updates.jenkins.io/download/plugins/role-strategy/2.7.0/role-strategy.hpi
+ > docker-workflow depends on workflow-cps:2.25,workflow-durable-task-step:2.8,docker-commons:1.5
+ > envinject depends on envinject-api:1.3,ivy:1.21;resolution:=optional,matrix-project:1.7,script-security:1.22
+Downloading plugin: run-condition from https://updates.jenkins.io/download/plugins/run-condition/1.0/run-condition.hpi
+Downloading plugin: scm-api from https://updates.jenkins.io/download/plugins/scm-api/2.2.6/scm-api.hpi
+Downloading plugin: scm-sync-configuration from https://updates.jenkins.io/download/plugins/scm-sync-configuration/0.0.10/scm-sync-configuration.hpi
+Downloading plugin: script-security from https://updates.jenkins.io/download/plugins/script-security/1.41/script-security.hpi
+Downloading plugin: slack from https://updates.jenkins.io/download/plugins/slack/2.3/slack.hpi
+Downloading plugin: slave-status from https://updates.jenkins.io/download/plugins/slave-status/1.6/slave-status.hpi
+ > git-server depends on git-client:1.11.0
+Downloading plugin: ssh-agent from https://updates.jenkins.io/download/plugins/ssh-agent/1.15/ssh-agent.hpi
+Skipping optional dependency ivy
+ > credentials depends on structs:1.7
+ > github-organization-folder depends on cloudbees-folder:5.16,workflow-scm-step:2.2,workflow-multibranch:2.10,workflow-cps:2.14,pipeline-github-lib:1.0,workflow-step-api:2.3,workflow-cps-global-lib:2.3,github-branch-source:2.0.0,workflow-job:2.5,branch-api:2.0.0,scm-api:2.0.1,github:1.25.1
+Downloading plugin: ssh-credentials from https://updates.jenkins.io/download/plugins/ssh-credentials/1.13/ssh-credentials.hpi
+Downloading plugin: ssh-slaves from https://updates.jenkins.io/download/plugins/ssh-slaves/1.25.1/ssh-slaves.hpi
+Downloading plugin: envinject-api from https://updates.jenkins.io/2.89/latest/envinject-api.hpi
+Downloading plugin: statistics-gatherer from https://updates.jenkins.io/download/plugins/statistics-gatherer/1.1.2/statistics-gatherer.hpi
+ > groovy depends on script-security:1.24,token-macro:1.4;resolution:=optional
+ > github-branch-source depends on github:1.26.0,credentials:2.1.15,display-url-api:0.2,git:3.6.0,github-api:1.90,scm-api:2.2.3,structs:1.10
+ > docker-plugin depends on workflow-api:2.23.1;resolution:=optional,workflow-durable-task-step:2.17;resolution:=optional,workflow-step-api:2.13;resolution:=optional,workflow-support:2.16;resolution:=optional,bouncycastle-api:2.16.2,docker-commons:1.9,docker-java-api:3.0.14,durable-task:1.16,script-security:1.36;resolution:=optional,ssh-slaves:1.22,token-macro:2.3
+ > email-ext depends on workflow-job:2.11;resolution:=optional,workflow-step-api:2.9;resolution:=optional,config-file-provider:2.15.6;resolution:=optional,junit:1.2,mailer:1.13,matrix-project:1.4,script-security:1.27,structs:1.6,token-macro:2.0,analysis-core:1.54;resolution:=optional
+Downloading plugin: structs from https://updates.jenkins.io/download/plugins/structs/1.13/structs.hpi
+Downloading plugin: subversion from https://updates.jenkins.io/download/plugins/subversion/2.10.2/subversion.hpi
+ > groovy-postbuild depends on workflow-cps:1.11;resolution:=optional,script-security:1.15,matrix-project:1.4.1
+ > htmlpublisher depends on workflow-step-api:1.14.2,matrix-project:1.0
+ > jenkins-multijob-plugin depends on copyartifact:1.31;resolution:=optional,token-macro:1.10,maven-plugin:2.6,built-on-column:1.1,conditional-buildstep:1.3.3,parameterized-trigger:2.25,matrix-project:1.7.1;resolution:=optional,envinject:1.90
+Downloading plugin: timestamper from https://updates.jenkins.io/download/plugins/timestamper/1.8.9/timestamper.hpi
+Skipping optional dependency workflow-job
+Skipping optional dependency workflow-api
+Skipping optional dependency workflow-cps
+Downloading plugin: token-macro from https://updates.jenkins.io/download/plugins/token-macro/2.3/token-macro.hpi
+Skipping optional dependency workflow-durable-task-step
+Skipping optional dependency workflow-step-api
+Downloading plugin: workflow-aggregator from https://updates.jenkins.io/download/plugins/workflow-aggregator/2.5/workflow-aggregator.hpi
+Skipping optional dependency copyartifact
+ > github-api depends on jackson2-api:2.7.3
+Downloading plugin: workflow-api from https://updates.jenkins.io/download/plugins/workflow-api/2.25/workflow-api.hpi
+Skipping optional dependency config-file-provider
+Skipping optional dependency workflow-step-api
+Downloading plugin: workflow-basic-steps from https://updates.jenkins.io/download/plugins/workflow-basic-steps/2.6/workflow-basic-steps.hpi
+Skipping optional dependency token-macro
+Downloading plugin: workflow-cps from https://updates.jenkins.io/download/plugins/workflow-cps/2.44/workflow-cps.hpi
+Skipping optional dependency workflow-support
+Downloading plugin: workflow-cps-global-lib from https://updates.jenkins.io/download/plugins/workflow-cps-global-lib/2.9/workflow-cps-global-lib.hpi
+ > ldap depends on mailer:1.20
+Downloading plugin: workflow-durable-task-step from https://updates.jenkins.io/download/plugins/workflow-durable-task-step/2.18/workflow-durable-task-step.hpi
+Downloading plugin: workflow-job from https://updates.jenkins.io/download/plugins/workflow-job/2.17/workflow-job.hpi
+Downloading plugin: workflow-multibranch from https://updates.jenkins.io/download/plugins/workflow-multibranch/2.17/workflow-multibranch.hpi
+Downloading plugin: workflow-scm-step from https://updates.jenkins.io/download/plugins/workflow-scm-step/2.6/workflow-scm-step.hpi
+ > junit depends on workflow-api:2.22,workflow-step-api:2.12,script-security:1.30,structs:1.7
+Downloading plugin: workflow-step-api from https://updates.jenkins.io/download/plugins/workflow-step-api/2.14/workflow-step-api.hpi
+Downloading plugin: workflow-support from https://updates.jenkins.io/download/plugins/workflow-support/2.18/workflow-support.hpi
+Downloading plugin: jackson2-api from https://updates.jenkins.io/2.89/latest/jackson2-api.hpi
+ > mailer depends on display-url-api:1.0
+Downloading plugin: ws-cleanup from https://updates.jenkins.io/download/plugins/ws-cleanup/0.34/ws-cleanup.hpi
+ > matrix-auth depends on cloudbees-folder:6.1.0;resolution:=optional
+Skipping optional dependency cloudbees-folder
+ > matrix-project depends on junit:1.20,script-security:1.13
+ > pipeline-build-step depends on workflow-api:2.22,workflow-step-api:2.14,workflow-support:2.14,script-security:1.39
+ > pipeline-github-lib depends on workflow-cps-global-lib:2.5,git:3.0.2
+ > pipeline-milestone-step depends on workflow-api:2.11,workflow-step-api:2.9
+Downloading plugin: built-on-column from https://updates.jenkins.io/2.89/latest/built-on-column.hpi
+ > pipeline-input-step depends on workflow-api:2.6,workflow-step-api:2.5,workflow-support:2.10
+ > pipeline-graph-analysis depends on workflow-api:2.19,workflow-cps:2.37,workflow-job:2.4,workflow-step-api:2.10,workflow-support:2.14,pipeline-input-step:2.0,pipeline-stage-step:2.2,structs:1.7
+ > parameterized-trigger depends on conditional-buildstep:1.3.1,matrix-project:1.6,promoted-builds:2.25;resolution:=optional,script-security:1.25,subversion:2.5.7;resolution:=optional
+ > jira-ext depends on git:2.2.3,job-dsl:1.39;resolution:=optional
+ > pipeline-model-declarative-agent depends on pipeline-model-extensions:1.1.1
+Skipping optional dependency matrix-project
+Downloading plugin: docker-java-api from https://updates.jenkins.io/2.89/latest/docker-java-api.hpi
+ > git-client depends on apache-httpcomponents-client-4-api:4.5.3-2.0,credentials:2.1.13,jsch:0.1.54.1,ssh-credentials:1.13,structs:1.9
+ > pipeline-model-extensions depends on workflow-cps:2.41,workflow-job:2.11,pipeline-model-api:1.2.7
+ > github depends on credentials:2.1.8,display-url-api:2.0,git:3.4.0,github-api:1.90,plain-credentials:1.1,scm-api:2.2.0,structs:1.10,token-macro:1.11
+ > pipeline-stage-step depends on workflow-api:2.15,workflow-step-api:2.11,scm-api:2.0.7,structs:1.6
+Skipping optional dependency job-dsl
+Skipping optional dependency script-security
+ > pipeline-rest-api depends on workflow-api:2.15,workflow-job:2.0,workflow-step-api:2.10,workflow-support:2.14,jackson2-api:2.7.3,pipeline-graph-analysis:1.1,pipeline-input-step:2.0,pipeline-stage-step:2.2
+ > plain-credentials depends on credentials:2.1.5
+ > role-strategy depends on matrix-auth:1.7
+Skipping optional dependency promoted-builds
+Skipping optional dependency analysis-core
+Downloading plugin: apache-httpcomponents-client-4-api from https://updates.jenkins.io/2.89/latest/apache-httpcomponents-client-4-api.hpi
+ > pipeline-stage-view depends on pipeline-rest-api:2.9,workflow-job:2.0,handlebars:1.1,jquery-detached:1.2.1,momentjs:1.1
+ > git depends on workflow-scm-step:1.14.2,credentials:2.1.14,git-client:2.7.0,mailer:1.18,matrix-project:1.7.1,parameterized-trigger:2.33;resolution:=optional,promoted-builds:2.27;resolution:=optional,scm-api:2.2.0,ssh-credentials:1.13,structs:1.10,token-macro:1.12.1;resolution:=optional
+ > run-condition depends on token-macro:1.5.1
+Skipping optional dependency subversion
+ > logstash depends on mask-passwords:2.8;resolution:=optional,junit:1.10,structs:1.2
+ > scm-api depends on structs:1.9
+Skipping optional dependency mask-passwords
+ > pipeline-model-definition depends on workflow-api:2.22,workflow-basic-steps:2.3,workflow-cps-global-lib:2.7,workflow-cps:2.41,workflow-durable-task-step:2.9,workflow-multibranch:2.9.2,workflow-scm-step:2.4,workflow-support:2.14,credentials-binding:1.13,credentials:2.1.13,docker-workflow:1.9,git-client:2.5.0,mailer:1.18,pipeline-input-step:2.8,pipeline-stage-step:2.2,scm-api:2.2.2,pipeline-model-api:1.2.7,pipeline-model-declarative-agent:1.1.1,pipeline-model-extensions:1.2.7,pipeline-stage-tags-metadata:1.2.7
+Downloading plugin: jsch from https://updates.jenkins.io/2.89/latest/jsch.hpi
+ > ssh-credentials depends on credentials:2.1.0
+ > ssh-slaves depends on credentials:2.1.2,ssh-credentials:1.6.1
+ > workflow-aggregator depends on pipeline-input-step:2.5,workflow-job:2.9,workflow-basic-steps:2.3,workflow-durable-task-step:2.8,workflow-api:2.8,workflow-cps:2.24,workflow-support:2.12,workflow-cps-global-lib:2.5,workflow-multibranch:2.9.2,pipeline-stage-view:2.4,workflow-scm-step:2.3,workflow-step-api:2.7,pipeline-model-definition:1.0,pipeline-stage-step:2.2,pipeline-build-step:2.4,pipeline-milestone-step:1.3
+ > timestamper depends on workflow-step-api:1.7;resolution:=optional
+Skipping optional dependency workflow-step-api
+ > workflow-basic-steps depends on workflow-api:2.16,workflow-step-api:2.12,mailer:1.18,structs:1.6
+ > workflow-api depends on workflow-step-api:2.10,scm-api:2.0.8,structs:1.7
+ > workflow-durable-task-step depends on workflow-api:2.22,workflow-step-api:2.13,workflow-support:2.16,durable-task:1.16,script-security:1.27,structs:1.7
+ > workflow-job depends on workflow-api:2.25,workflow-step-api:2.13,workflow-support:2.17
+ > workflow-scm-step depends on workflow-step-api:2.9
+ > monitoring depends on aws-cloudwatch-library:1.11.136;resolution:=optional
+Skipping optional dependency parameterized-trigger
+ > workflow-multibranch depends on workflow-api:2.25,workflow-cps:2.43,workflow-job:2.17,workflow-scm-step:2.4,workflow-step-api:2.13,workflow-support:2.17,branch-api:2.0.18,cloudbees-folder:6.1.2,scm-api:2.2.6,script-security:1.39,structs:1.10
+ > workflow-cps depends on workflow-api:2.25,workflow-scm-step:2.4,workflow-step-api:2.13,workflow-support:2.17,scm-api:2.0.8,script-security:1.39,structs:1.7,support-core:2.32;resolution:=optional,ace-editor:1.0.1,jquery-detached:1.2.1
+Skipping optional dependency aws-cloudwatch-library
+ > token-macro depends on workflow-job:2.0,workflow-step-api:2.7
+Skipping optional dependency promoted-builds
+ > workflow-step-api depends on structs:1.5
+ > workflow-support depends on workflow-api:2.25,workflow-step-api:2.13,scm-api:2.2.6,script-security:1.39
+ > ws-cleanup depends on workflow-durable-task-step:2.4,matrix-project:1.7.1,resource-disposer:0.3,structs:1.5
+Skipping optional dependency token-macro
+ > scm-sync-configuration depends on subversion:2.5.7
+ > slack depends on credentials:1.25,plain-credentials:1.1,junit:1.3,workflow-step-api:1.11,display-url-api:0.4
+Skipping optional dependency support-core
+ > workflow-cps-global-lib depends on workflow-cps:2.30,workflow-scm-step:2.4,cloudbees-folder:5.12,git-client:2.3.0,git-server:1.7,scm-api:2.1.1,script-security:1.27
+ > git-changelog depends on plain-credentials:1.2,token-macro:1.10,credentials:2.1.4,maven-plugin:2.9,git:2.3.5
+ > pipeline-model-api depends on workflow-step-api:2.14,structs:1.9
+ > maven-plugin depends on apache-httpcomponents-client-4-api:4.5.3-2.1,javadoc:1.0,jsch:0.1.54.1,junit:1.6,mailer:1.7,token-macro:1.10;resolution:=optional
+ > ssh-agent depends on workflow-step-api:1.14.2,bouncycastle-api:1.0.2,credentials:2.1.1,ssh-credentials:1.11
+ > jsch depends on credentials:1.21,ssh-credentials:1.12
+Skipping optional dependency token-macro
+ > ghprb depends on build-flow-plugin:0.20;resolution:=optional,github:1.27.0,bouncycastle-api:2.16.1,credentials:2.1.14,git:3.3.1,github-api:1.90,job-dsl:1.63;resolution:=optional,matrix-project:1.11,plain-credentials:1.4,scm-api:2.1.0,script-security:1.25,structs:1.9,token-macro:2.1;resolution:=optional
+Skipping optional dependency build-flow-plugin
+ > docker-java-api depends on jackson2-api:2.6.4
+Skipping optional dependency job-dsl
+ > subversion depends on workflow-scm-step:1.14.2,credentials:2.1.15,mapdb-api:1.0.1.0,scm-api:2.0.8,ssh-credentials:1.11
+Skipping optional dependency token-macro
+
+WAR bundled plugins:
+
+
+Installed plugins:
+ace-editor:1.1
+ansicolor:0.5.2
+ant:1.8
+antisamy-markup-formatter:1.5
+apache-httpcomponents-client-4-api:4.5.3-2.1
+audit-trail:2.2
+audit2db:0.5
+authentication-tokens:1.3
+bouncycastle-api:2.16.2
+branch-api:2.0.18
+build-timeout:1.19
+built-on-column:1.1
+cloudbees-folder:6.3
+conditional-buildstep:1.3.6
+copyartifact:1.39
+credentials-binding:1.15
+credentials:2.1.16
+display-url-api:2.2.0
+docker-commons:1.11
+docker-java-api:3.0.14
+docker-plugin:1.1.2
+docker-workflow:1.15
+durable-task:1.17
+email-ext:2.61
+envinject-api:1.5
+envinject:2.1.5
+ghprb:1.40.0
+git-changelog:1.57
+git-client:2.7.1
+git-server:1.7
+git:3.7.0
+github-api:1.90
+github-branch-source:2.3.2
+github-organization-folder:1.6
+github:1.29.0
+groovy-postbuild:2.3.1
+groovy:2.0
+handlebars:1.1.1
+htmlpublisher:1.14
+icon-shim:2.0.3
+jackson2-api:2.8.11.1
+javadoc:1.4
+jenkins-multijob-plugin:1.28
+jira-ext:0.7
+jquery-detached:1.2.1
+jsch:0.1.54.1
+junit:1.24
+ldap:1.19
+log-parser:2.0
+logstash:1.4.0
+mailer:1.20
+mapdb-api:1.0.9.0
+matrix-auth:2.2
+matrix-project:1.12
+maven-plugin:3.1
+momentjs:1.1.1
+monitoring:1.71.0
+pam-auth:1.3
+parameterized-trigger:2.35.2
+pipeline-build-step:2.7
+pipeline-github-lib:1.0
+pipeline-graph-analysis:1.6
+pipeline-input-step:2.8
+pipeline-milestone-step:1.3.1
+pipeline-model-api:1.2.7
+pipeline-model-declarative-agent:1.1.1
+pipeline-model-definition:1.2.7
+pipeline-model-extensions:1.2.7
+pipeline-rest-api:2.9
+pipeline-stage-step:2.3
+pipeline-stage-tags-metadata:1.2.7
+pipeline-stage-view:2.9
+plain-credentials:1.4
+resource-disposer:0.8
+role-strategy:2.7.0
+run-condition:1.0
+scm-api:2.2.6
+scm-sync-configuration:0.0.10
+script-security:1.41
+slack:2.3
+slave-status:1.6
+ssh-agent:1.15
+ssh-credentials:1.13
+ssh-slaves:1.25.1
+statistics-gatherer:1.1.2
+structs:1.13
+subversion:2.10.2
+timestamper:1.8.9
+token-macro:2.3
+workflow-aggregator:2.5
+workflow-api:2.25
+workflow-basic-steps:2.6
+workflow-cps-global-lib:2.9
+workflow-cps:2.44
+workflow-durable-task-step:2.18
+workflow-job:2.17
+workflow-multibranch:2.17
+workflow-scm-step:2.6
+workflow-step-api:2.14
+workflow-support:2.18
+ws-cleanup:0.34
+Cleaning up locks
+[96mMake sure that ownership & permissions are correct
+[0m[92m..executing /tmp/container/07.permissions/01.bin_dirs.sh
+[0m[92m..executing /tmp/container/07.permissions/01.docker-entry.sh
+[0m[92m..executing /tmp/container/07.permissions/02.jenkins.sh
+[0m[96mClean up
+[0m[92m..executing /tmp/container/08.cleanup/01.apk.cleanup
+[0m[91mWARNING: Ignoring APKINDEX.84815163.tar.gz: No such file or directory
+WARNING: Ignoring APKINDEX.24d64ab1.tar.gz: No such file or directory
+[0mRemoving intermediate container bd327f41d2d8
+ ---> b198c78c188e
+Step 15/21 : RUN rm -rf /tmp/*
+ ---> Running in 03402d2749f7
+Removing intermediate container 03402d2749f7
+ ---> 969087083f58
+Step 16/21 : EXPOSE 8080
+ ---> Running in 858c326b47ae
+Removing intermediate container 858c326b47ae
+ ---> 236623008841
+Step 17/21 : EXPOSE 50000
+ ---> Running in 6047ea15cdf6
+Removing intermediate container 6047ea15cdf6
+ ---> 3d698e44d8e0
+Step 18/21 : VOLUME ${JENKINS_HOME}
+ ---> Running in 6affdf23f6eb
+Removing intermediate container 6affdf23f6eb
+ ---> 029be574d852
+Step 19/21 : USER jenkins
+ ---> Running in 03ac2f7ef592
+Removing intermediate container 03ac2f7ef592
+ ---> f51056f8e43f
+Step 20/21 : ENTRYPOINT [ "docker-entrypoint.sh" ]
+ ---> Running in 0b3f40396c87
+Removing intermediate container 0b3f40396c87
+ ---> e33702b8a8b3
+Step 21/21 : CMD ["jenkins"]
+ ---> Running in cecbfa9310f2
+Removing intermediate container cecbfa9310f2
+ ---> fe449c8f0940
+
+[Warning] One or more build-args [agent_port http_port JENKINS_GITHUB_TOKEN] were not consumed
+Successfully built fe449c8f0940
+Successfully tagged jenkins:20180127

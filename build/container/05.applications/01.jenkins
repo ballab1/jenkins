@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p usr/share/jenkins
+mv /tmp/jenkins.war usr/share/jenkins

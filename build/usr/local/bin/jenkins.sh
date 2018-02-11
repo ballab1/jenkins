@@ -1,6 +1,11 @@
 #! /bin/bash -e
 
 : "${JENKINS_HOME:="/var/jenkins_home"}"
+#su chown jenkins:jenkins -R "${JENKINS_HOME}"
+# clean out old plugins to ensure we are always at specified versions
+[[ -d "${JENKINS_HOME}/plugins" ]] && rm -rf "${JENKINS_HOME}/plugins" 
+mkdir  -p "${JENKINS_HOME}/plugins"
+
 touch "${COPY_REFERENCE_FILE_LOG}" || { echo "Can not write to ${COPY_REFERENCE_FILE_LOG}. Wrong volume permissions?"; exit 1; }
 echo "--- Copying files at $(date)" >> "$COPY_REFERENCE_FILE_LOG"
 find /usr/share/jenkins/ref/ \( -type f -o -type l \) -exec bash -c '. /usr/local/bin/jenkins-support; for arg; do copy_reference_file "$arg"; done' _ {} +

@@ -133,6 +133,7 @@ bundledPlugins() {
     local JENKINS_WAR=/usr/share/jenkins/jenkins.war
     if [ -f $JENKINS_WAR ]
     then
+set -o xtrace
         TEMP_PLUGIN_DIR=/tmp/plugintemp.$$
         for i in $(jar tf $JENKINS_WAR | grep -E '[^detached-]plugins.*\..pi' | sort)
         do
@@ -144,6 +145,7 @@ bundledPlugins() {
             echo "$PLUGIN:$VER"
         done
         rm -fr $TEMP_PLUGIN_DIR
+set +o xtrace
     else
         rm -f "$TEMP_ALREADY_INSTALLED"
         echo "ERROR file not found: $JENKINS_WAR"

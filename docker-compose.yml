@@ -1,38 +1,70 @@
-version: '3.1'
+version: '3.5'
 
 services:
     jenkins:
         build:
-            context: ../jenkins
             args:
-                TZ: "America/New_York"
+                agent_port: 50000
+                http_port: 8080
+                jenkins_gid: 1000
+                jenkins_uid: 1000
+                CODE_VERSION: openjdk_8u131.11-r2:20180210 
                 JENKINS_GITHUB_EMAIL: ${CFG_GITHUB_JENKINS_EMAIL}
                 JENKINS_GITHUB_NAME: ${CFG_GITHUB_JENKINS_NAME}
-                JENKINS_GITHUB_TOKEN: ${CFG_GITHUB_JENKINS_TOKEN}
-                JENKINS_GITHUB_USER: ${CFG_GITHUB_JENKINS_USER}
-        image: jenkins:20180127
+                JENKINS_GITHUB_TOKEN: ${CFG_GITHUB_JENKINS_USER};${CFG_GITHUB_JENKINS_TOKEN}
+                JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
+                JENKINS_VERSION: 2.89.3
+            cache_from:
+                    - alpine:3.6
+                    - base_container:20180210
+                    - openjdk_8u131.11-r2:20180210
+            context: .
         container_name: jenkins
-        hostname: jenkins
-        restart: unless-stopped
+        depends_on:
+            - openjdk
         environment:
-            TZ: "America/New_York"
             JAVA_OPTS: "-Djava.util.logging.config.file=/var/jenkins_home/log.properties -Djenkins.install.runSetupWizard=false"
             JENKINS_GITHUB_EMAIL: ${CFG_GITHUB_JENKINS_EMAIL}
             JENKINS_GITHUB_NAME: ${CFG_GITHUB_JENKINS_NAME}
             JENKINS_GITHUB_TOKEN: ${CFG_GITHUB_JENKINS_TOKEN}
-            JENKINS_GITHUB_USER: ${CFG_GITHUB_JENKINS_USER}
+            JENKINS_GITHUB_TOKEN: ${CFG_GITHUB_JENKINS_USER};${CFG_GITHUB_JENKINS_TOKEN}
             JENKINS_HOME: /var/jenkins_home
             JENKINS_OPTS: "--prefix=/jenkins"
+        hostname: jenkins
+        image: jenkins:20180210
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "10m"
+                max-file: "3"
+        ports:
+            - 8080:8080
+        restart: unless-stopped
         volumes:
             - ../jenkins/vols/jenkins_home:/var/jenkins_home
             - ../jenkins/vols/.ssh:/var/jenkins_home/.ssh
             - ../jenkins/vols/log:/var/log/jenkins
             - /var/run/docker.sock:/var/run/docker.sock
             - /usr/bin/docker:/usr/bin/docker
-        ports:
-            - 8080:8080
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "10m"
-                max-file: "3"
+
+    base:
+        build:
+            args:
+                CODE_VERSION: alpine:3.6
+                TZ: "America/New_York"
+            cache_from:
+                - alpine:3.6
+            context: ../../support/base_container
+        image: base_container:20180210
+
+    openjdk:
+        build:
+            args:
+                CODE_VERSION: base_container:20180210
+            cache_from:
+                - base_container:20180210
+                - alpine:3.6
+            context: ../../support/openjdk8
+        depends_on:
+            - base
+        image: openjdk_8u131.11-r2:20180210  
