@@ -32,7 +32,7 @@ services:
                 max-file: "3"
         ports:
             - 8080:8080
-        restart: unless-stopped
+#        restart: unless-stopped
         volumes:
             - ../jenkins/vols/jenkins_home:/var/jenkins_home
             - ../jenkins/vols/.ssh:/var/jenkins_home/.ssh

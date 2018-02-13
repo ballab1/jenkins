@@ -1,5 +1,5 @@
-ARG CODE_VERSION=openjdk:20180207
-FROM $CODE_VERSION 
+ARG FROM_BASE=openjdk:20180207
+FROM $FROM_BASE 
 
 ARG JENKINS_VERSION=${JENKINS_VERSION:-2.89.3}
 ARG CONTAINER_VERSION=1.0.0
@@ -23,7 +23,7 @@ COPY build /tmp/
 RUN set -o verbose \
     && chmod u+rwx /tmp/container/build.sh \
     && /tmp/container/build.sh 'JENKINS'
-RUN rm -rf /tmp/* 
+#RUN rm -rf /tmp/* 
 
 
 
@@ -32,8 +32,9 @@ EXPOSE 8080
 # will be used by attached slave agents:
 EXPOSE 50000
 # Jenkins home directory is a volume, so configuration and build history can be persisted and survive image upgrades
-VOLUME ${JENKINS_HOME}
+VOLUME $JENKINS_HOME
 
-USER jenkins
+#USER jenkins
+WORKDIR $JENKINS_HOME
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["jenkins"] 
