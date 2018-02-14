@@ -23,9 +23,18 @@ function jenkins.prepareEnvironment()
 
     chown -R jenkins:jenkins "$JENKINS_HOME"
     chown -R jenkins:jenkins /usr/share/jenkins/ref
-    [[ "${JENKINS_GITHUB_EMAIL}" ]] && git config --system user.email "${JENKINS_GITHUB_EMAIL}"
-    [[ "${JENKINS_GITHUB_NAME}" ]] && git config --system user.name "${JENKINS_GITHUB_NAME}"
-    [[ "${JENKINS_GITHUB_CREDENTIALS}" ]] && git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"
+    if [ "${JENKINS_GITHUB_EMAIL}" ]; then
+        git config --global user.email "${JENKINS_GITHUB_EMAIL}"
+        unset JENKINS_GITHUB_EMAIL
+    fi
+    if [ "${JENKINS_GITHUB_NAME}" ]; then
+        git config --system user.name "${JENKINS_GITHUB_NAME}"
+        unset JENKINS_GITHUB_NAME
+    fi
+    if [ "${JENKINS_GITHUB_CREDENTIALS}" ]; then
+        git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"
+        unset JENKINS_GITHUB_CREDENTIALS
+    fi
 } 
 
 #------------------------------------------------------------------

@@ -7,9 +7,6 @@ cat > "$runningEnv" <<EOF
 #!/bin/bash
 # this is a generated file!!  DO NOT MODIFY
 
-#                agent_port: 50000
-#                http_port: 8080
-#declare -x JENKINS_VERSION=$JENKINS_VERSION
 export JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties -Djenkins.install.runSetupWizard=false"
 export JENKINS_HOME=${JENKINS_HOME:-/var/jenkins_home}
 export JENKINS_OPTS="--prefix=/jenkins" 
