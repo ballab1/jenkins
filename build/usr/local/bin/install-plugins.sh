@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -eux
 
 # original file:  https://github.com/jenkinsci/docker/blob/master/install-plugins.sh
 #                 commit 2a248906013e9c162482110261fab8e0ae21e886

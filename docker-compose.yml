@@ -4,7 +4,7 @@ services:
     jenkins:
         build:
             args:
-                CODE_VERSION: openjdk_8u131.11-r2:20180210 
+                FROM_BASE: openjdk_8u131.11-r2:20180210 
                 CONTAINER_VERSION: 1.0.0
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 JENKINS_VERSION: 2.89.3
