@@ -10,7 +10,7 @@ if [[ "$1" = 'jenkins' ]]; then
     # this is the primary (default) codepath invoked by the Dockerfile
     printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" "$1"
     sudo --preserve-env "$0" "$config_entry"
-    /sbin/tini -s -- "${tools}/jenkins.sh"
+    /sbin/tini -s -v -- "${tools}/jenkins.sh"
 
 elif [[ "$1" = "$config_entry" && "$(id -u)" -eq 0 ]]; then
     # this codepath is invoked (from above) to perpare the runtime environment. User is 'root' so chmod & chown succeed

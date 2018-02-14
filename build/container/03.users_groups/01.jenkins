@@ -9,4 +9,4 @@ jenkins['uid']=${j_uid:-$(getent passwd jenkins | cut -d: -f3)}
 jenkins['group']=${jenkins_group:-'jenkins'}
 jenkins['gid']=${j_gid:-$(getent group jenkins | cut -d: -f3)}
 jenkins['home']="${JENKINS_HOME:-/var/jenkins_home}"
-jenkins['shell']=/sbin/bash
+jenkins['shell']=/bin/bash
