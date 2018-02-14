@@ -1,0 +1,9 @@
+# jenkins
+
+declare -A JENKINS=()
+
+JENKINS['version']=${JENKINS_VERSION:-2.60.3}
+JENKINS['file']="/tmp/jenkins.war"
+JENKINS['url']="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS['version']}/jenkins-war-${JENKINS['version']}.war"
+JENKINS['sha256']="1d893aa30e49a3130e4f90268044dafb34f7c32b573970f2acca8c2c821f9b53"
+JENKINS['home']=${JENKINS_HOME:-/var/jenkins_home}

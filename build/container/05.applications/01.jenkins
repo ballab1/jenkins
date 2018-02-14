@@ -1,0 +1,9 @@
+#! /bin/bash
+
+declare tools="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"  
+declare warDir="/usr/share/jenkins"
+
+source "${tools}/04.downloads/01.JENKINS"
+
+mkdir -p "$warDir"
+mv "${JENKINS['file']}" "$warDir"

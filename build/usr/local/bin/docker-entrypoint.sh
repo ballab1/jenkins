@@ -1,14 +1,26 @@
-#!/bin/sh
+#!/bin/bash
 
-[[ "${JENKINS_GITHUB_EMAIL}" ]] && sudo git config --system user.email "${JENKINS_GITHUB_EMAIL}"
-[[ "${JENKINS_GITHUB_NAME}" ]] && sudo git config --system user.name "${JENKINS_GITHUB_NAME}"
-[[ "${JENKINS_GITHUB_USER}" && "${JENKINS_GITHUB_TOKEN}" ]] && sudo git config --system credential.user "${JENKINS_GITHUB_USER}:${JENKINS_GITHUB_TOKEN}"
+declare -r config_entry='jenkins-setup' 
+declare -r tools=/usr/local/bin
+source "${tools}/jenkins.helper"
+jenkins.setExports
 
-set -o errexit
 
-if [ "$1" = 'jenkins' ]; then
-        /sbin/tini -- "/usr/local/bin/jenkins.sh"
-    else
-        exec $@
-fi
+if [[ "$1" = 'jenkins' ]]; then
+    # this is the primary (default) codepath invoked by the Dockerfile
+    printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" "$1"
+    sudo --preserve-env "$0" "$config_entry"
+    /sbin/tini -s -- "${tools}/jenkins.sh"
 
+elif [[ "$1" = "$config_entry" && "$(id -u)" -eq 0 ]]; then
+    # this codepath is invoked (from above) to perpare the runtime environment. User is 'root' so chmod & chown succeed
+    printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" "$*"
+    jenkins.prepareEnvironment
+
+else
+    # this codepath is invoked when a user invokes the container using 'docker run'
+    printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" 'custom'
+    shift
+    exec $@
+fi 
+printf "\e[32m<<<<<<<< returning from \e[33m'%s'\e[0m\n" "$*" 
