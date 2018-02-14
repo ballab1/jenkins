@@ -1,7 +1,7 @@
 #!/bin/bash
 
 declare -r tools="/usr/local/bin"
-source "${tools}/helper.sh"
+source "${tools}/jenkins.helper"
 
 cat > "$runningEnv" <<EOF
 #!/bin/bash
@@ -29,4 +29,4 @@ echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # download plugins and save a copy to restore at each runtime
 source "$runningEnv"
 chmod 775 "${tools}/install-plugins.sh" 
-"${tools}/install-plugins.sh" $( helper.getPlugins )
+"${tools}/install-plugins.sh" $( jenkins.getPlugins )

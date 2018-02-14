@@ -2,8 +2,8 @@
 
 declare -r config_entry='jenkins-setup' 
 declare -r tools=/usr/local/bin
-source "${tools}/helper.sh"
-helper.setExports
+source "${tools}/jenkins.helper"
+jenkins.setExports
 
 
 if [[ "$1" = 'jenkins' ]]; then
@@ -15,7 +15,7 @@ if [[ "$1" = 'jenkins' ]]; then
 elif [[ "$1" = "$config_entry" && "$(id -u)" -eq 0 ]]; then
     # this codepath is invoked (from above) to perpare the runtime environment. User is 'root' so chmod & chown succeed
     printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" "$*"
-    helper.prepareEnvironment
+    jenkins.prepareEnvironment
 
 else
     # this codepath is invoked when a user invokes the container using 'docker run'
