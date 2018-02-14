@@ -7,7 +7,7 @@ services:
                 FROM_BASE: openjdk_8u131.11-r2:20180210 
                 CONTAINER_VERSION: 1.0.0
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
-                JENKINS_VERSION: 2.89.3
+                JENKINS_VERSION: 2.89.4
                 jenkins_gid: 1000
                 jenkins_uid: 1000
             cache_from:
