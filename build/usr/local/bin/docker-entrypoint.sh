@@ -17,7 +17,6 @@ elif [[ "$1" = "$config_entry" && "$(id -u)" -eq 0 ]]; then
     printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" "$*"
     helper.prepareEnvironment
 
-#elif [[ ${#@[*]} -gt 0 ]]; then
 else
     # this codepath is invoked when a user invokes the container using 'docker run'
     printf "\e[32m>>>>>>>> entering \e[33m'%s'\e[0m\n" 'custom'

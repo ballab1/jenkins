@@ -33,10 +33,5 @@ function helper.setExports()
 {
     local currentEnv=/tmp/env.sh
     
-    if [ -e "$runningEnv" ]; then
-#        env > "$currentEnv"
-        source "$runningEnv"
-#        source "$currentEnv"
-#        rm "$currentEnv"
-    fi
+    [ -e "$runningEnv" ] && source "$runningEnv"
 }
