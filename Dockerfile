@@ -26,15 +26,15 @@ RUN set -o verbose \
 #RUN rm -rf /tmp/* 
 
 
-
-# for main web interface:
+# execute this container as jenkins
+USER jenkins
+# expose main web interface:
 EXPOSE 8080
-# will be used by attached slave agents:
+# expose port used by attached slave agents:
 EXPOSE 50000
 # Jenkins home directory is a volume, so configuration and build history can be persisted and survive image upgrades
 VOLUME $JENKINS_HOME
-
-#USER jenkins
 WORKDIR $JENKINS_HOME
+
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["jenkins"] 
