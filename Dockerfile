@@ -21,8 +21,8 @@ COPY build /tmp/
 
 # build content
 RUN set -o verbose \
-    && chmod u+rwx /tmp/container/build.sh \
-    && /tmp/container/build.sh 'JENKINS'
+    && chmod u+rwx /tmp/build.sh \
+    && /tmp/build.sh 'JENKINS'
 RUN rm -rf /tmp/* 
 
 

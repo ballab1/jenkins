@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "${TOOLS}/04.downloads/01.JENKINS"
+source "${CBF['action']}/03.downloads/01.JENKINS"
 
 chown -R jenkins:jenkins "${JENKINS['home']}"
 chown -R jenkins:jenkins /usr/share/jenkins/ref
