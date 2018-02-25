@@ -2,15 +2,17 @@
 
 # ensure this script is run as root
 if [[ $EUID != 0 ]]; then
-    sudo --preserve-env $0 "$@"
+    sudo -E $0 "$(id -nu):$(id -ng)"
     exit
 fi
       
 declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )" 
 
+
 function setPermissions()
 {
     local -r mode=${1-'o-w'}
+    local -r owner=$2
 
     chmod "$mode" "${TOOLS}/Dockerfile"
     chmod "$mode" "${TOOLS}/build/usr/share/jenkins/ref/plugins.txt"
@@ -19,7 +21,7 @@ function setPermissions()
     for dir in $dirs ; do
         chmod "$mode" "${TOOLS}/$dir"
     done
-    [ $mode = 'o-w' ] && chown bobb:bobb PluginUpdator/*
+    [ $mode = 'o-w' ] && chown "$owner" PluginUpdator/*
 }
 
 cd "$TOOLS"
@@ -34,4 +36,4 @@ docker run --rm \
            groovy PluginUpdator/latestPlugins.groovy
 
 set +o verbose
-setPermissions 'o-w'
+setPermissions 'o-w' "$@"
