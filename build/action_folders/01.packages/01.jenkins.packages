@@ -1,2 +1,5 @@
 # build Packages
-apk add --no-cache coreutils curl git openssh-client shadow sudo tini ttf-dejavu unzip
+
+if [ "${CBF['os_id']}" = 'alpine' ]; then
+    apk add --no-cache coreutils curl git openssh-client shadow sudo tini ttf-dejavu unzip
+fi
