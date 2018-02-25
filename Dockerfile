@@ -1,8 +1,6 @@
 ARG FROM_BASE=openjdk:20180217
 FROM $FROM_BASE 
 
-ARG JENKINS_VERSION=${JENKINS_VERSION:-2.89.4}
-ARG CONTAINER_VERSION=1.0.2
 ARG JENKINS_GITHUB_EMAIL=${CFG_GITHUB_JENKINS_EMAIL}
 ARG JENKINS_GITHUB_NAME=${CFG_GITHUB_JENKINS_NAME}
 ARG JENKINS_GITHUB_CREDENTIALS=${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_TOKEN}
@@ -11,10 +9,15 @@ ARG jenkins_uid=1953
 ARG jenkins_gid=1953
 
 # version of this docker image
+ARG CONTAINER_VERSION=1.0.1
 LABEL version=$CONTAINER_VERSION 
+
 # jenkins version being bundled in this docker image
+ARG JENKINS_VERSION=${JENKINS_VERSION:-2.89.4}
 LABEL jenkins_version=$JENKINS_VERSION 
 
+# set to non zero for the framework to show verbose action scripts
+ARG DEBUG_TRACE=0
 
 # Add configuration and customizations
 COPY build /tmp/
