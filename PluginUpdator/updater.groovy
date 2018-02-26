@@ -10,7 +10,7 @@ class Updater {
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def DOCKER_FROM_PATTERN = ~/^ARG\s+ARG JENKINS_VERSION=${JENKINS_VERSION:-([\.0-9]+)}\s*$/
+    def DOCKER_FROM_PATTERN = ~/^ARG\s+ARG JENKINS_VERSION=\$\{JENKINS_VERSION:-([.0-9]+)\}\s*$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
