@@ -21,7 +21,7 @@ durable-task:1.18
 email-ext:2.61
 envinject:2.1.5
 ghprb:1.40.0
-git:3.7.0
+git:3.8.0
 git-changelog:1.57
 git-client:2.7.1
 github:1.29.0
@@ -35,7 +35,7 @@ handlebars:1.1.1
 htmlpublisher:1.14
 icon-shim:2.0.3
 javadoc:1.4
-jenkins-multijob-plugin:1.28
+jenkins-multijob-plugin:1.29
 jira-ext:0.7
 jquery-detached:1.2.1
 junit:1.24
@@ -75,10 +75,10 @@ slack:2.3
 slave-status:1.6
 ssh-agent:1.15
 ssh-credentials:1.13
-ssh-slaves:1.25.1
+ssh-slaves:1.26
 statistics-gatherer:1.1.2
 structs:1.14
-subversion:2.10.2
+subversion:2.10.3
 timestamper:1.8.9
 token-macro:2.3
 workflow-aggregator:2.5
