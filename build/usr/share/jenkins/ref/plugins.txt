@@ -36,7 +36,6 @@ htmlpublisher:1.14
 icon-shim:2.0.3
 javadoc:1.4
 jenkins-multijob-plugin:1.29
-jira-ext:0.7
 jquery-detached:1.2.1
 junit:1.24
 ldap:1.20
@@ -76,7 +75,6 @@ slave-status:1.6
 ssh-agent:1.15
 ssh-credentials:1.13
 ssh-slaves:1.26
-statistics-gatherer:1.1.2
 structs:1.14
 subversion:2.10.3
 timestamper:1.8.9
