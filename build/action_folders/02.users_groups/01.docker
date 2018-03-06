@@ -1,0 +1,11 @@
+
+declare -A docker=()
+
+declare d_uid=${docker_uid:-1001}
+declare d_gid=${docker_gid:-1001}
+
+docker['user']=${docker_user:-docker}
+docker['uid']=${d_uid:-$(getent passwd "${docker['user']}" | cut -d: -f3)}
+docker['group']=${docker_group:-docker}
+docker['gid']=${d_gid:-$(getent group "${docker['user']}" | cut -d: -f3)}
+docker['shell']=/sbin/nologin

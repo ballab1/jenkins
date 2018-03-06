@@ -18,6 +18,8 @@ ARG JENKINS_GITHUB_CREDENTIALS=${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_T
 ARG JENKINS_HOME=${JENKINS_HOME:-/var/jenkins_home}
 ARG jenkins_uid=1953
 ARG jenkins_gid=1953
+ARG docker_uid=999
+ARG docker_gid=999
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION=${JENKINS_VERSION:-2.89.4}

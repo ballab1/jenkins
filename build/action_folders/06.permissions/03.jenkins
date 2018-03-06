@@ -3,9 +3,8 @@
 source "${CBF['action']}/03.downloads/01.JENKINS"
 
 chown -R jenkins:jenkins "${JENKINS['home']}"
-chown -R jenkins:jenkins /usr/share/jenkins/ref
+chown -R jenkins:jenkins /usr/share/jenkins
 
-groupmod -n docker $(  getent group 999 | awk -F ':' '{ printf $1 }' )
 usermod -G docker -a jenkins
 
 cd /root

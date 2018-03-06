@@ -1,0 +1,46 @@
+#!/bin/bash
+
+declare -r tools="/usr/local/bin"
+source "${tools}/docker.helper"
+
+
+# enable root access in our container for jenkins
+echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+
+# make sure jenkins is in docker group
+( getent group docker ) || usermod -a -G "$( getent group docker | cut -d: -f3 )" jenkins
+
+
+# setup github access
+[ "$JENKINS_GITHUB_EMAIL" ] && git config --system user.email "${JENKINS_GITHUB_EMAIL}"
+[ "$JENKINS_GITHUB_NAME" ] && git config --system user.name "${JENKINS_GITHUB_NAME}"
+[ "$JENKINS_GITHUB_CREDENTIALS" ] && git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"
+
+
+##############################################
+#
+#  HERE document to generate environent variables which are 'sourced' into the RUN environment by docker-entrypoint.sh using docker.helper
+#
+##############################################
+# save the environment variables that we want for our container
+cat > "$runningEnv" <<EOF
+#!/bin/bash
+# this is a generated file!!  DO NOT MODIFY
+#  It gets generated when the container is built, and is used to setup the environment when the container runs
+#  if you wish to modify the generated contents, make the changes in build/action_folders/05.customization/02.jenkins
+
+export JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties -Djenkins.install.runSetupWizard=false"
+export JENKINS_HOME=${JENKINS_HOME:-/var/jenkins_home}
+#export JENKINS_OPTS="--prefix=/jenkins" 
+export JENKINS_UC="https://updates.jenkins.io"
+export JENKINS_UC_EXPERIMENTAL="https://updates.jenkins.io/experimental"
+export COPY_REFERENCE_FILE_LOG="$JENKINS_HOME/copy_reference_file.log"
+export JENKINS_SLAVE_AGENT_PORT=${agent_port:-50000}
+EOF
+
+
+# download plugins and save a copy to restore at each runtime
+source "$runningEnv"
+chmod 775 "${tools}/install-plugins.sh" 
+"${tools}/install-plugins.sh" $( docker.getPlugins )
