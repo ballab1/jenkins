@@ -1,5 +1,5 @@
 # build Packages
 
 if [ "${CBF['os_id']}" = 'alpine' ]; then
-    apk add --no-cache coreutils curl git openssh-client shadow sudo tini ttf-dejavu unzip
+    apk add --no-cache coreutils curl git openssh-client openssh ca-certificates shadow sudo tini ttf-dejavu unzip
 fi
