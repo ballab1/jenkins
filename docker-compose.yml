@@ -7,7 +7,7 @@ services:
                 CONTAINER_NAME: jenkins
                 CONTAINER_VERSION: 1.0.3
                 DEBUG_TRACE: 0
-                FROM_BASE: openjdk_8u131.11-r2:20180217
+                FROM_BASE: openjdk_8u131.11-r2:20180311
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
 #                JENKINS_VERSION: 2.89.4
                 docker_gid: 999
@@ -16,8 +16,8 @@ services:
                 jenkins_uid: 1953
             cache_from:
                     - alpine:3.6
-                    - base_container:20180217
-                    - openjdk_8u131.11-r2:20180217
+                    - base_container:20180311
+                    - openjdk_8u131.11-r2:20180311
             context: .
             dockerfile: Dockerfile
         container_name: jenkins
@@ -26,12 +26,12 @@ services:
             JENKINS_GITHUB_NAME: ${CFG_GITHUB_JENKINS_NAME}
             JENKINS_GITHUB_CREDENTIALS: "${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_TOKEN}"
         hostname: jenkins
-        image: jenkins:20180217
+        image: jenkins:20180311
         logging:
             driver: json-file
             options:
-                max-size: 10m
-                max-file: 3
+                max-file: "3"
+                max-size: "10m"
         ports:
             - 8080:8080
 #        restart: unless-stopped

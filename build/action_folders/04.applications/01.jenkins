@@ -2,7 +2,5 @@
 
 declare warDir="/usr/share/jenkins"
 
-source "${CBF['action']}/03.downloads/01.JENKINS"
-
 mkdir -p "$warDir"
 mv "${JENKINS['file']}" "$warDir"

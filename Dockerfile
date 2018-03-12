@@ -1,4 +1,4 @@
-ARG FROM_BASE=openjdk:20180217
+ARG FROM_BASE=openjdk:20180311
 FROM $FROM_BASE 
 
 # name and version of this docker image
