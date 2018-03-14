@@ -8,5 +8,5 @@ chown -R jenkins:jenkins /usr/share/jenkins
 usermod -G docker -a jenkins
 
 cd /root
-[ -e /root/.ssh ] && rm -rf /root/.ssh
+[ ! -e /root/.ssh ] || rm -rf /root/.ssh
 ln -s "${JENKINS['home']}"/.ssh .

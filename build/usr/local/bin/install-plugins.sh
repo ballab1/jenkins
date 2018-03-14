@@ -8,6 +8,8 @@
 # FROM jenkins
 # RUN install-plugins.sh docker-slaves github-branch-source
 
+
+env | sort
 set -o pipefail
 
 REF_DIR=${REF:-/usr/share/jenkins/ref/plugins}
