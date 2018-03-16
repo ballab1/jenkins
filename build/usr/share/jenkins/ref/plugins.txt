@@ -26,7 +26,7 @@ git-changelog:1.57
 git-client:2.7.1
 github:1.29.0
 github-api:1.90
-github-branch-source:2.3.2
+github-branch-source:2.3.3
 github-organization-folder:1.6
 git-server:1.7
 groovy:2.0

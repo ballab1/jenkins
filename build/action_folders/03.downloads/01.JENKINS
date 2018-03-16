@@ -2,8 +2,8 @@
 
 declare -A JENKINS=()
 
-JENKINS['version']=${JENKINS_VERSION:-2.60.3}
+JENKINS['version']=${JENKINS_VERSION:-2.107.1}
 JENKINS['file']="/tmp/jenkins.war"
 JENKINS['url']="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS['version']}/jenkins-war-${JENKINS['version']}.war"
-JENKINS['sha256']="1d893aa30e49a3130e4f90268044dafb34f7c32b573970f2acca8c2c821f9b53"
+JENKINS['sha256']="cec74c80190ed1f6ce55d705d2f649ddb2eaf8aba3ae26796152921d46b31280"
 JENKINS['home']=${JENKINS_HOME:-/var/jenkins_home}
