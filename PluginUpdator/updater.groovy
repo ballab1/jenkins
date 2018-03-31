@@ -1,7 +1,11 @@
+//@GrabResolver(name='JSON.simple', root='http://code.google.com/p/json-simple')
+//@Grab(group='grails.plugins', module='VersionComparator', version='3.3.0') 
+
 import groovy.json.* 
 import groovy.xml.*
 import java.text.*
-
+//import grails.plugins.VersionComparator
+//import org.codehaus.groovy.grails.plugins.VersionComparator
 
 class Updater {
     final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
@@ -10,7 +14,7 @@ class Updater {
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def DOCKER_FROM_PATTERN = ~/^ARG\s+ARG JENKINS_VERSION=([.0-9]+)\}\s*$/
+    def DOCKER_FROM_PATTERN = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -18,6 +22,7 @@ class Updater {
     def getVersions() {
        if (! myVersionComparitor) {
            myVersionComparitor = new GroovyScriptEngine(BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
+//           myVersionComparitor = new VersionComparator
        }
        return myVersionComparitor
     }
@@ -84,13 +89,18 @@ class Updater {
             System.exit(1)
         }
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd_HHmmss")
+        println 'creating backup of '+file.name
+
         File b = new File(BACKUP_DIR, fmt.format(tm)+'.'+file.name)
         if (! file.renameTo( b )) {
+            println "....unable to rename ${file.name} to ${b.absolutePath}. Copying file." 
+
 //            if (! b.canWrite()) {
 //                println 'failed to write backup '+b.absolutePath+' of file: ('+file.name+')'
 //                System.exit(1)
 //            }
-            b << file
+            b << file.text
+            println "....shrinking original ${file.name}" 
             RandomAccessFile raf = new RandomAccessFile(file, 'rw')
             try {
                 raf.setLength(0)
@@ -103,7 +113,6 @@ class Updater {
 //                System.exit(1)
 //            }
         }
-        println 'creating backup of '+file.name
     }
     
     String setDockerfileJenkinsVersion(String dockerfileName, String latestJenkinsLTSversion) {
