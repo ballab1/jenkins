@@ -6,3 +6,4 @@ test/*.txt
 .groovy
 /*.class
 vols/*
+build/container_build_framework*

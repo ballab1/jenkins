@@ -11,6 +11,11 @@ LABEL org_name=$CONTAINER_NAME \
 # set to non zero for the framework to show verbose action scripts
 ARG DEBUG_TRACE=0
 
+# Add CBF, configuration and customizations
+ARG CBF_VERSION=${CBF_VERSION:-v2.0}
+ADD "https://github.com/ballab1/container_build_framework/archive/${CBF_VERSION}.tar.gz" /tmp/
+COPY build /tmp/
+
 
 ARG JENKINS_GITHUB_EMAIL=${CFG_GITHUB_JENKINS_EMAIL}
 ARG JENKINS_GITHUB_NAME=${CFG_GITHUB_JENKINS_NAME}
@@ -25,9 +30,6 @@ ARG docker_gid=999
 ARG JENKINS_VERSION=2.107.1
 LABEL jenkins_version=$JENKINS_VERSION 
 
-
-# Add configuration and customizations
-COPY build /tmp/
 
 # build content
 RUN set -o verbose \
