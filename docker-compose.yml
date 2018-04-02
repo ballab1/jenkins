@@ -4,6 +4,7 @@ services:
     jenkins:
         build:
             args:
+                CBF_VERSION: ${CBF_VERSION:-dev}
                 CONTAINER_NAME: jenkins
                 CONTAINER_VERSION: 1.0.7
                 DEBUG_TRACE: 0
