@@ -23,3 +23,7 @@ if [ "${JENKINS_GITHUB_CREDENTIALS}" ]; then
     git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"
     unset JENKINS_GITHUB_CREDENTIALS
 fi
+
+# remove the GIT lock file (if it exists) before starting
+declare idx_file=/var/jenkins_home/scm-sync-configuration/checkoutConfiguration/.git/index.lock
+[ ! -e "$idx_file" ] || rm "$idx_file"

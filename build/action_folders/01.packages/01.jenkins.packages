@@ -1,5 +1,7 @@
-# build Packages
+# jenkins Packages
 
 if [ "${CBF['os_id']}" = 'alpine' ]; then
-    apk add --no-cache coreutils curl git openssh-client openssh ca-certificates shadow sudo tini ttf-dejavu unzip
+    declare PKGS='coreutils curl git openssh-client openssh sudo tini ttf-dejavu unzip'
+    package.checkIfInstalled "$PKGS"
+    apk add --no-cache $PKGS
 fi
