@@ -8,13 +8,13 @@ ARG CONTAINER_VERSION=1.0.0
 LABEL org_name=$CONTAINER_NAME \
       version=$CONTAINER_VERSION 
 
-# set to non zero for the framework to show verbose action scripts
-#    (0:default, 1:trace & do not cleanup; 2:continue after errors)
-ARG DEBUG_TRACE=0
 # Specify CBF version to use with our configuration and customizations
 ARG CBF_VERSION=${CBF_VERSION:-v2.0}
-# inclide our project files
+# include our project files
 COPY build /tmp/
+# set to non zero for the framework to show verbose action scripts
+#    (0:default, 1:trace & do not cleanup; 2:continue after errors)
+ENV DEBUG_TRACE=0
 
 
 ARG JENKINS_GITHUB_EMAIL=${CFG_GITHUB_JENKINS_EMAIL}
@@ -27,14 +27,14 @@ ARG docker_uid=999
 ARG docker_gid=999
 
 # jenkins version being bundled in this docker image
-ARG JENKINS_VERSION=2.107.1
+ARG JENKINS_VERSION=2.107.2
 LABEL jenkins_version=$JENKINS_VERSION 
 
 
 # build content
 RUN set -o verbose \
     && chmod u+rwx /tmp/build.sh \
-    && /tmp/build.sh "$CONTAINER_NAME"
+    && /tmp/build.sh "$CONTAINER_NAME" "$DEBUG_TRACE"
 RUN [ $DEBUG_TRACE != 0 ] || rm -rf /tmp/* 
 
 

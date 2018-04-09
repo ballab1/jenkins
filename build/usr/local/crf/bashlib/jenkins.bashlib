@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#############################################################################
+function jenkins.UID()
+{
+    lib.lookupId passwd jenkins 1000
+}
+export -f jenkins.UID
+
+#############################################################################
+function jenkins.GID()
+{
+    lib.lookupId group jenkins 1000
+}
+export -f jenkins.GID

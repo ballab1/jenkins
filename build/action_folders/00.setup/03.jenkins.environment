@@ -1,0 +1,23 @@
+#!/bin/bash
+
+declare -ar env_jenkins=(
+    'COPY_REFERENCE_FILE_LOG="$JENKINS_HOME/copy_reference_file.log"'
+    'JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties -Djenkins.install.runSetupWizard=false"'
+    'JENKINS_HOME="${JENKINS_HOME:-/var/jenkins_home}"'
+    'JENKINS_SLAVE_AGENT_PORT=${agent_port:-50000}'
+    'JENKINS_UC="https://updates.jenkins.io"'
+    'JENKINS_UC_EXPERIMENTAL="https://updates.jenkins.io/experimental"'
+    'JENKINS_USER=${JENKINS_USER:-jenkins}'
+    'JENKINS_GROUP=${JENKINS_GROUP:-jenkins}'
+    'DOCKER_USER=${DOCKER_USER:-docker}'
+    'DOCKER_GROUP=${DOCKER_GROUP:-docker}'
+    'JENKINS_UID=${JENKINS_UID:-$(jenkins.UID)}'
+    'JENKINS_GID=${JENKINS_GID:-$(jenkins.GID)}'
+    'DOCKER_UID=${DOCKER_UID:-$(docker.UID)}'
+    'DOCKER_GID=${DOCKER_GID:-$(docker.GID)}'
+)
+
+lib.updateRuntimeEnvironment "${env_jenkins[*]}" 
+
+lib.copyFileToRuntime 'LIB' 'docker.bashlib'
+lib.copyFileToRuntime 'LIB' 'jenkins.bashlib'
