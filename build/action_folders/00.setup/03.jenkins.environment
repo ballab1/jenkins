@@ -2,7 +2,7 @@
 
 declare -ar env_jenkins=(
     'COPY_REFERENCE_FILE_LOG="$JENKINS_HOME/copy_reference_file.log"'
-    'JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/log.properties -Djenkins.install.runSetupWizard=false"'
+    'JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/logging.properties -Djenkins.install.runSetupWizard=false"'
     'JENKINS_HOME="${JENKINS_HOME:-/var/jenkins_home}"'
     'JENKINS_SLAVE_AGENT_PORT=${agent_port:-50000}'
     'JENKINS_UC="https://updates.jenkins.io"'

@@ -1,11 +1,11 @@
 # jenkins Packages
 
-PKGS="coreutils \
-      curl \
-      git \
-      openssh-client \
-      openssh \
-      sudo \
-      tini \
-      ttf-dejavu \
-      unzip"
+declare -a PKGS=( coreutils
+                  curl
+                  git
+                  openssh-client
+                  openssh
+                  sudo
+                  tini
+                  ttf-dejavu
+                  unzip )
