@@ -1,12 +1,10 @@
+#!/bin/bash
 
-declare -A jenkins=()
-
-declare j_uid=${jenkins_uid:-1000}
-declare j_gid=${jenkins_gid:-1000}
-
-jenkins['user']=${jenkins_user:-jenkins}
-jenkins['uid']=${j_uid:-$(getent passwd "${jenkins['user']}" | cut -d: -f3)}
-jenkins['group']=${jenkins_group:-jenkins}
-jenkins['gid']=${j_gid:-$(getent group "${jenkins['user']}" | cut -d: -f3)}
-jenkins['home']="${JENKINS_HOME:-/var/jenkins_home}"
-jenkins['shell']=/bin/bash
+declare -A jenkins=(
+    ['user']=${JENKINS_USER:-jenkins}
+    ['uid']=${JENKINS_UID:-$(jenkins.UID)}
+    ['group']=${JENKINS_GROUP:-jenkins}
+    ['gid']=${JENKINS_GID:-$(jenkins.GID)}
+    ['home']="${JENKINS_HOME:-/var/jenkins_home}"
+    ['shell']=/bin/bash
+)
