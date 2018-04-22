@@ -17,7 +17,7 @@ declare -ar env_jenkins=(
     'DOCKER_GID=${DOCKER_GID:-$(docker.GID)}'
 )
 
-lib.updateRuntimeEnvironment "${env_jenkins[*]}" 
+crf.updateRuntimeEnvironment "${env_jenkins[*]}" 
 
-lib.copyFileToRuntime 'LIB' 'docker.bashlib'
-lib.copyFileToRuntime 'LIB' 'jenkins.bashlib'
+crf.copyFileToRuntime 'LIB' 'docker.bashlib'
+crf.copyFileToRuntime 'LIB' 'jenkins.bashlib'
