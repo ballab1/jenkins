@@ -1,12 +1,10 @@
 #!/bin/bash
 
-source "${CBF['action']}/03.downloads/01.JENKINS"
+chown -R "${jenkins['user']}:${jenkins['group']}" "$JENKINS_HOME"
+chown -R "${jenkins['user']}:${jenkins['group']}" /usr/share/jenkins
 
-chown -R jenkins:jenkins "${JENKINS['home']}"
-chown -R jenkins:jenkins /usr/share/jenkins
-
-usermod -G docker -a jenkins
+usermod -G "${docker['user']}" -a "${jenkins['user']}"
 
 cd /root
 [ ! -e /root/.ssh ] || rm -rf /root/.ssh
-ln -s "${JENKINS['home']}"/.ssh .
+ln -s "$JENKINS_HOME"/.ssh .

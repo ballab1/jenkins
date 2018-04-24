@@ -1,15 +1,14 @@
 #!/bin/bash -eu
 
 # original file:  https://github.com/jenkinsci/docker/blob/master/install-plugins.sh
-#                 commit 2a248906013e9c162482110261fab8e0ae21e886
+#                 commit f315835e24b06024aab49c90d1dc9c5a4ece6bba
+#                 mturra committed on Jan 9
 
 # Resolve dependencies and download plugins given on the command line
 #
 # FROM jenkins
 # RUN install-plugins.sh docker-slaves github-branch-source
 
-
-env | sort
 set -o pipefail
 
 REF_DIR=${REF:-/usr/share/jenkins/ref/plugins}

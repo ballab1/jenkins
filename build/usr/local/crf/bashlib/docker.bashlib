@@ -1,0 +1,15 @@
+#!/bin/bash
+#############################################################################
+
+function docker.UID()
+{
+    lib.lookupId passwd docker 1001
+}
+export -f docker.UID
+
+#############################################################################
+function docker.GID()
+{
+    lib.lookupId group docker 1001
+}
+export -f docker.GID
