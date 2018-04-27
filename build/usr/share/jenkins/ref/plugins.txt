@@ -22,7 +22,7 @@ email-ext:2.62
 envinject:2.1.5
 ghprb:1.40.0
 git:3.8.0
-git-changelog:2.0
+git-changelog:2.3
 git-client:2.7.1
 github:1.29.0
 github-api:1.90
