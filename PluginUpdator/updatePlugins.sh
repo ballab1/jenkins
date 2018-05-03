@@ -17,8 +17,8 @@ function setPermissions()
     chmod "$mode" "${TOOLS}/Dockerfile"
     chmod "$mode" "${TOOLS}/build/usr/share/jenkins/ref/plugins.txt"
 
-    local -r dirs='build/usr/share/jenkins PluginUpdator test'
-    for dir in $dirs ; do
+    local -ra dirs=( build/usr/share/jenkins PluginUpdator test )
+    for dir in "${dirs[@]}" ; do
         chmod "$mode" "${TOOLS}/$dir"
     done
     [ $mode = 'o-w' ] && chown "$owner" PluginUpdator/*

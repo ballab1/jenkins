@@ -4,6 +4,8 @@
 import groovy.json.* 
 import groovy.xml.*
 import java.text.*
+import java.security.MessageDigest
+import javax.xml.bind.DatatypeConverter
 //import grails.plugins.VersionComparator
 //import org.codehaus.groovy.grails.plugins.VersionComparator
 
@@ -12,12 +14,14 @@ class Updater {
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
     static String PATH = './'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
+    static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def DOCKER_FROM_PATTERN = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
+    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
+    def _latestJenkinsLTSversion = null
     
     def getVersions() {
        if (! myVersionComparitor) {
@@ -49,9 +53,10 @@ class Updater {
     String getDockerfileJenkinsVersion(String fileName) {
         String jenkinsVersion = '2.60.3'
         new File(fileName).readLines().each { line ->
-            def m =  (line =~ DOCKER_FROM_PATTERN)
+            def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
             if (m.matches()) {
                 jenkinsVersion = m[0][1]
+                println ''
                 println "Dockerfile is currently using Jenkins LTS: ${jenkinsVersion}"
             }
         }
@@ -59,18 +64,21 @@ class Updater {
     }
     
     String getLatestJenkinsLTSversion() {
-        def f = new URL(STABLE_CHANGELOG)
-        def fmt = new SimpleDateFormat('EEE, d MMM yyyy HH:mm:ss Z')
-        def xmlSlurper = new XmlSlurper()
-        def xml = xmlSlurper.parseText(f.text)
-        ArrayList items = []
-        xml.channel.item.each { it ->
-           String tm = it.pubDate
-           items += [ title : it.title, update : fmt.parse(tm.trim()).time  ]
+        if (_latestJenkinsLTSversion == null) {
+            def f = new URL(STABLE_CHANGELOG)
+            def fmt = new SimpleDateFormat('EEE, d MMM yyyy HH:mm:ss Z')
+            def xmlSlurper = new XmlSlurper()
+            def xml = xmlSlurper.parseText(f.text)
+            ArrayList items = []
+            xml.channel.item.each { it ->
+               String tm = it.pubDate
+               items += [ title : it.title, update : fmt.parse(tm.trim()).time  ]
+            }
+            String title = items.sort{ a,b -> b.update <=> a.update }[0].title
+            println "Latest version of Jenkins LTS: ${title}"
+            _latestJenkinsLTSversion = title.split(' ')[1]
         }
-        String title = items.sort{ a,b -> b.update <=> a.update }[0].title
-        println "Latest version of Jenkins LTS: ${title}"
-        return title.split(' ')[1]
+        return _latestJenkinsLTSversion
     }
     
     Map readPluginList(String filename) {
@@ -95,10 +103,6 @@ class Updater {
         if (! file.renameTo( b )) {
             println "....unable to rename ${file.name} to ${b.absolutePath}. Copying file." 
 
-//            if (! b.canWrite()) {
-//                println 'failed to write backup '+b.absolutePath+' of file: ('+file.name+')'
-//                System.exit(1)
-//            }
             b << file.text
             println "....shrinking original ${file.name}" 
             RandomAccessFile raf = new RandomAccessFile(file, 'rw')
@@ -108,23 +112,67 @@ class Updater {
             finally {
                 raf.close()
             }
-//            if (! file.delete()) {
-//                println 'failed to create backup of '+file.name+' ('+b.absolutePath+')'
-//                System.exit(1)
-//            }
         }
     }
     
-    String setDockerfileJenkinsVersion(String dockerfileName, String latestJenkinsLTSversion) {
-        File f = new File(dockerfileName)
+    String setJenkinsVersion(String latestJenkinsLTSversion) {
+        // update version info in Dockerfile
+        File f = new File(DOCKERFILE_NAME)
         def content = f.text
         saveBackupFile(f)
         f = new File(dockerfileName)
         content.readLines().each { line ->
-            def m =  (line =~ DOCKER_FROM_PATTERN)
+            def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
             f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
         }
-        return latestJenkinsLTSversion
+
+        // update version info in 'build/action_folders/04.downloads/01.JENKINS'
+        f = new File(DOWNLOAD_FILE_NAME)
+        content = f.text
+        saveBackupFile(f)
+        f = new File(dockerfileName)
+        content.readLines().each { line ->
+            if ( line =~ /\['version'\]/ ) {
+                f << "    ['version']=\${JENKINS_VERSION:-${latestJenkinsLTSversion}}\n"
+            }
+            else if ( line =~ /\['sha256'\]/ ) {
+                String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
+                f << "    ['sha256']=\"${sha256}\"\n"
+            }
+            else {
+                f << line
+            }
+        }
+
+    }
+    
+    String sha256sum(String url) {
+        long total = 0
+        InputStream data = null
+        try {
+            data = new BufferedInputStream(new URL(url).openStream())
+            MessageDigest hashSum = MessageDigest.getInstance("SHA-256")
+
+            int bufSize = 4096
+            byte[] buffer = new byte[bufSize];
+            int bytesRead
+            while((bytesRead = data.read(buffer,0,bufSize)) != -1) {
+                total += bytesRead
+                hashSum.update(buffer, 0, bytesRead)
+            }
+            byte[] partialHash = null
+            partialHash = new byte[hashSum.getDigestLength()]
+            partialHash = hashSum.digest()
+            return DatatypeConverter.printHexBinary(partialHash).toString().toLowerCase()
+        }
+        catch (Exception e) {
+            println "Failed to calculate SHA-256.  bytes read: ${total}\n" + e.message
+            e.printStackTrace()
+//            System.exit(1)
+        }
+        finally {
+            data.close()
+        }
     }
     
     void updatePlugins(Map pluginList, String fileName) {
@@ -134,6 +182,7 @@ class Updater {
             f << k + ':' + v + "\n"
         }
     }
+
     //////////////////////////////////////////////////////////////////////////////
     
 
@@ -143,7 +192,7 @@ class Updater {
         
         if (versions.compare( latestJenkinsLTSversion, dockerfileJenkinsVersion ) > 0 ) {
             println 'Jenkins LTS version updated from ' + dockerfileJenkinsVersion + ' to '+ latestJenkinsLTSversion
-            dockerfileJenkinsVersion = setDockerfileJenkinsVersion(DOCKERFILE_NAME, latestJenkinsLTSversion)
+            setJenkinsVersion(latestJenkinsLTSversion)
         }
         
         Map pluginList = readPluginList(PLUGINS_FILENAME)

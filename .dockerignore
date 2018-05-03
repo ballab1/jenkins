@@ -1,7 +1,21 @@
-README.md
+# Git files
+.git
+.gitattributes
+.gitignore
+.lfsconfig
+.cbfProject
+
+#build files
 docker-compose.yml
+bin/*
+vols*/*
+cbf/CRF.properties
+CBF.properties
+scanned.paths
+*.loaded
 PluginUpdator
 plugins.txt
-vols/*
-.git*
-.lfs*
+
+# Information files
+LICENSE
+README.md
