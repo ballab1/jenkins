@@ -1,7 +1,7 @@
 # Jenkins_container
 ## Basic jenkins container populated with required plugins for home setup
 
-based on standard container:  [Jenkins:2.73.2-alpine](https://hub.docker.com/r/jenkins/jenkins)
+based on standard container:  Jenkins:2.121.1 and aline:3.7
 
 to build & run
 ```bash
@@ -25,3 +25,6 @@ to build & run
 
 ###Updating to latest plugins
 For details about updating the 'plugins.txt' file refer to [README](PluginUpdator/README.md) in the PluginUpdator folder
+
+## setting up the SCM-Configuration Plugin
+this uses SSH, so an ssh key (~/.ssh/id_rsa.pub) has to be present. This has to be uploaded to GITHub for the account used to save the configuration
