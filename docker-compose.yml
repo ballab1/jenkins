@@ -1,12 +1,11 @@
 version: '3.3'
- 
+
 services:
     jenkins:
         build:
             args:
                 CBF_VERSION: "${CBF_VERSION:-}"
                 CONTAINER_NAME: jenkins
-                CONTAINER_VERSION: ${CONTAINER_VERSION:-3.0.0}
                 FROM_BASE: ${DOCKER_REGISTRY:-}openjdk_8u131.11-r2:${CONTAINER_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
@@ -27,6 +26,14 @@ services:
             JENKINS_GITHUB_CREDENTIALS: "${CFG_GITHUB_JENKINS_USER}:${CFG_GITHUB_JENKINS_TOKEN}"
         hostname: jenkins
         image: ${DOCKER_REGISTRY:-}jenkins:${CONTAINER_TAG:-latest}
+        labels:
+            container.fingerprint: $CONTAINER_FINGERPRINT
+            container.git.branch: $CONTAINER_GIT_BRANCH
+            container.git.commit: $CONTAINER_GIT_COMMIT
+            container.git.url: $CONTAINER_GIT_URL
+            container.origin: $CONTAINER_ORIGIN
+            container.original.name: jenkins
+            container.version: ${CONTAINER_VERSION:-3.0.0}
         logging:
             driver: json-file
             options:
