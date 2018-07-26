@@ -4,6 +4,7 @@ declare -ar env_jenkins=(
     'JAVA_OPTS="-Djava.util.logging.config.file=/var/jenkins_home/logging.properties -Djenkins.install.runSetupWizard=false"'
     'JENKINS_HOME="${JENKINS_HOME:-/var/jenkins_home}"'
     'JENKINS_USER=${JENKINS_USER:-jenkins}'
+    "JENKINS_VERSION=${JENKINS_VERSION:?}"
     'JENKINS_GROUP=${JENKINS_GROUP:-jenkins}'
     'JENKINS_UID=${JENKINS_UID:-$(jenkins.UID "$JENKINS_USER")}'
     'JENKINS_GID=${JENKINS_GID:-$(jenkins.GID "$JENKINS_GROUP")}'

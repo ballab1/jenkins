@@ -6,7 +6,7 @@ services:
             args:
                 CBF_VERSION: "${CBF_VERSION:-}"
                 CONTAINER_NAME: jenkins
-                FROM_BASE: ${DOCKER_REGISTRY:-}openjdk_8u131.11-r2:${CONTAINER_TAG:-latest}
+                FROM_BASE: ${DOCKER_REGISTRY:-}openjdk8:${CONTAINER_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
                 docker_uid: 999
@@ -15,7 +15,7 @@ services:
             cache_from:
                 - ${DOCKER_REGISTRY:-}alpine:3.8
                 - ${DOCKER_REGISTRY:-}base_container:${CONTAINER_TAG:-latest}
-                - ${DOCKER_REGISTRY:-}openjdk_8u131.11-r2:${CONTAINER_TAG:-latest}
+                - ${DOCKER_REGISTRY:-}openjdk8:${CONTAINER_TAG:-latest}
             context: .
             dockerfile: Dockerfile
         container_name: jenkins

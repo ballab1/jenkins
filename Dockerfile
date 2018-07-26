@@ -1,4 +1,4 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-}openjdk_8u131.11-r2:${CONTAINER_TAG:-latest}
+ARG FROM_BASE=${DOCKER_REGISTRY:-}openjdk:${CONTAINER_TAG:-latest}
 FROM $FROM_BASE 
 
 # name and version of this docker image
@@ -24,8 +24,8 @@ ARG docker_uid=999
 ARG docker_gid=999
 
 # jenkins version being bundled in this docker image
-ARG JENKINS_VERSION=2.121.2
-LABEL jenkins_version=$JENKINS_VERSION 
+ARG JENKINS_VERSION=${JENKINS_VERSION:-2.121.2}
+LABEL jenkins.version=$JENKINS_VERSION 
 
 
 # build content
