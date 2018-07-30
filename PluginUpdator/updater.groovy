@@ -17,7 +17,7 @@ class Updater {
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
+    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=${JENKINS_VERSION:-([.0-9]+)}\s*$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -119,7 +119,7 @@ class Updater {
         f = new File(DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
-            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
+            f << ( ! m.matches() ? line : "ARG JENKINS_VERSION=\${JENKINS_VERSION:-${latestJenkinsLTSversion}}" ) + "\n"
         }
 
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
@@ -128,15 +128,10 @@ class Updater {
         saveBackupFile(f)
         f = new File(DOWNLOAD_FILE_NAME)
         content.readLines().each { line ->
-            if ( line =~ /\['version'\]=/ ) {
-                f << "    ['version']=\${JENKINS_VERSION:-${latestJenkinsLTSversion}}\n"
-            }
-            else if ( line =~ /\['sha256'\]=/ ) {
+            f << line + "\n"
+            if ( line =~ /\['url'\]=/ ) {
                 String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
-                f << "    ['sha256']=\"${sha256}\"\n"
-            }
-            else {
-                f << line + "\n"
+                f << "    ['sha256_${latestJenkinsLTSversion}']=\"${sha256}\"\n"
             }
         }
 
