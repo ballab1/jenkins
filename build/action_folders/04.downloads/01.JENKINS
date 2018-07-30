@@ -1,9 +1,10 @@
 #!/bin/bash
 
 declare -A JENKINS=(
-    ['version']=${JENKINS_VERSION:-2.121.2}
+    ['version']=${JENKINS_VERSION:?}
     ['file']="/tmp/jenkins.war"
     ['url']="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS['version']}/jenkins-war-${JENKINS['version']}.war"
-    ['sha256']="da0f9d106e936246841a898471783fb4fbdbbacc8d42a156b7306a0855189602"
+    ['sha256_2.121.2']="da0f9d106e936246841a898471783fb4fbdbbacc8d42a156b7306a0855189602"
+    ['sha256']="${JENKINS['sha256_'${JENKINS['version']}]}"
     ['home']=${JENKINS_HOME:-/var/jenkins_home}
 )
