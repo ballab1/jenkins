@@ -74,7 +74,7 @@ pipeline-stage-tags-metadata:1.3.1
 pipeline-stage-view:2.10
 plain-credentials:1.4
 postbuild-task:1.8
-resource-disposer:0.11
+resource-disposer:0.12
 role-strategy:2.8.1
 run-condition:1.0
 scm-api:2.2.7
@@ -82,7 +82,7 @@ scm-sync-configuration:0.0.10
 script-security:1.44
 slack:2.3
 slave-status:1.6
-ssh-agent:1.15
+ssh-agent:1.16
 ssh-credentials:1.14
 ssh-slaves:1.26
 structs:1.14
