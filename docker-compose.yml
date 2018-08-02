@@ -1,11 +1,12 @@
 version: '3.3'
-
+ 
 services:
     jenkins:
         build:
             args:
                 CBF_VERSION: "${CBF_VERSION:-}"
                 CONTAINER_NAME: jenkins
+                CONTAINER_VERSION: ${CONTAINER_VERSION:-3.0.0}
                 FROM_BASE: ${DOCKER_REGISTRY:-}openjdk8:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
@@ -19,6 +20,7 @@ services:
             context: .
             dockerfile: Dockerfile
             labels:
+                container.build.time: $CONTAINER_BUILD_TIME
                 container.fingerprint: $CONTAINER_FINGERPRINT
                 container.git.branch: $CONTAINER_GIT_BRANCH
                 container.git.commit: $CONTAINER_GIT_COMMIT
