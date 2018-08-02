@@ -17,7 +17,7 @@ class Updater {
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=${JENKINS_VERSION:-([.0-9]+)}\s*$/
+    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=\$\{JENKINS_VERSION:-([.0-9]+)\}\s*$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -51,7 +51,7 @@ class Updater {
     }
     
     String getDockerfileJenkinsVersion() {
-        String jenkinsVersion = '2.60.3'
+        String jenkinsVersion = ''
         new File(DOCKERFILE_NAME).readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
             if (m.matches()) {
@@ -119,7 +119,7 @@ class Updater {
         f = new File(DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
-            f << ( ! m.matches() ? line : "ARG JENKINS_VERSION=\${JENKINS_VERSION:-${latestJenkinsLTSversion}}" ) + "\n"
+            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
         }
 
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
@@ -128,11 +128,11 @@ class Updater {
         saveBackupFile(f)
         f = new File(DOWNLOAD_FILE_NAME)
         content.readLines().each { line ->
-            f << line + "\n"
-            if ( line =~ /\['url'\]=/ ) {
+            if ( line =~ /\['sha256'\]=/ ) {
                 String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
                 f << "    ['sha256_${latestJenkinsLTSversion}']=\"${sha256}\"\n"
             }
+            f << line + "\n"
         }
 
     }
@@ -179,6 +179,10 @@ class Updater {
 
     void main() {    
         String dockerfileVersion = getDockerfileJenkinsVersion()
+        if ( dockerfileVersion.length() == 0 ) {
+            println '\nUnable to parse JENKINS_VERSION from Dockerfile'
+            System.exit(1)
+        }
         String latestLTSversion = getLatestJenkinsLTSversion()
         
         if (versions.compare( latestLTSversion, dockerfileVersion ) > 0 ) {
