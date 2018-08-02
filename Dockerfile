@@ -1,14 +1,17 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-}openjdk:${BASE_TAG:-latest}
+ARG FROM_BASE=${DOCKER_REGISTRY:-}openjdk8:${BASE_TAG:-latest}
 FROM $FROM_BASE 
 
 # name and version of this docker image
 ARG CONTAINER_NAME=jenkins
+ARG CONTAINER_VERSION=${CONTAINER_VERSION:-3.0.0}
+
+LABEL org_name=$CONTAINER_NAME \
+      version=$CONTAINER_VERSION 
+
 # Specify CBF version to use with our configuration and customizations
 ARG CBF_VERSION="${CBF_VERSION}"
-
 # include our project files
 COPY build Dockerfile /tmp/
-
 # set to non zero for the framework to show verbose action scripts
 #    (0:default, 1:trace & do not cleanup; 2:continue after errors)
 ENV DEBUG_TRACE=0
@@ -25,7 +28,7 @@ ARG docker_gid=999
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION=${JENKINS_VERSION:-2.121.2}
-LABEL jenkins.version=$JENKINS_VERSION 
+LABEL jenkins_version=$JENKINS_VERSION 
 
 
 # build content
