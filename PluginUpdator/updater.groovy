@@ -119,7 +119,7 @@ class Updater {
         f = new File(DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
-            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
+            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION=${JENKINS_VERSION:-'+latestJenkinsLTSversion )+"}\n"
         }
 
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'

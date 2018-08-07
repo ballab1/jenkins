@@ -22,8 +22,8 @@ docker-commons:1.13
 docker-plugin:1.1.4
 docker-slaves:1.0.7
 docker-workflow:1.17
-durable-task:1.22
-email-ext:2.62
+durable-task:1.23
+email-ext:2.63
 envinject:2.1.6
 ghprb:1.42.0
 git:3.9.1
@@ -41,7 +41,7 @@ htmlpublisher:1.16
 icon-shim:2.0.3
 javadoc:1.4
 jdk-tool:1.1
-jenkins-multijob-plugin:1.30
+jenkins-multijob-plugin:1.31
 jobConfigHistory:2.18
 jquery-detached:1.2.1
 junit:1.24
