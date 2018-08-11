@@ -13,11 +13,13 @@ class Updater {
     final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
     static String PATH = './'
+    static String DOCKERCOMPOSE_NAME = PATH+'docker-compose.yml'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
     def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
+    def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/+simage:.+jenkins/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -110,8 +112,20 @@ class Updater {
             raf.close()
         }
     }
-    
-    String setJenkinsVersion(String latestJenkinsLTSversion) {
+
+    void setDockerComposeVersion(String latestJenkinsLTSversion) {
+        // update version info in Dockerfile
+        File f = new File(DOCKERCOMPOSE_NAME)
+        def content = f.text
+        saveBackupFile(f)
+        f = new File(DOCKERCOMPOSE_NAME)
+        content.readLines().each { line ->
+            def m =  (line =~ VERSION_PATTERN_IN_DOCKERCOMPOSE)
+            f << ( ! m.matches() ? line : 'image: ${DOCKER_REGISTRY:-}jenkins/'+latestJenkinsLTSversion+':${CONTAINER_TAG:-latest}' )+"\n"
+        }
+    }
+
+    void setDockerFileVersion(String latestJenkinsLTSversion) {
         // update version info in Dockerfile
         File f = new File(DOCKERFILE_NAME)
         def content = f.text
@@ -121,7 +135,9 @@ class Updater {
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
             f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
         }
+    }
 
+    void setDownloadsHash(String latestJenkinsLTSversion) {
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
         f = new File(DOWNLOAD_FILE_NAME)
         content = f.text
@@ -134,7 +150,12 @@ class Updater {
             }
             f << line + "\n"
         }
-
+    }
+    
+    void setJenkinsVersion(String latestJenkinsLTSversion) {
+        setDockerComposeVersion(latestJenkinsLTSversion)
+        setDockerFileVersion(latestJenkinsLTSversion)
+        setDownloadsHash(latestJenkinsLTSversion)
     }
     
     String sha256sum(String url) {
