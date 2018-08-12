@@ -13,11 +13,13 @@ class Updater {
     final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
     static String PATH = './'
+    static String DOCKERCOMPOSE_NAME = PATH+'docker-compose.yml'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=\$\{JENKINS_VERSION:-([.0-9]+)\}\s*$/
+    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
+    def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(+simage:\s+.+jenkins\/)([.0-9]+)(:.*)$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -91,7 +93,8 @@ class Updater {
         return pluginList
     }
     
-    void saveBackupFile(File file) {
+    def saveBackupFile(String fileName) {
+        File file = new File(fileName)
         if (! file.canRead()) {
             println 'failed to read '+file.name+' ('+b.absolutePath+')'
             System.exit(1)
@@ -99,8 +102,9 @@ class Updater {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd_HHmmss")
         println 'creating backup of '+file.name
 
+        def content = file.text
         File b = new File(BACKUP_DIR, fmt.format(tm)+'.'+file.name)
-        b << file.text
+        b << content
 
         RandomAccessFile raf = new RandomAccessFile(file, 'rw')
         try {
@@ -109,24 +113,33 @@ class Updater {
         finally {
             raf.close()
         }
+        return content
     }
-    
-    String setJenkinsVersion(String latestJenkinsLTSversion) {
+
+    void setDockerComposeVersion(String latestJenkinsLTSversion) {
         // update version info in Dockerfile
-        File f = new File(DOCKERFILE_NAME)
-        def content = f.text
-        saveBackupFile(f)
-        f = new File(DOCKERFILE_NAME)
+        def content = saveBackupFile(DOCKERCOMPOSE_NAME)
+        File f = new File(DOCKERCOMPOSE_NAME)
+        content.readLines().each { line ->
+            def m =  (line =~ VERSION_PATTERN_IN_DOCKERCOMPOSE)
+            f << ( ! m.matches() ? line : m[0][1]+latestJenkinsLTSversion+m[0][3] )+"\n"
+        }
+    }
+
+    void setDockerFileVersion(String latestJenkinsLTSversion) {
+        // update version info in Dockerfile
+        def content = saveBackupFile(DOCKERFILE_NAME)
+        file f = new File(DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
-            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION=${JENKINS_VERSION:-'+latestJenkinsLTSversion )+"}\n"
+            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
         }
+    }
 
+    void setDownloadsHash(String latestJenkinsLTSversion) {
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
-        f = new File(DOWNLOAD_FILE_NAME)
-        content = f.text
-        saveBackupFile(f)
-        f = new File(DOWNLOAD_FILE_NAME)
+        def content = saveBackupFile(DOWNLOAD_FILE_NAME)
+        File f = new File(DOWNLOAD_FILE_NAME)
         content.readLines().each { line ->
             if ( line =~ /\['sha256'\]=/ ) {
                 String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
@@ -134,7 +147,12 @@ class Updater {
             }
             f << line + "\n"
         }
-
+    }
+    
+    void setJenkinsVersion(String latestJenkinsLTSversion) {
+        setDockerComposeVersion(latestJenkinsLTSversion)
+        setDockerFileVersion(latestJenkinsLTSversion)
+        setDownloadsHash(latestJenkinsLTSversion)
     }
     
     String sha256sum(String url) {
