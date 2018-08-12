@@ -18,16 +18,18 @@ cp -r "$referenceFolder/plugins"/* "$pluginsFolder"
 
 chown -R "${JENKINS_UID}:$JENKINS_GID" "$JENKINS_HOME"
 chown -R "${JENKINS_UID}:$JENKINS_GID" /usr/share/jenkins
+[ -f "${JENKINS_HOME}.git" ] && rm ${JENKINS_HOME}/.git
+
 if [ "${JENKINS_GITHUB_EMAIL}" ]; then
-    git config --global user.email "${JENKINS_GITHUB_EMAIL}" || term.log "Failed to set global GIT 'user.email'" 'warning'
+    git config --global user.email "${JENKINS_GITHUB_EMAIL}" || term.log "Failed to set global GIT 'user.email'\n" 'warn'
     unset JENKINS_GITHUB_EMAIL
 fi
 if [ "${JENKINS_GITHUB_NAME}" ]; then
-    git config --system user.name "${JENKINS_GITHUB_NAME}" || term.log "Failed to set global GIT 'user.name'" 'warning'
+    git config --system user.name "${JENKINS_GITHUB_NAME}" || term.log "Failed to set global GIT 'user.name'\n" 'warn'
     unset JENKINS_GITHUB_NAME
 fi
 if [ "${JENKINS_GITHUB_CREDENTIALS}" ]; then
-    git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}" || term.log "Failed to set global GIT 'credential.user'" 'warning'
+    git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}" || term.log "Failed to set global GIT 'credential.user'\n" 'warn'
     unset JENKINS_GITHUB_CREDENTIALS
 fi
 
