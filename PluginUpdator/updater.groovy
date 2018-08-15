@@ -19,7 +19,7 @@ class Updater {
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
     def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
-    def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(+simage:\s+.+jenkins\/)([.0-9]+)(:.*)$/
+    def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/)([.0-9]+)(:.*)$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -129,7 +129,7 @@ class Updater {
     void setDockerFileVersion(String latestJenkinsLTSversion) {
         // update version info in Dockerfile
         def content = saveBackupFile(DOCKERFILE_NAME)
-        file f = new File(DOCKERFILE_NAME)
+        File f = new File(DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
             f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
@@ -185,8 +185,8 @@ class Updater {
     }
     
     void updatePlugins(Map pluginList, String fileName) {
+        saveBackupFile(fileName)
         File f = new File(fileName)
-        saveBackupFile(f)
         pluginList.each { k,v ->
             f << k + ':' + v + "\n"
         }
