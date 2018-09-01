@@ -1,6 +1,7 @@
 #!/bin/bash
 
 : ${JENKINS_UID:?"Environment variable 'JENKINS_UID' not defined in '${BASH_SOURCE[0]}'"}
+[ ${JENKINS_GITHUB_CREDENTIALS:-} ] || lib.file_env 'JENKINS_GITHUB_CREDENTIALS'
 
 usermod -G "$DOCKER_GROUP" -a "$JENKINS_USER"
 # if Docker socket exists, make sure we can access it
