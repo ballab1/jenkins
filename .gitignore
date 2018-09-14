@@ -26,6 +26,7 @@ CBF.properties
 scanned.paths
 *.loaded
 
+PluginUpdator/201*
 PluginUpdator/*.txt
 PluginUpdator/*Dockerfile
 PluginUpdator/*01.JENKINS
