@@ -34,7 +34,7 @@ services:
             JENKINS_GITHUB_NAME: $CFG_GITHUB_JENKINS_NAME
             JENKINS_GITHUB_CREDENTIALS_FILE: /run/secrets/github.credentials
         hostname: jenkins
-        image: ${DOCKER_REGISTRY:-}${OS:-}jenkins/2.121.3:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-}${OS:-}jenkins/2.138.1:${CONTAINER_TAG:-latest}
         logging:
             driver: json-file
             options:
