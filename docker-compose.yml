@@ -6,8 +6,8 @@ services:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: jenkins
-                CONTAINER_VERSION: ${CONTAINER_VERSION:-3.0.0}
-                FROM_BASE: ${DOCKER_REGISTRY:-}${OS:-}openjdk/8.171.11-r0:${BASE_TAG:-latest}
+                JENKINS_VERSION: ${JENKINS_VERSION:-2.138.1}
+                FROM_BASE: ${DOCKER_REGISTRY:-}${OS:-}openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
                 docker_uid: 999
@@ -16,7 +16,7 @@ services:
             cache_from:
                 - ${DOCKER_REGISTRY:-}${OS:-}alpine:3.8
                 - ${DOCKER_REGISTRY:-}${OS:-}base_container:${BASE_TAG:-latest}
-                - ${DOCKER_REGISTRY:-}${OS:-}openjdk/8.171.11-r0:${BASE_TAG:-latest}
+                - ${DOCKER_REGISTRY:-}${OS:-}openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
             context: .
             dockerfile: Dockerfile
             labels:
@@ -34,7 +34,7 @@ services:
             JENKINS_GITHUB_NAME: $CFG_GITHUB_JENKINS_NAME
             JENKINS_GITHUB_CREDENTIALS_FILE: /run/secrets/github.credentials
         hostname: jenkins
-        image: ${DOCKER_REGISTRY:-}${OS:-}jenkins/2.138.1:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-}${OS:-}jenkins/${JENKINS_VERSION:-2.138.1}:${CONTAINER_TAG:-latest}
         logging:
             driver: json-file
             options:
