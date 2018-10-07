@@ -1,7 +1,7 @@
 //@GrabResolver(name='JSON.simple', root='http://code.google.com/p/json-simple')
-//@Grab(group='grails.plugins', module='VersionComparator', version='3.3.0') 
+//@Grab(group='grails.plugins', module='VersionComparator', version='3.3.0')
 
-import groovy.json.* 
+import groovy.json.*
 import groovy.xml.*
 import java.text.*
 import java.security.MessageDigest
@@ -24,7 +24,7 @@ class Updater {
     def myVersionComparitor = null
     def tm = Calendar.instance.time
     def _latestJenkinsLTSversion = null
-    
+
     def getVersions() {
        if (! myVersionComparitor) {
            myVersionComparitor = new GroovyScriptEngine(BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
@@ -32,12 +32,12 @@ class Updater {
        }
        return myVersionComparitor
     }
-    
+
     int checkForUpdates(Map pluginList, String currentCore) {
         def jsonText = new URL(UPDATE_CENTER_URL).text
         jsonText = jsonText.substring('updateCenter.post('.length())
         jsonText = jsonText.substring(0, jsonText.length()-3)
-        
+
         int isUpdated = 0
         def slurper = new JsonSlurper()
         def json = slurper.parseText(jsonText)
@@ -51,7 +51,7 @@ class Updater {
         println isUpdated+' plugins to be updated'
         return isUpdated
     }
-    
+
     String getDockerfileJenkinsVersion() {
         String jenkinsVersion = ''
         new File(DOCKERFILE_NAME).readLines().each { line ->
@@ -64,7 +64,7 @@ class Updater {
         }
         return jenkinsVersion
     }
-    
+
     String getLatestJenkinsLTSversion() {
         if (_latestJenkinsLTSversion == null) {
             def f = new URL(STABLE_CHANGELOG)
@@ -82,17 +82,17 @@ class Updater {
         }
         return _latestJenkinsLTSversion
     }
-    
+
     Map readPluginList(String filename) {
         File f = new File(filename)
-        Map pluginList = [:] 
+        Map pluginList = [:]
         f.readLines().each { line ->
             ArrayList details = line.split(':')
             pluginList[details[0]] = details[1]
         }
         return pluginList
     }
-    
+
     def saveBackupFile(String fileName) {
         File file = new File(fileName)
         if (! file.canRead()) {
@@ -148,13 +148,13 @@ class Updater {
             f << line + "\n"
         }
     }
-    
+
     void setJenkinsVersion(String latestJenkinsLTSversion) {
         setDockerComposeVersion(latestJenkinsLTSversion)
         setDockerFileVersion(latestJenkinsLTSversion)
         setDownloadsHash(latestJenkinsLTSversion)
     }
-    
+
     String sha256sum(String url) {
         long total = 0
         InputStream data = null
@@ -183,7 +183,7 @@ class Updater {
             data.close()
         }
     }
-    
+
     void updatePlugins(Map pluginList, String fileName) {
         saveBackupFile(fileName)
         File f = new File(fileName)
@@ -193,21 +193,21 @@ class Updater {
     }
 
     //////////////////////////////////////////////////////////////////////////////
-    
 
-    void main() {    
+
+    void main() {
         String dockerfileVersion = getDockerfileJenkinsVersion()
         if ( dockerfileVersion.length() == 0 ) {
             println '\nUnable to parse JENKINS_VERSION from Dockerfile'
             System.exit(1)
         }
         String latestLTSversion = getLatestJenkinsLTSversion()
-        
+
         if (versions.compare( latestLTSversion, dockerfileVersion ) > 0 ) {
             println 'Jenkins LTS version updated from ' + dockerfileVersion + ' to '+ latestLTSversion
             setJenkinsVersion(latestLTSversion)
         }
-        
+
         Map pluginList = readPluginList(PLUGINS_FILENAME)
         if (checkForUpdates(pluginList, latestLTSversion)) {
             updatePlugins(pluginList, PLUGINS_FILENAME)
