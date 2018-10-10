@@ -3,7 +3,7 @@
 declare warDir="/usr/share/jenkins"
 
 mkdir -p "$warDir"
-mv "${JENKINS['file']}" "$warDir"
+mv "${JENKINS['file']}" "${warDir}/jenkins.war"
 
 declare -r tools="/usr/local/bin"
 [ ! -e "${tools}/run.sh" ] || rm "${tools}/run.sh"

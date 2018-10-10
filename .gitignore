@@ -21,8 +21,8 @@ logs
 vols/*
 vols-rw/*
 build/container_build_framework*
-cbf/CRF.properties
-CBF.properties
+**/CRF.properties
+**/CBF.properties
 scanned.paths
 *.loaded
 
