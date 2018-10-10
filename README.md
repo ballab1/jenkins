@@ -1,7 +1,7 @@
 # Jenkins_container
 ## Basic jenkins container populated with required plugins for home setup
 
-based on standard container:  Jenkins:2.121.1 and aline:3.7
+based on standard container:  Jenkins:2.138.2 and aline:3.8
 
 to build & run
 ```bash
