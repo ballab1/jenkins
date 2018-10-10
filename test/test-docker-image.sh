@@ -31,7 +31,7 @@ trap on_exit EXIT
 # HELPER
 #
 declare -r SERVICE_NAME=builder
-declare -r CONTAINER_IMAGE=afeoscyc-mw.cec.lab.emc.com/jenkins
+declare -r CONTAINER_IMAGE=${DOCKER_REGISTRY:-}${CONTAINER_OS:-}jenkins/${JENKINS_VERSION:-2.138.2}:${CONTAINER_TAG:-latest}
 
 run_in_docker() {
     # Overriding the entrypoint since bash_unit expect /usr/local/bin/run.sh and CBF fails
@@ -60,7 +60,7 @@ echo_and_grep() {
 }
 
 ###############################################################################
-# SCAFFOLD 
+# SCAFFOLD
 ###############################################################################
 
 function dockerup() {
@@ -70,7 +70,7 @@ function dockerup() {
 
     # check status and exit if already running
     running=$(docker-compose top 2>/dev/null)
-    if [[ $running != "" ]]; then 
+    if [[ $running != "" ]]; then
         return
     fi
 
@@ -93,7 +93,7 @@ function get_jenkins_cli() {
 ###############################################################################
 
 test_jenkins_user_exists() {
-    assert_status_code 0 "run_in_docker id jenkins" 
+    assert_status_code 0 "run_in_docker id jenkins"
     assert_equals 1000 "$(run_in_docker getent passwd jenkins | cut -d: -f3)"
 }
 

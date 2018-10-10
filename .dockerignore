@@ -7,11 +7,13 @@
 .cbfProject
  
 #build files
-docker-compose.yml
+docker-compose.*
 bin/*
 vols*/*
-cbf/CRF.properties
-CBF.properties
+**/CRF.properties
+**/CBF.properties
+**/scanned.paths
+**/*.loaded
 scanned.paths
 *.loaded
 PluginUpdator

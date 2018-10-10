@@ -5,7 +5,8 @@ declare -r tools="/usr/local/bin"
 
 # enable root access in our container for jenkins
 echo "${JENKINS_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
+chown root:jenkins /usr/local/crf
+chmod 775 /usr/local/crf
 
 # make sure jenkins is in docker group
 getent group "$DOCKER_GID" || usermod -a -G "$( getent group $DOCKER_GID | cut -d: -f3 )" "$JENKINS_USER"
