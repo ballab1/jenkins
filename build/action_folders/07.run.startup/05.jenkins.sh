@@ -40,7 +40,7 @@ declare idx_file=/var/jenkins_home/scm-sync-configuration/checkoutConfiguration/
 
 [ -d "${JENKINS_HOME}/scm-sync-configuration/checkoutConfiguration" ] && rm -rf "${JENKINS_HOME}/scm-sync-configuration/checkoutConfiguration"
 
-if [ -d /var/ssh ] && [ $(ls -A /var/ssh/* | wc -l) -eq 4 ]; then
+if [ -d /var/ssh ] && [ $(ls -A /var/ssh/* | wc -l) -gt 0 ]; then
     mkdir -p "${JENKINS_HOME}/.ssh"
     cp /var/ssh/* "${JENKINS_HOME}/.ssh"/
     crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
@@ -57,5 +57,4 @@ else
     crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
 fi
 
-[ -f "$(crf.STARTUP)/99.workdir.sh" ] && sed -ie 's|crf.fixupDirectory|#crf.fixupDirectory|g' "$(crf.STARTUP)/99.workdir.sh"
-
+[ ! -f "$(crf.STARTUP)/99.workdir.sh" ] || sed -i -e 's|crf.fixupDirectory|#crf.fixupDirectory|g' "$(crf.STARTUP)/99.workdir.sh"
