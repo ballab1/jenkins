@@ -1,4 +1,7 @@
 version: '3.3'
+
+# repo: https://github/ballab1/jenkins.git
+# containerOS: alpine
  
 services:
     jenkins:
