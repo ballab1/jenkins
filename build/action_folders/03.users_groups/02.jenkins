@@ -2,9 +2,9 @@
 
 declare -A jenkins=(
     ['user']=${JENKINS_USER:-jenkins}
-    ['uid']=${JENKINS_UID:-$(jenkins.UID "$JENKINS_USER")}
+    ['uid']=${JENKINS_UID:-$(jenkins.UID "${JENKINS_USER:-}")}
     ['group']=${JENKINS_GROUP:-jenkins}
-    ['gid']=${JENKINS_GID:-$(jenkins.GID "$JENKINS_GROUP")}
+    ['gid']=${JENKINS_GID:-$(jenkins.GID "${JENKINS_GROUP:-}")}
     ['home']="${JENKINS_HOME:-/var/jenkins_home}"
     ['shell']=/bin/bash
 )

@@ -93,5 +93,5 @@ fi
 
 
 echo "loading framework from ${cbf_dir}"
-chmod 755 "${cbf_dir}/cbf/bin/build.sh"
+chmod a+rx "${cbf_dir}/cbf/bin/build.sh"
 exec "${cbf_dir}/cbf/bin/build.sh" "$@"

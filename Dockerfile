@@ -24,8 +24,8 @@ ARG docker_uid=999
 ARG docker_gid=999
 
 # jenkins version being bundled in this docker image
-ARG JENKINS_VERSION=2.138.3
-LABEL jenkins_version=$JENKINS_VERSION 
+ARG JENKINS_VERSION=2.150.2
+LABEL version.jenkins=$JENKINS_VERSION 
 
 
 # build content

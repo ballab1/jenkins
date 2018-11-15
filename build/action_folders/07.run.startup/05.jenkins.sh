@@ -5,7 +5,7 @@
 
 usermod -G "$DOCKER_GROUP" -a "$JENKINS_USER"
 # if Docker socket exists, make sure we can access it
-[ ! -S /var/run/docker.sock ] || chmod 666 /var/run/docker.sock
+[ ! -S /var/run/docker.sock ] || chmod a+rw /var/run/docker.sock
 
 declare -r referenceFolder="/usr/share/jenkins/ref"
 declare -r pluginsFolder="${JENKINS_HOME}/plugins"
@@ -43,18 +43,20 @@ declare idx_file=/var/jenkins_home/scm-sync-configuration/checkoutConfiguration/
 if [ -d /var/ssh ] && [ $(ls -A /var/ssh/* | wc -l) -gt 0 ]; then
     mkdir -p "${JENKINS_HOME}/.ssh"
     cp /var/ssh/* "${JENKINS_HOME}/.ssh"/
-    crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
-
-    # fix up ssh access (do not touch original files)
-    chmod 700 "${JENKINS_HOME}/.ssh"
-    chmod 600 "${JENKINS_HOME}/.ssh"/*
-    [ -f "${JENKINS_HOME}/.ssh/id_rsa.pub" ] && chmod 644 "${JENKINS_HOME}/.ssh/id_rsa.pub"
 
     cd /root
     [ ! -e /root/.ssh ] || rm -rf /root/.ssh
     ln -s "${JENKINS_HOME}/.ssh" .
-else
-    crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
 fi
 
 [ ! -f "$(crf.STARTUP)/99.workdir.sh" ] || sed -i -e 's|crf.fixupDirectory|#crf.fixupDirectory|g' "$(crf.STARTUP)/99.workdir.sh"
+
+find "$JENKINS_HOME" ! -user "$JENKINS_UID" -name '.*' -exec chown "$JENKINS_UID" '{}' \; || :
+crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
+
+# fix up ssh access (do not touch original files)
+if [ -d "${JENKINS_HOME}/.ssh" ]; then
+    chmod 700 "${JENKINS_HOME}/.ssh"
+    chmod 600 "${JENKINS_HOME}/.ssh"/*
+    [ -f "${JENKINS_HOME}/.ssh/id_rsa.pub" ] && chmod 644 "${JENKINS_HOME}/.ssh/id_rsa.pub"
+fi

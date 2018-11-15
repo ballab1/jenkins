@@ -80,12 +80,12 @@ doDownload() {
 
     echo "Downloading plugin: $plugin from $url"
     local -i attempt
-    for attempt in {1..3}; do 
+    for attempt in {1..3}; do
         curl --connect-timeout "${CURL_CONNECTION_TIMEOUT:-20}" --retry "${CURL_RETRY:-5}" --retry-delay "${CURL_RETRY_DELAY:-0}" --retry-max-time "${CURL_RETRY_MAX_TIME:-60}" -s -f -L "$url" -o "$jpi"
         [ $? -eq 0 ] || continue
         # successfully downloaded file :-)
         return 0
-    done 
+    done
     return 1
 }
 
