@@ -12,14 +12,14 @@ import javax.xml.bind.DatatypeConverter
 class Updater {
     final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
+    final static def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
+    final static def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/)([.0-9]+)(:.*)$/
     static String PATH = './'
     static String DOCKERCOMPOSE_NAME = PATH+'docker-compose.yml'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
     static String BACKUP_DIR = PATH+'PluginUpdator'
-    def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
-    def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/)([.0-9]+)(:.*)$/
 
     def myVersionComparitor = null
     def tm = Calendar.instance.time
@@ -27,14 +27,13 @@ class Updater {
 
     def getVersions() {
        if (! myVersionComparitor) {
-           myVersionComparitor = new GroovyScriptEngine(BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
-//           myVersionComparitor = new VersionComparator
+           myVersionComparitor = new GroovyScriptEngine(this.BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
        }
        return myVersionComparitor
     }
 
     int checkForUpdates(Map pluginList, String currentCore) {
-        def jsonText = new URL(UPDATE_CENTER_URL).text
+        def jsonText = new URL(this.UPDATE_CENTER_URL).text
         jsonText = jsonText.substring('updateCenter.post('.length())
         jsonText = jsonText.substring(0, jsonText.length()-3)
 
@@ -54,8 +53,8 @@ class Updater {
 
     String getDockerfileJenkinsVersion() {
         String jenkinsVersion = ''
-        new File(DOCKERFILE_NAME).readLines().each { line ->
-            def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
+        new File(this.DOCKERFILE_NAME).readLines().each { line ->
+            def m =  (line =~ this.VERSION_PATTERN_IN_DOCKERFILE)
             if (m.matches()) {
                 jenkinsVersion = m[0][1]
                 println ''
@@ -67,7 +66,7 @@ class Updater {
 
     String getLatestJenkinsLTSversion() {
         if (_latestJenkinsLTSversion == null) {
-            def f = new URL(STABLE_CHANGELOG)
+            def f = new URL(this.STABLE_CHANGELOG)
             def fmt = new SimpleDateFormat('EEE, d MMM yyyy HH:mm:ss Z')
             def xmlSlurper = new XmlSlurper()
             def xml = xmlSlurper.parseText(f.text)
@@ -103,7 +102,7 @@ class Updater {
         println 'creating backup of '+file.name
 
         def content = file.text
-        File b = new File(BACKUP_DIR, fmt.format(tm)+'.'+file.name)
+        File b = new File(this.BACKUP_DIR, fmt.format(tm)+'.'+file.name)
         b << content
 
         RandomAccessFile raf = new RandomAccessFile(file, 'rw')
@@ -118,32 +117,32 @@ class Updater {
 
     void setDockerComposeVersion(String latestJenkinsLTSversion) {
         // update version info in Dockerfile
-        def content = saveBackupFile(DOCKERCOMPOSE_NAME)
-        File f = new File(DOCKERCOMPOSE_NAME)
+        def content = saveBackupFile(this.DOCKERCOMPOSE_NAME)
+        File f = new File(this.DOCKERCOMPOSE_NAME)
         content.readLines().each { line ->
-            def m =  (line =~ VERSION_PATTERN_IN_DOCKERCOMPOSE)
+            def m =  (line =~ this.VERSION_PATTERN_IN_DOCKERCOMPOSE)
             f << ( ! m.matches() ? line : m[0][1]+latestJenkinsLTSversion+m[0][3] )+"\n"
         }
     }
 
     void setDockerFileVersion(String latestJenkinsLTSversion) {
         // update version info in Dockerfile
-        def content = saveBackupFile(DOCKERFILE_NAME)
-        File f = new File(DOCKERFILE_NAME)
+        def content = saveBackupFile(this.DOCKERFILE_NAME)
+        File f = new File(this.DOCKERFILE_NAME)
         content.readLines().each { line ->
-            def m =  (line =~ VERSION_PATTERN_IN_DOCKERFILE)
+            def m =  (line =~ this.VERSION_PATTERN_IN_DOCKERFILE)
             f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
         }
     }
 
     void setDownloadsHash(String latestJenkinsLTSversion) {
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
-        def content = saveBackupFile(DOWNLOAD_FILE_NAME)
-        File f = new File(DOWNLOAD_FILE_NAME)
+        def content = saveBackupFile(this.DOWNLOAD_FILE_NAME)
+        File f = new File(this.DOWNLOAD_FILE_NAME)
         content.readLines().each { line ->
-            if ( line =~ /\['sha256'\]=/ ) {
+            if ( line =~ /JENKINS\['sha256'\]=/ ) {
                 String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
-                f << "    ['sha256_${latestJenkinsLTSversion}']=\"${sha256}\"\n"
+                f << "JENKINS['sha256_${latestJenkinsLTSversion}']=\"${sha256}\"\n"
             }
             f << line + "\n"
         }
@@ -208,9 +207,9 @@ class Updater {
             setJenkinsVersion(latestLTSversion)
         }
 
-        Map pluginList = readPluginList(PLUGINS_FILENAME)
+        Map pluginList = readPluginList(this.PLUGINS_FILENAME)
         if (checkForUpdates(pluginList, latestLTSversion)) {
-            updatePlugins(pluginList, PLUGINS_FILENAME)
+            updatePlugins(pluginList, this.PLUGINS_FILENAME)
         }
     }
 }

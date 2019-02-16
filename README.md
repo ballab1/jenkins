@@ -6,10 +6,10 @@ based on standard container:  Jenkins:2.138.2 and aline:3.8
 to build & run
 ```bash
  docker build --tag jenkins --rm=true \
-              --build-arg JENKINS_GITHUB_EMAIL=${CFG_GITHUB_JENKINS_EMAIL} \
-              --build-arg JENKINS_GITHUB_NAME=${CFG_GITHUB_JENKINS_NAME} \
-              --build-arg JENKINS_GITHUB_TOKEN=${CFG_GITHUB_JENKINS_TOKEN} \
-              --build-arg JENKINS_GITHUB_USER=${CFG_GITHUB_JENKINS_USER} \
+              --build-arg JENKINS_GITHUB_EMAIL=${CFG_JENKINS_EMAIL} \
+              --build-arg JENKINS_GITHUB_NAME=${CFG_JENKINS_NAME} \
+              --build-arg JENKINS_GITHUB_TOKEN=${CFG_JENKINS_TOKEN} \
+              --build-arg JENKINS_GITHUB_USER=${CFG_JENKINS_USER} \
         https://github.com/ballab1/jenkins.git
  mkdir jenkins_home
  docker run --name jenkins -p 8080:8080 -v $PWD/jenkins_home:/var/jenkins_home -d jenkins:latest

@@ -1,16 +1,15 @@
 #!/bin/bash
 
-declare -A JENKINS=(
-    ['version']=${JENKINS_VERSION:?}
-    ['file']="/tmp/jenkins-war-${JENKINS['version']}.war"
-    ['url']="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS['version']}/jenkins-war-${JENKINS['version']}.war"
-    ['sha256_2.121.2']="da0f9d106e936246841a898471783fb4fbdbbacc8d42a156b7306a0855189602"
-    ['sha256_2.121.3']="50fbce11fa147d0ecd9ecf36cdae83ef795fb7d4776f33b5ea13bc15bf6e3c13"
-    ['sha256_2.138.1']="ecb84b6575e86957b902cce5e68e360e6b0768b0921baa405e61d314239e5b27"
-    ['sha256_2.138.2']="d8ed5a7033be57aa9a84a5342b355ef9f2ba6cdb490db042a6d03efb23ca1e83"
-    ['sha256_2.138.3']="953e4dda2d3065284c0016b3e8279e097f830c128b1f712d84780ff2b0751e7d"
-    ['sha256_2.150.1']="7a38586d5a3a1a83498809a83715728bb2f01b58a7dd3a88366f076efdaf6669"
-    ['sha256_2.150.2']="fab70f4e209855e0806315cc419e0cbbbf1bd9b31c6f221f7702aa21145040f8"
-    ['sha256']="${JENKINS['sha256_'${JENKINS['version']}]}"
-    ['home']=${JENKINS_HOME:-/var/jenkins_home}
-)
+declare -A JENKINS=()
+JENKINS['version']=${JENKINS_VERSION:?}
+JENKINS['file']="/tmp/jenkins-war-${JENKINS['version']}.war"
+JENKINS['url']="https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS['version']}/jenkins-war-${JENKINS['version']}.war"
+JENKINS['sha256_2.121.2']="da0f9d106e936246841a898471783fb4fbdbbacc8d42a156b7306a0855189602"
+JENKINS['sha256_2.121.3']="50fbce11fa147d0ecd9ecf36cdae83ef795fb7d4776f33b5ea13bc15bf6e3c13"
+JENKINS['sha256_2.138.1']="ecb84b6575e86957b902cce5e68e360e6b0768b0921baa405e61d314239e5b27"
+JENKINS['sha256_2.138.2']="d8ed5a7033be57aa9a84a5342b355ef9f2ba6cdb490db042a6d03efb23ca1e83"
+JENKINS['sha256_2.138.3']="953e4dda2d3065284c0016b3e8279e097f830c128b1f712d84780ff2b0751e7d"
+JENKINS['sha256_2.150.1']="7a38586d5a3a1a83498809a83715728bb2f01b58a7dd3a88366f076efdaf6669"
+JENKINS['sha256_2.150.2']="fab70f4e209855e0806315cc419e0cbbbf1bd9b31c6f221f7702aa21145040f8"
+JENKINS['sha256']="${JENKINS['sha256_'${JENKINS['version']}]}"
+JENKINS['home']=${JENKINS_HOME:-/var/jenkins_home}
