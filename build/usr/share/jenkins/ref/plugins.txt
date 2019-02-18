@@ -30,7 +30,7 @@ email-ext:2.63
 envinject:2.1.6
 ghprb:1.42.0
 git:3.9.3
-git-changelog:2.15
+git-changelog:2.16
 git-client:2.7.6
 github:1.29.3
 github-api:1.95
@@ -48,7 +48,7 @@ jenkins-multijob-plugin:1.32
 jobConfigHistory:2.19
 jquery-detached:1.2.1
 junit:1.27
-kubernetes:1.14.3
+kubernetes:1.14.4
 ldap:1.20
 leastload:2.0.1
 log-parser:2.0
