@@ -2,6 +2,7 @@
 
 declare -a PKGS=( coreutils
                   curl
+                  docker
                   git
                   openssh-client
                   openssh
