@@ -1,0 +1,9 @@
+#! /bin/bash
+
+declare warDir="/usr/share/jenkins"
+
+mkdir -p "$warDir"
+mv "${JENKINS['file']}" "$warDir"
+
+declare -r tools="/usr/local/bin"
+[ ! -e "${tools}/run.sh" ] || rm "${tools}/run.sh"
