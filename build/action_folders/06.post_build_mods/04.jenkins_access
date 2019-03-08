@@ -1,0 +1,18 @@
+#!/bin/bash
+
+declare -r tools="/usr/local/bin"
+
+
+# enable root access in our container for jenkins
+echo "${JENKINS_USER} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+chown root:jenkins /usr/local/crf
+chmod a+rx /usr/local/crf
+
+# make sure jenkins is in docker group
+getent group "$DOCKER_GID" || usermod -a -G "$( getent group $DOCKER_GID | cut -d: -f3 )" "$JENKINS_USER"
+
+
+# setup github access
+[ -z "$JENKINS_GITHUB_EMAIL" ] || git config --system user.email "${JENKINS_GITHUB_EMAIL}"
+[ -z "$JENKINS_GITHUB_NAME" ] || git config --system user.name "${JENKINS_GITHUB_NAME}"
+[ -z "$JENKINS_GITHUB_CREDENTIALS" ] || git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"

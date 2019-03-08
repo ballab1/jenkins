@@ -1,0 +1,20 @@
+#!/bin/bash
+#############################################################################
+function docker.UID()
+{
+    local -r user_name="${1:-docker}"
+    local -r default_uid=${2:-999}
+    
+    lib.lookupId "$user_name" 'passwd' "$default_uid"
+}
+export -f docker.UID
+
+#############################################################################
+function docker.GID()
+{
+    local -r group_name="${1:-docker}"
+    local -r default_gid=${2:-999}
+    
+    lib.lookupId "$group_name" 'group' "$default_gid"
+}
+export -f docker.GID 

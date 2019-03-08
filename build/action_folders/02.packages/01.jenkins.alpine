@@ -1,0 +1,12 @@
+# jenkins Packages
+
+declare -a PKGS=( coreutils
+                  curl
+                  docker
+                  git
+                  openssh-client
+                  openssh
+                  sudo
+                  tini
+                  ttf-dejavu
+                  unzip )
