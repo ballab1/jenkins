@@ -5,8 +5,8 @@ if [[ $EUID != 0 ]]; then
     sudo -E $0 "$(id -nu):$(id -ng)"
     exit
 fi
-      
-declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )" 
+
+declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 
 function setPermissions()
