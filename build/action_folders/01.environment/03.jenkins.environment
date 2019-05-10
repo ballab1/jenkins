@@ -14,8 +14,8 @@ declare -ar env_jenkins=(
     'COPY_REFERENCE_FILE_LOG="$JENKINS_HOME/copy_reference_file.log"'
     'DOCKER_USER=${DOCKER_USER:-docker}'
     'DOCKER_GROUP=${DOCKER_GROUP:-docker}'
-    'DOCKER_UID=${DOCKER_UID:-$(docker.UID "$DOCKER_USER")}'
-    'DOCKER_GID=${DOCKER_GID:-$(docker.GID "$DOCKER_GROUP")}'
+    'DOCKER_UID=${DOCKER_UID:-$(dockr.UID "$DOCKER_USER")}'
+    'DOCKER_GID=${DOCKER_GID:-$(dockr.GID "$DOCKER_GROUP")}'
     'WORKDIR="${JENKINS_HOME}"'
     'USER="${JENKINS_UID}"'
 )
