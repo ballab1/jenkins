@@ -1,9 +1,0 @@
-#!/bin/bash
-
-declare -A docker=(
-    ['user']=${DOCKER_USER:-docker}
-    ['uid']=${DOCKER_UID:-$(docker.UID "${DOCKER_USER:-}")}
-    ['group']=${DOCKER_GROUP:-docker}
-    ['gid']=${DOCKER_GID:-$(docker.GID "${DOCKER_GROUP:-}")}
-    ['shell']=/bin/bash
-)
