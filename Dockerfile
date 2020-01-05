@@ -1,4 +1,4 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
+ARG FROM_BASE=${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
 FROM $FROM_BASE 
 
 # name and version of this docker image
