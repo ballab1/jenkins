@@ -9,7 +9,7 @@ services:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: jenkins
-                JENKINS_VERSION: ${JENKINS_VERSION:-2.190.3}
+                JENKINS_VERSION: ${JENKINS_VERSION:-2.222.1}
                 FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
@@ -37,4 +37,4 @@ services:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
             CASC_JENKINS_CONFIG: /var/jenkins_home/casc_configs
         hostname: jenkins
-        image: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/jenkins/${JENKINS_VERSION:-2.204.5}:${CONTAINER_TAG:-latest}
+        image: ${DOCKER_REGISTRY:-ubuntu-s2.home:5000/}${CONTAINER_OS:-alpine}/jenkins/${JENKINS_VERSION:-2.222.1}:${CONTAINER_TAG:-latest}
