@@ -10,7 +10,7 @@ import javax.xml.bind.DatatypeConverter
 //import org.codehaus.groovy.grails.plugins.VersionComparator
 
 class Updater {
-    final static String STABLE_CHANGELOG = 'https://jenkins.io/changelog-stable/rss.xml'
+    final static String STABLE_CHANGELOG = 'https://www.jenkins.io/changelog-stable/rss.xml'
     final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
     final static def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
     final static def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/\$\{JENKINS_VERSION:-)(.+)(\}:\$\{CONTAINER_TAG.*)$/
