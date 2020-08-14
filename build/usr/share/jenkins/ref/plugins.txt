@@ -6,7 +6,7 @@ audit2db:0.5
 audit-trail:3.6
 authentication-tokens:1.4
 bouncycastle-api:2.18
-branch-api:2.5.8
+branch-api:2.5.9
 build-name-setter:2.1.0
 build-timeout:1.20
 cloudbees-folder:6.14
@@ -31,7 +31,7 @@ durable-task:1.34
 generic-webhook-trigger:1.67
 git:4.3.0
 git-changelog:3.0
-git-client:3.3.2
+git-client:3.4.0
 github:1.31.0
 github-api:1.115
 github-branch-source:2.8.3
@@ -72,10 +72,10 @@ pipeline-model-api:1.7.1
 pipeline-model-declarative-agent:1.1.1
 pipeline-model-definition:1.7.1
 pipeline-model-extensions:1.7.1
-pipeline-rest-api:2.13
+pipeline-rest-api:2.14
 pipeline-stage-step:2.5
 pipeline-stage-tags-metadata:1.7.1
-pipeline-stage-view:2.13
+pipeline-stage-view:2.14
 plain-credentials:1.7
 postbuild-task:1.8
 rebuild:1.31
