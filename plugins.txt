@@ -1,1 +1,1 @@
-build/usr/share/jenkins/ref/plugins.txt
+Link: build/usr/share/jenkins/ref/plugins.txt

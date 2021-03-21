@@ -1,4 +1,4 @@
-ARG FROM_BASE=${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
+ARG FROM_BASE=${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-.11.0.9_p11-r0}:${BASE_TAG:-latest}
 FROM $FROM_BASE 
 
 # name and version of this docker image
@@ -31,7 +31,7 @@ LABEL version.jenkins=$JENKINS_VERSION
 # build content
 RUN set -o verbose \
     && chmod u+rwx /tmp/build.sh \
-    && /tmp/build.sh "$CONTAINER_NAME" "$DEBUG_TRACE" \
+    && /tmp/build.sh "$CONTAINER_NAME" "$DEBUG_TRACE" "$TZ" \
     && ([ "$DEBUG_TRACE" != 0 ] || rm -rf /tmp/*) 
 
 
