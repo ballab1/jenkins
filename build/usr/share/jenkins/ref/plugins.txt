@@ -95,7 +95,7 @@ slave-status:1.6
 ssh-agent:1.23
 ssh-credentials:1.19
 ssh-slaves:1.33.0
-statistics-gatherer:2.0.3
+#statistics-gatherer:2.0.3
 structs:308.v852b473a2b8c
 subversion:2.15.1
 syslog-logger:1.0.5
