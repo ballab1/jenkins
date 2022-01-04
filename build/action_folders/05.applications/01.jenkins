@@ -7,3 +7,6 @@ mv "${JENKINS['file']}" "${warDir}/jenkins.war"
 
 declare -r tools="/usr/local/bin"
 [ ! -e "${tools}/run.sh" ] || rm "${tools}/run.sh"
+
+chmod 755 /tmp/certs.sh
+/tmp/certs.sh
