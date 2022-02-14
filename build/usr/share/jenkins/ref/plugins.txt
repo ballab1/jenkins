@@ -31,7 +31,7 @@ envinject:2.4.0
 favorite:2.3.3
 generic-webhook-trigger:1.83
 git:4.10.3
-git-changelog:3.18
+git-changelog:3.19
 git-client:3.11.0
 github:1.34.1
 github-api:1.301-378.v9807bd746da5
@@ -48,7 +48,7 @@ jdk-tool:1.5
 #jenkins-multijob-plugin:1.36
 jobConfigHistory:2.31-rc1107.2354f08725a_8
 jquery-detached:1.2.1
-#junit:1.29
+junit:1.54
 kubernetes:1.31.3
 #ldap:1.24
 leastload:3.0.0
@@ -89,7 +89,7 @@ sectioned-view:1.25
 scm-api:595.vd5a_df5eb_0e39
 ##scm-sync-configuration:0.0.10
 script-security:1131.v8b_b_5eda_c328e
-sidebar-link:2.0.0
+sidebar-link:2.0.2
 slack:602.v0da_f7458945d
 slave-status:1.6
 ssh-agent:1.24.1
