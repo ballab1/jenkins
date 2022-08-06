@@ -37,12 +37,13 @@ github:1.34.4
 github-api:1.303-400.v35c2d8258028
 github-branch-source:1656.v77eddb_b_e95df
 ##github-organization-folder:1.6
-git-server:1.11
+git-server:1.10
 groovy:442.v817e6d937d6c
 groovy-postbuild:2.5
 handlebars:3.0.8
 htmlpublisher:1.30
 #icon-shim:2.0.3
+instance-indetity:3.2
 javadoc:217.v905b_86277a_2a_
 jdk-tool:1.5
 #jenkins-multijob-plugin:1.36
