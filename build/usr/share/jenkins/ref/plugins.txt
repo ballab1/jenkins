@@ -43,7 +43,7 @@ groovy-postbuild:2.5
 handlebars:3.0.8
 htmlpublisher:1.30
 #icon-shim:2.0.3
-instance-indetity:3.2
+instance-identity:3.2
 javadoc:217.v905b_86277a_2a_
 jdk-tool:1.5
 #jenkins-multijob-plugin:1.36
