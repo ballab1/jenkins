@@ -11,8 +11,10 @@ import javax.xml.bind.DatatypeConverter
 
 class Updater {
     final static String STABLE_CHANGELOG = 'https://www.jenkins.io/changelog-stable/rss.xml'
-//    final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates/update-center.json'
-    final static String UPDATE_CENTER_URL = 'https://ftp-nyc.osuosl.org/pub/jenkins/updates/update-center.json'
+//    final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates'
+//    final static String UPDATE_CENTER_URL = 'https://ftp-nyc.osuosl.org/pub/jenkins/updates'
+//    final static String UPDATE_CENTER_URL = 'http://updates.jenkins-ci.org/'
+    final static String UPDATE_CENTER_URL = 'http://updates.jenkins-ci.org/dynamic-stable-'
     final static def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
     final static def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/\$\{JENKINS_VERSION:-)(.+)(\}:\$\{CONTAINER_TAG.*)$/
     static String PATH = './'
@@ -33,10 +35,17 @@ class Updater {
        return myVersionComparitor
     }
 
-    int checkForUpdates(Map pluginList, String currentCore) {
-        def jsonText = new URL(this.UPDATE_CENTER_URL).text
+    String getUpdateCenterJSON() {
+//        String url = this.UPDATE_CENTER_URL + this.getLatestJenkinsLTSversion() + '/update-center.json'
+        String url = this.UPDATE_CENTER_URL + '2.346.2/update-center.json'
+        def jsonText = new URL(url).text
         jsonText = jsonText.substring('updateCenter.post('.length())
         jsonText = jsonText.substring(0, jsonText.length()-3)
+        return jsonText
+    }
+
+    int checkForUpdates(Map pluginList, String currentCore) {
+        def jsonText = this.getUpdateCenterJSON()
 
         int isUpdated = 0
         def slurper = new JsonSlurper()
