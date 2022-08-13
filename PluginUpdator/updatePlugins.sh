@@ -2,38 +2,40 @@
 
 # ensure this script is run as root
 if [[ $EUID != 0 ]]; then
-    sudo -E $0 "$(id -nu):$(id -ng)"
+    sudo -E $0 "$(id -nu):$(id -ng)" "$(id -u):$(id -g)"
     exit
 fi
 
-declare -r TOOLS="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+declare -r TOOLS="$( readlink -f "$( dirname "${BASH_SOURCE[0]}" )/.." )"
 
 
 function setPermissions()
 {
-    local -r mode=${1-'o-w'}
-    local -r owner=$2
+    local -r owner=${1:?}
+    local -r mode=${2:-'o-w'}
 
     chmod "$mode" "${TOOLS}/Dockerfile"
     chmod "$mode" "${TOOLS}/build/usr/share/jenkins/ref/plugins.txt"
 
     local -ra dirs=( build/usr/share/jenkins PluginUpdator test )
     for dir in "${dirs[@]}" ; do
-        chmod "$mode" "${TOOLS}/$dir"
+        chmod -R "$mode" "${TOOLS}/$dir"
+        chown -R "$owner" "${TOOLS}/$dir"
     done
-    [ $mode = 'o-w' ] && chown "$owner" PluginUpdator/*
+    [ "$mode" = 'o-w' ] && chown "$owner" PluginUpdator/*
 }
 
 cd "$TOOLS"
 
-setPermissions 'o+w'
+#setPermissions "$1" 'o+w'
 set -o verbose
 
 docker run --rm \
            --volume "$TOOLS":/home/groovy/scripts \
            --workdir /home/groovy/scripts \
+           --user "$2" \
            s2.ubuntu.home:5000/thirdparty/groovy:2.6-jre-alpine \
            groovy PluginUpdator/latestPlugins.groovy
 
 set +o verbose
-setPermissions 'o-w' "$@"
+#setPermissions "$1" 'o-w'
