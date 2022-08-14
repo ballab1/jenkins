@@ -134,8 +134,8 @@ instance-identity:3.2
 ##pipeline-model-declarative-agent:1.1.1
 #plain-credentials:1.7
 ##scm-sync-configuration:0.0.10
-sshd-plugin:3.228.v4c9f9e652c86
-sse-gateway-plugin-1.25
-pubsub-light-plugin:1.16
+sshd:3.03
+sse-gateway:1.24
+pubsub-light:1.16
 #statistics-gatherer:2.0.3
 #workflow-cps-global-lib:588.v576c103a_ff86
