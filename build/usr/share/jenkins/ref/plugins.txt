@@ -134,7 +134,7 @@ instance-identity:3.2
 ##pipeline-model-declarative-agent:1.1.1
 #plain-credentials:1.7
 ##scm-sync-configuration:0.0.10
-sshd:3.03
+sshd:3.1.0
 sse-gateway:1.24
 pubsub-light:1.16
 #statistics-gatherer:2.0.3
