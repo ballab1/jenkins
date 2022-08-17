@@ -17,7 +17,7 @@ services:
                 jenkins_gid: 1004
                 jenkins_uid: 1000
             cache_from:
-                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.15.5}
+                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.15.6}
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/base_container:${BASE_TAG:-latest}
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-11.0.15_p10-r0}:${BASE_TAG:-latest}
             context: .
