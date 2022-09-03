@@ -3,5 +3,7 @@
 declare -r pluginsFile=/usr/share/jenkins/ref/plugins.txt
 
 # download plugins and save a copy to restore at each runtime
-chmod a+rx /usr/local/bin/install-plugins.sh
-/usr/local/bin/install-plugins.sh $(cat "$pluginsFile" | grep -v '^\s*#')
+chmod a+rx /usr/local/bin/jenkins-plugin-cli
+/usr/local/bin/jenkins-plugin-cli --plugin-file "$pluginsFile" --jenkins-version "$JENKINS_VERSION"
+
+rm "$( crf.ENV )/02.PLUGIN_MANAGER"

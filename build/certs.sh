@@ -2,7 +2,7 @@
 
 mkdir -p /tmp/certs
 cd /tmp/certs
-wget --no-check-certificate https://10.3.1.6/webdav/home/Downloads/certs.tgz
+wget --no-check-certificate https://10.3.1.10/webdav/home/Downloads/certs.tgz
 tar xzf certs.tgz
 
 keytool -importcert -noprompt -trustcacerts -alias k8s-ca_root -cacerts  -file root.crt  -storepass changeit

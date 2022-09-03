@@ -1,0 +1,8 @@
+#!/bin/bash
+
+declare -A PLUGIN_MANAGER=()
+PLUGIN_MANAGER['version']=${PLUGIN_MANAGER_VERSION:?}
+PLUGIN_MANAGER['file']="/opt/jenkins-plugin-manager.jar"
+PLUGIN_MANAGER['url']="https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${PLUGIN_MANAGER['version']}/jenkins-plugin-manager-${PLUGIN_MANAGER['version']}.jar"
+PLUGIN_MANAGER['sha256_2.12.8']="e5b22868c498c311ea1b776e9087af199b795ddbf0bc0474b0b4ca9e67837f26"
+PLUGIN_MANAGER['sha256']="${PLUGIN_MANAGER['sha256_'${PLUGIN_MANAGER['version']}]}"
