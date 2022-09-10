@@ -36,8 +36,8 @@ class Updater {
     }
 
     String getUpdateCenterJSON() {
-//        String url = this.UPDATE_CENTER_URL + this.getLatestJenkinsLTSversion() + '/update-center.json'
-        String url = this.UPDATE_CENTER_URL + '2.346.2/update-center.json'
+        String url = this.UPDATE_CENTER_URL + this.getLatestJenkinsLTSversion() + '/update-center.json'
+//        String url = this.UPDATE_CENTER_URL + '2.346.2/update-center.json'
         def jsonText = new URL(url).text
         jsonText = jsonText.substring('updateCenter.post('.length())
         jsonText = jsonText.substring(0, jsonText.length()-3)
