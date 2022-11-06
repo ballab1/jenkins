@@ -12,7 +12,7 @@ services:
                 JENKINS_VERSION: ${JENKINS_VERSION:-2.277.4}
                 FROM_BASE: ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-11.0.15_p10-r0}:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
-                PLUGIN_MANAGER_VERSION: ${JENKINS_PLUGIN_MANAGER_VERSION:-2.12.8}
+                PLUGIN_MANAGER_VERSION: ${JENKINS_PLUGIN_MANAGER_VERSION:-2.12.9}
                 docker_gid: 999
                 docker_uid: 999
                 jenkins_gid: 1004
@@ -34,7 +34,7 @@ services:
                 container.parent: $CONTAINER_PARENT
                 version.cbf: $CBF_VERSION
                 version.jenkins: $JENKINS_VERSION
-                version.plugin_manager: $PLUGIN_MANAGER_VERSION
+                version.plugin_manager: ${JENKINS_PLUGIN_MANAGER_VERSION:-2.12.9}
         container_name: jenkins
         environment:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
