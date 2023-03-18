@@ -1,4 +1,4 @@
-ace-editor:1.1
+#ace-editor:1.1
 ansicolor:1.0.2
 antisamy-markup-formatter:159.v25b_c67cd35fb_
 audit2db:0.5
@@ -36,7 +36,7 @@ htmlpublisher:1.31
 javadoc:226.v71211feb_e7e9
 jdk-tool:63.v62d2fd4b_4793
 jobConfigHistory:1207.vd28a_54732f92
-jquery-detached:1.2.1
+#jquery-detached:1.2.1
 junit:1177.v90374a_ef4d09
 kubernetes:3896.v19b_160fd9589
 leastload:3.0.0
@@ -46,7 +46,7 @@ mailer:448.v5b_97805e3767
 mapdb-api:1.0.9-28.vf251ce40855d
 matrix-project:785.v06b_7f47b_c631
 maven-plugin:3.21
-momentjs:1.1.1
+#momentjs:1.1.1
 monitoring:1.92.0
 nodelabelparameter:1.11.0
 notify-events:1.6.2
