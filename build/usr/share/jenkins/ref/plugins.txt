@@ -26,7 +26,7 @@ github-api:1.314-431.v78d72a_3fe4c3
 github:1.37.1
 groovy-postbuild:2.5
 groovy:453.vcdb_a_c5c99890
-htmlpublisher:1.31
+htmlpublisher:1.32
 javadoc:233.vdc1a_ec702cff
 jdk-tool:66.vd8fa_64ee91b_d
 jobConfigHistory:1212.vd4470d08ff12
