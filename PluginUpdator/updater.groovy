@@ -11,14 +11,12 @@ import javax.xml.bind.DatatypeConverter
 
 class Updater {
     final static String STABLE_CHANGELOG = 'https://www.jenkins.io/changelog-stable/rss.xml'
-//    final static String UPDATE_CENTER_URL = 'http://mirrors.jenkins-ci.org/updates'
-//    final static String UPDATE_CENTER_URL = 'https://ftp-nyc.osuosl.org/pub/jenkins/updates'
-//    final static String UPDATE_CENTER_URL = 'http://updates.jenkins-ci.org/'
     final static String UPDATE_CENTER_URL = 'http://updates.jenkins-ci.org/dynamic-stable-'
     final static def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
     final static def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/\$\{JENKINS_VERSION:-)(.+)(\}:\$\{CONTAINER_TAG.*)$/
     static String PATH = './'
     static String DOCKERCOMPOSE_NAME = PATH+'docker-compose.yml'
+    static String CURRENT_VERSIONS = '/versions/alpine'
     static String DOCKERFILE_NAME = PATH+'Dockerfile'
     static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
     static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
@@ -27,6 +25,7 @@ class Updater {
     def myVersionComparitor = null
     def tm = Calendar.instance.time
     def _latestJenkinsLTSversion = null
+    def _latestJenkinsStableVersion = null
 
     def getVersions() {
        if (! myVersionComparitor) {
@@ -36,8 +35,7 @@ class Updater {
     }
 
     String getUpdateCenterJSON() {
-        String url = this.UPDATE_CENTER_URL + this.getLatestJenkinsLTSversion() + '/update-center.json'
-//        String url = this.UPDATE_CENTER_URL + '2.346.2/update-center.json'
+        String url = this.UPDATE_CENTER_URL + this.getLatestStableVersion() + '/update-center.json'
         def jsonText = new URL(url).text
         jsonText = jsonText.substring('updateCenter.post('.length())
         jsonText = jsonText.substring(0, jsonText.length()-3)
@@ -72,6 +70,21 @@ class Updater {
             }
         }
         return jenkinsVersion
+    }
+
+    String getLatestStableVersion() {
+        if (_latestJenkinsStableVersion == null) {
+            def f = new File(this.CURRENT_VERSIONS)
+            Map versions = [:]
+            f.readLines().each { line ->
+                ArrayList details = line.split('=')
+                versions[details[0]] = details[1]
+            }
+            String title = versions['JENKINS_DYNAMIC_STABLE']
+            println "Latest version of JenkinsPlugins: ${title}"
+            _latestJenkinsStableVersion = title
+        }
+        return _latestJenkinsStableVersion
     }
 
     String getLatestJenkinsLTSversion() {

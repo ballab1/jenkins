@@ -32,6 +32,7 @@ set -o verbose
 
 docker run --rm \
            --volume "$TOOLS":/home/groovy/scripts \
+           --volume "${TOOLS}/../versions":/versions \
            --workdir /home/groovy/scripts \
            --user "$2" \
            s2.ubuntu.home:5000/thirdparty/groovy:2.6-jre-alpine \
