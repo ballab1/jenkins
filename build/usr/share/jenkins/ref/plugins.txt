@@ -33,7 +33,7 @@ jobConfigHistory:1229.v3039470161a_d
 kubernetes:4029.v5712230ccb_f8
 leastload:3.0.0
 log-parser:2.3.1
-logstash:2.5.0218.v0a_ff8fefc12b_
+#logstash:2.5.0218.v0a_ff8fefc12b_
 mapdb-api:1.0.9-28.vf251ce40855d
 matrix-project:808.v5a_b_5f56d6966
 maven-plugin:3.23
