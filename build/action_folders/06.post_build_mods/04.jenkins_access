@@ -16,3 +16,6 @@ getent group "$DOCKER_GID" || usermod -a -G "$( getent group $DOCKER_GID | cut -
 [ -z "$JENKINS_GITHUB_EMAIL" ] || git config --system user.email "${JENKINS_GITHUB_EMAIL}"
 [ -z "$JENKINS_GITHUB_NAME" ] || git config --system user.name "${JENKINS_GITHUB_NAME}"
 [ -z "$JENKINS_GITHUB_CREDENTIALS" ] || git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}"
+
+# prevent Jenkins git fetch intermittent failure
+sed -i -E -e 's|^#?MaxStartups\s=.*$|MaxStartups 30:30:100|' /etc/ssh/sshd_config
