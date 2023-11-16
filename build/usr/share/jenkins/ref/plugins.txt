@@ -1,14 +1,14 @@
 ansicolor:1.0.4
 antisamy-markup-formatter:162.v0e6ec0fcfcf6
-audit-trail:355.v47b_7f827e255
+audit-trail:359.va_7c0fb_cc4f1f
 audit2db:0.5
 authentication-tokens:1.53.v1c90fd9191a_b_
-blueocean:1.27.8
+blueocean:1.27.9
 bouncycastle-api:2.29
 build-name-setter:2.4.0
 build-timeout:1.31
 cloudbees-folder:6.858.v898218f3609d
-configuration-as-code:1714.v09593e830cfa
+configuration-as-code:1737.v652ee9b_a_e0d9
 dashboard-view:2.495.v07e81500c3f2
 database-mysql:1.4
 database:191.vd5981b_97a_5fa_
@@ -30,7 +30,7 @@ htmlpublisher:1.32
 javadoc:243.vb_b_503b_b_45537
 jdk-tool:73.vddf737284550
 jobConfigHistory:1229.v3039470161a_d
-kubernetes:4054.v2da_8e2794884
+kubernetes:4144.vfd176ec18694
 leastload:3.0.0
 log-parser:2.3.1
 #logstash:2.5.0218.v0a_ff8fefc12b_
@@ -45,9 +45,9 @@ parameterized-trigger:2.46
 pipeline-github-lib:42.v0739460cda_c4
 pipeline-graph-analysis:202.va_d268e64deb_3
 pipeline-milestone-step:111.v449306f708b_7
-pipeline-rest-api:2.33
+pipeline-rest-api:2.34
 pipeline-stage-step:305.ve96d0205c1c6
-pipeline-stage-view:2.33
+pipeline-stage-view:2.34
 postbuild-task:1.9
 rebuild:320.v5a_0933a_e7d61
 resource-disposer:0.23
@@ -57,7 +57,7 @@ sectioned-view:1.25
 sidebar-link:2.4.1
 slack:684.v833089650554
 slave-status:56.v1798df8ff586
-ssh-agent:333.v878b_53c89511
+ssh-agent:346.vda_a_c4f2c8e50
 ssh-credentials:308.ve4497b_ccd8f4
 ssh-slaves:2.916.vd17b_43357ce4
 structs:325.vcb_307d2a_2782
