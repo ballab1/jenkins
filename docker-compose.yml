@@ -10,7 +10,7 @@ services:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: jenkins
                 JENKINS_VERSION: ${JENKINS_VERSION:-2.277.4}
-                FROM_BASE: ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-11.0.15_p10-r0}:${BASE_TAG:-latest}
+                FROM_BASE: ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-17.0.9_p8-r0}:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 PLUGIN_MANAGER_VERSION: ${JENKINS_PLUGIN_MANAGER_VERSION:-2.12.9}
                 docker_gid: 999
@@ -20,7 +20,7 @@ services:
             cache_from:
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.18.4}
                 - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/base_container:${BASE_TAG:-latest}
-                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-11.0.15_p10-r0}:${BASE_TAG:-latest}
+                - ${DOCKER_REGISTRY:-s2.ubuntu.home:5000/}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-17.0.9_p8-r0}:${BASE_TAG:-latest}
             context: .
             dockerfile: Dockerfile
             labels:
