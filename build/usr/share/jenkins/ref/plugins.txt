@@ -64,7 +64,7 @@ structs:325.vcb_307d2a_2782
 subversion:2.17.3
 syslog-logger:1.0.5
 timestamper:1.26
-token-macro:384.vf35b_f26814ec
+token-macro:400.v35420b_922dcb_
 workflow-aggregator:596.v8c21c963d92d
 workflow-basic-steps:1042.ve7b_140c4a_e0c
 workflow-durable-task-step:1289.v4d3e7b_01546b_
