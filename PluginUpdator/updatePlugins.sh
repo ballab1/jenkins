@@ -35,7 +35,7 @@ docker run --rm \
            --volume "${TOOLS}/../versions":/versions \
            --workdir /home/groovy/scripts \
            --user "$2" \
-           s2.ubuntu.home:5000/thirdparty/groovy:2.6-jre-alpine \
+           s2.ubuntu.home:5000/docker.io/groovy:2.6-jre-alpine \
            groovy PluginUpdator/latestPlugins.groovy
 
 set +o verbose
