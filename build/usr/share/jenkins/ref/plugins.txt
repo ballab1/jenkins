@@ -7,8 +7,8 @@ blueocean:1.27.12
 bouncycastle-api:2.30.1.77-225.v26ea_c9455fd9
 build-name-setter:2.4.2
 build-timeout:1.32
-cloudbees-folder:6.901.vb_4c7a_da_75da_3
-configuration-as-code:1775.v810dc950b_514
+cloudbees-folder:6.928.v7c780211d66e
+configuration-as-code:1807.v0175eda_00a_20
 dashboard-view:2.508.va_74654f026d1
 database-mysql:63.va_0596d2b_1438
 database:247.v244b_d85f086d
@@ -23,14 +23,14 @@ git-changelog:3.38
 git-client:4.7.0
 git-server:117.veb_68868fa_027
 github-api:1.318-461.v7a_c09c9fa_d63
-github:1.38.0
+github:1.39.0
 groovy-postbuild:228.vcdb_cf7265066
 groovy:457.v99900cb_85593
 htmlpublisher:1.33
 javadoc:243.vb_b_503b_b_45537
 jdk-tool:73.vddf737284550
 jobConfigHistory:1229.v3039470161a_d
-kubernetes:4214.vf10083a_42e70
+kubernetes:4219.v40ff98cfb_d6f
 leastload:3.0.0
 log-parser:2.3.3
 mapdb-api:1.0.9-40.v58107308b_7a_7
@@ -52,7 +52,7 @@ postbuild-task:1.9
 prometheus:763.vf8c26b_a_34b_d6
 rebuild:332.va_1ee476d8f6d
 resource-disposer:0.23
-role-strategy:717.v6a_69a_fe98974
+role-strategy:727.vd344b_eec783d
 run-condition:1.7
 sectioned-view:1.26
 sidebar-link:2.4.1
@@ -68,8 +68,8 @@ timestamper:1.27
 token-macro:400.v35420b_922dcb_
 workflow-aggregator:596.v8c21c963d92d
 workflow-basic-steps:1058.vcb_fc1e3a_21a_9
-workflow-durable-task-step:1336.v768003e07199
-workflow-multibranch:773.vc4fe1378f1d5
+workflow-durable-task-step:1353.v1891a_b_01da_18
+workflow-multibranch:783.va_6eb_ef636fb_d
 workflow-scm-step:427.v4ca_6512e7df1
 workflow-step-api:657.v03b_e8115821b_
 ws-cleanup:0.45
