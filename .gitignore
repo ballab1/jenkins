@@ -29,6 +29,7 @@ scanned.paths
 *.loaded
 
 PluginUpdator/201*
+PluginUpdator/202*
 PluginUpdator/*.txt
 PluginUpdator/*Dockerfile
 PluginUpdator/*01.JENKINS
