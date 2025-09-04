@@ -1,3 +1,3 @@
 
-def updater = new GroovyScriptEngine('PluginUpdator').loadScriptByName('updater.groovy').newInstance() 
+def updater = new GroovyScriptEngine('scripts').loadScriptByName('updater.groovy').newInstance()
 updater.main()

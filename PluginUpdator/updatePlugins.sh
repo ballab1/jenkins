@@ -31,12 +31,13 @@ cd "$TOOLS"
 set -o verbose
 
 docker run --rm \
-           --volume "$TOOLS":/home/groovy/scripts \
-           --volume "${TOOLS}/../versions":/versions \
-           --workdir /home/groovy/scripts \
+           --volume "$TOOLS/PluginUpdator":/home/groovy/scripts \
+           --volume "$TOOLS":/home/groovy/data \
+           --volume "${TOOLS}/../versions":/home/groovy/versions \
+           --workdir /home/groovy \
            --user "$2" \
-           s2.ubuntu.home:5000/docker.io/groovy:2.6-jre-alpine \
-           groovy PluginUpdator/latestPlugins.groovy
+           ${DOCKER_REGISTRY:-}docker.io/groovy:2.6-jre-alpine \
+           groovy scripts/latestPlugins.groovy
 
 set +o verbose
 #setPermissions "$1" 'o-w'

@@ -5,42 +5,27 @@ import groovy.json.*
 import groovy.xml.*
 import java.text.*
 import java.security.MessageDigest
-import javax.xml.bind.DatatypeConverter
 //import grails.plugins.VersionComparator
 //import org.codehaus.groovy.grails.plugins.VersionComparator
 
 class Updater {
     final static String STABLE_CHANGELOG = 'https://www.jenkins.io/changelog-stable/rss.xml'
-    final static String UPDATE_CENTER_URL = 'http://updates.jenkins-ci.org/dynamic-stable-'
+    final static String UPDATE_CENTER_URL = 'https://updates.jenkins.io/dynamic-stable-'
+    final static String LTS_WAR_URL_BASE = 'https://repo.jenkins.io/public/org/jenkins-ci/main/jenkins-war/'
     final static def VERSION_PATTERN_IN_DOCKERFILE = ~/^ARG\s+JENKINS_VERSION=([.0-9]+)\s*$/
-    final static def VERSION_PATTERN_IN_DOCKERCOMPOSE = ~/(\s+image:\s+.+jenkins\/\$\{JENKINS_VERSION:-)(.+)(\}:\$\{CONTAINER_TAG.*)$/
+    final static def VERSION_PATTERN_IN_DOCKER_COMPOSE = ~/(\s+image:\s+.+jenkins\/\$\{JENKINS_VERSION:-)(.+)(\}:\$\{CONTAINER_TAG.*)$/
     static String PATH = './'
-    static String DOCKERCOMPOSE_NAME = PATH+'docker-compose.yml'
-    static String CURRENT_VERSIONS = '/versions/alpine'
-    static String DOCKERFILE_NAME = PATH+'Dockerfile'
-    static String DOWNLOAD_FILE_NAME = PATH+'build/action_folders/04.downloads/01.JENKINS'
-    static String PLUGINS_FILENAME = PATH+'build/usr/share/jenkins/ref/plugins.txt'
-    static String BACKUP_DIR = PATH+'PluginUpdator'
+    static String DOCKER_COMPOSE_NAME = PATH + 'data/docker-compose.yml'
+    static String CURRENT_VERSIONS = PATH + 'versions/alpine'
+    static String DOCKERFILE_NAME = PATH + 'data/Dockerfile'
+    static String DOWNLOAD_FILE_NAME = PATH + 'data/build/action_folders/04.downloads/01.JENKINS'
+    static String PLUGINS_FILENAME = PATH + 'data/build/usr/share/jenkins/ref/plugins.txt'
+    static String BACKUP_DIR = PATH + 'scripts'
 
-    def myVersionComparitor = null
+    def myVersionComparator = null
     def tm = Calendar.instance.time
     def _latestJenkinsLTSversion = null
     def _latestJenkinsStableVersion = null
-
-    def getVersions() {
-       if (! myVersionComparitor) {
-           myVersionComparitor = new GroovyScriptEngine(this.BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
-       }
-       return myVersionComparitor
-    }
-
-    String getUpdateCenterJSON() {
-        String url = this.UPDATE_CENTER_URL + this.getLatestStableVersion() + '/update-center.json'
-        def jsonText = new URL(url).text
-        jsonText = jsonText.substring('updateCenter.post('.length())
-        jsonText = jsonText.substring(0, jsonText.length()-3)
-        return jsonText
-    }
 
     int checkForUpdates(Map pluginList, String currentCore) {
         def jsonText = this.getUpdateCenterJSON()
@@ -57,6 +42,12 @@ class Updater {
         }
         println isUpdated+' plugins to be updated'
         return isUpdated
+    }
+
+    String formatDownloadsHashLine(String version) {
+        String url = LTS_WAR_URL_BASE + version + '/jenkins-war-' + version + '.war'
+        String sha256 = sha256sum(url)
+        return "JENKINS['sha256_${version}']=\"${sha256}\"\n"
     }
 
     String getDockerfileJenkinsVersion() {
@@ -105,6 +96,19 @@ class Updater {
         return _latestJenkinsLTSversion
     }
 
+    String getUpdateCenterJSON() {
+        String url = this.UPDATE_CENTER_URL + this.getLatestStableVersion() + '/update-center.actual.json'
+        def jsonText = new URL(url).text
+        return jsonText
+    }
+
+    def getVersions() {
+       if (! myVersionComparator) {
+           myVersionComparator = new GroovyScriptEngine(this.BACKUP_DIR).loadScriptByName('VersionComparator.groovy').newInstance()
+       }
+       return myVersionComparator
+    }
+
     Map readPluginList(String filename) {
         File f = new File(filename)
         Map pluginList = [:]
@@ -118,7 +122,7 @@ class Updater {
     def saveBackupFile(String fileName) {
         File file = new File(fileName)
         if (! file.canRead()) {
-            println 'failed to read '+file.name+' ('+b.absolutePath+')'
+            println 'failed to read '+file.name+' ('+fileName.absolutePath+')'
             System.exit(1)
         }
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -138,43 +142,42 @@ class Updater {
         return content
     }
 
-    void setDockerComposeVersion(String latestJenkinsLTSversion) {
+    void setDockerComposeVersion(String version) {
         // update version info in Dockerfile
-        def content = saveBackupFile(this.DOCKERCOMPOSE_NAME)
-        File f = new File(this.DOCKERCOMPOSE_NAME)
+        def content = saveBackupFile(this.DOCKER_COMPOSE_NAME)
+        File f = new File(this.DOCKER_COMPOSE_NAME)
         content.readLines().each { line ->
-            def m =  (line =~ this.VERSION_PATTERN_IN_DOCKERCOMPOSE)
-            f << ( ! m.matches() ? line : m[0][1]+latestJenkinsLTSversion+m[0][3] )+"\n"
+            def m =  (line =~ this.VERSION_PATTERN_IN_DOCKER_COMPOSE)
+            f << ( ! m.matches() ? line : m[0][1] + version + m[0][3] ) + "\n"
         }
     }
 
-    void setDockerFileVersion(String latestJenkinsLTSversion) {
+    void setDockerFileVersion(String version) {
         // update version info in Dockerfile
         def content = saveBackupFile(this.DOCKERFILE_NAME)
         File f = new File(this.DOCKERFILE_NAME)
         content.readLines().each { line ->
             def m =  (line =~ this.VERSION_PATTERN_IN_DOCKERFILE)
-            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+latestJenkinsLTSversion )+"\n"
+            f << ( ! m.matches() ? line : 'ARG JENKINS_VERSION='+version )+"\n"
         }
     }
 
-    void setDownloadsHash(String latestJenkinsLTSversion) {
+    void setDownloadsHash(String version) {
         // update version info in 'build/action_folders/04.downloads/01.JENKINS'
         def content = saveBackupFile(this.DOWNLOAD_FILE_NAME)
         File f = new File(this.DOWNLOAD_FILE_NAME)
         content.readLines().each { line ->
             if ( line =~ /JENKINS\['sha256'\]=/ ) {
-                String sha256 = sha256sum("https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${latestJenkinsLTSversion}/jenkins-war-${latestJenkinsLTSversion}.war")
-                f << "JENKINS['sha256_${latestJenkinsLTSversion}']=\"${sha256}\"\n"
+                f << formatDownloadsHashLine(version)
             }
             f << line + "\n"
         }
     }
 
-    void setJenkinsVersion(String latestJenkinsLTSversion) {
-        setDockerComposeVersion(latestJenkinsLTSversion)
-        setDockerFileVersion(latestJenkinsLTSversion)
-        setDownloadsHash(latestJenkinsLTSversion)
+    void setJenkinsVersion(String version) {
+        setDockerComposeVersion(version)
+        setDockerFileVersion(version)
+        setDownloadsHash(version)
     }
 
     String sha256sum(String url) {
@@ -194,7 +197,7 @@ class Updater {
             byte[] partialHash = null
             partialHash = new byte[hashSum.getDigestLength()]
             partialHash = hashSum.digest()
-            return DatatypeConverter.printHexBinary(partialHash).toString().toLowerCase()
+            return partialHash.encodeHex().toString()
         }
         catch (Exception e) {
             println "Failed to calculate SHA-256.  bytes read: ${total}\n" + e.message
@@ -202,7 +205,8 @@ class Updater {
 //            System.exit(1)
         }
         finally {
-            data.close()
+            if (data)
+              data.close()
         }
     }
 
