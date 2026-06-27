@@ -1,6 +1,6 @@
 ansicolor:536.v13fa_b_860c267
 antisamy-markup-formatter:173.v680e3a_b_69ff3
-audit-trail:436.vc0d1e79fc5a_3
+audit-trail:455.v2ee2f7a_da_b_25
 audit2db:0.5
 authentication-tokens:1.144.v5ff4a_5ec5c33
 blueocean:1.27.25
@@ -8,7 +8,7 @@ bouncycastle-api:2.30.1.84-291.v9f17b_21896e2
 build-name-setter:2.5.1
 build-timeout:1.40
 cloudbees-folder:6.1100.ve9eed61d16c4
-configuration-as-code:2081.v2d0940662a_34
+configuration-as-code:2089.v970a_0b_a_8cc6d
 dashboard-view:2.558.v96b_901978e47
 database-mysql:142.vc259713f0032
 database:309.vf39a_d78a_cb_e8
@@ -20,16 +20,16 @@ durable-task:671.v340ff7959010
 envinject:2.941.v351a_20c0a_3ca_
 generic-webhook-trigger:2.4.2
 git-changelog:3.45
-git-client:6.6.0
+git-client:6.6.1
 git-server:137.ve0060b_432302
 github-api:1.330-492.v3941a_032db_2a_
-github:1.46.0.1
+github:1.47.0
 groovy-postbuild:303.v5fe3da_6233f0
 groovy:537.v741a_5a_f1b_581
 htmlpublisher:427.1
 javadoc:354.vee1a_660b_4990
 jdk-tool:83.v417146707a_3d
-jobConfigHistory:1356.ve360da_6c523a_
+jobConfigHistory:1367.vc8fa_b_15101dc
 kubernetes:4423.vb_59f230b_ce53
 leastload:71.vb_585f7a_dc4f5
 log-parser:3.0.3
