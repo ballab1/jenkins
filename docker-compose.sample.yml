@@ -1,4 +1,3 @@
-version: '3.3'
 
 # this is a SAMPLE file. Do not use for build or deployments
 
@@ -13,16 +12,16 @@ services:
                 CBF_VERSION: ${CBF_VERSION:-}
                 CONTAINER_NAME: jenkins
                 JENKINS_VERSION: ${JENKINS_VERSION:-2.138.2}
-                FROM_BASE: ${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
+                FROM_BASE: ${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-25.0.4_p7-r0}:${BASE_TAG:-latest}
                 JENKINS_HOME: ${JENKINS_HOME:-/var/jenkins_home}
                 docker_gid: 999
                 docker_uid: 999
                 jenkins_gid: 1000
                 jenkins_uid: 1004
             cache_from:
-                - ${DOCKER_REGISTRY:-}thirdparty/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.12.4}
+                - ${DOCKER_REGISTRY:-}docker.io/${CONTAINER_OS:-alpine}:${OS_VERSION:-3.12.4}
                 - ${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/base_container:${BASE_TAG:-latest}
-                - ${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-8.171.11-r0}:${BASE_TAG:-latest}
+                - ${DOCKER_REGISTRY:-}${CONTAINER_OS:-alpine}/openjdk/${JAVA_VERSION:-25.0.4_p7-r0}:${BASE_TAG:-latest}
             context: .
             dockerfile: Dockerfile
             labels:
