@@ -6,4 +6,4 @@ declare -r pluginsFile=/usr/share/jenkins/ref/plugins.txt
 chmod a+rx /usr/local/bin/jenkins-plugin-cli
 /usr/local/bin/jenkins-plugin-cli --plugin-file "$pluginsFile" --jenkins-version "$JENKINS_VERSION"
 
-rm "$( crf.ENV )/02.PLUGIN_MANAGER"
+rm "$( crf::ENV )/02.PLUGIN_MANAGER"

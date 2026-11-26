@@ -2,8 +2,8 @@
 
 declare -A dockr=(
     ['user']=${DOCKER_USER:-docker}
-    ['uid']=${DOCKER_UID:-$(dockr.UID "${DOCKER_USER:-}")}
+    ['uid']=${DOCKER_UID:-$(dockr::UID "${DOCKER_USER:-}")}
     ['group']=${DOCKER_GROUP:-docker}
-    ['gid']=${DOCKER_GID:-$(dockr.GID "${DOCKER_GROUP:-}")}
+    ['gid']=${DOCKER_GID:-$(dockr::GID "${DOCKER_GROUP:-}")}
     ['shell']=/bin/bash
 )

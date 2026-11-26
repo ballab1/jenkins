@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "JENKINS_HOME:  ${JENKINS_HOME:-}"
+echo "JENKINS_VERSION:  ${JENKINS_VERSION:-}"
 declare -A JENKINS=()
 JENKINS['version']=${JENKINS_VERSION:?}
 JENKINS['file']="/tmp/jenkins-war-${JENKINS['version']}.war"
@@ -108,5 +110,6 @@ JENKINS['sha256_2.568.1']="58f24f3965fbef7708629fbe158d51bf138ffd577cadbc86b4636
 JENKINS['sha256_2.568.2']="9bbb2b329e52730ba7decd1a7a1095987f6250ec761fb21157dbb2cbcd1ef590"
 JENKINS['sha256_2.568.3']="ccdbfdceade83489e34285a4d57c12134ffea0a09ca20062282e580cbfa5f09e"
 JENKINS['sha256_2.580.1']="393bf2476352dd726519fd1f92ce66eac7d23c0936e6967420b717060c4c40d0"
+JENKINS['sha256_2.580.2']="d98032d2401c540a35613a82ed358921fcf3166d5e6eaaaf60a7941845be3251"
 JENKINS['sha256']="${JENKINS['sha256_'${JENKINS['version']}]}"
 JENKINS['home']=${JENKINS_HOME:-/var/jenkins_home}

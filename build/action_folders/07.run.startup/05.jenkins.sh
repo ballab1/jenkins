@@ -1,7 +1,7 @@
 #!/bin/bash
 
 : ${JENKINS_UID:?"Environment variable 'JENKINS_UID' not defined in '${BASH_SOURCE[0]}'"}
-[ ${JENKINS_GITHUB_CREDENTIALS:-} ] || lib.file_env 'JENKINS_GITHUB_CREDENTIALS'
+[ ${JENKINS_GITHUB_CREDENTIALS:-} ] || lib::file_env 'JENKINS_GITHUB_CREDENTIALS'
 
 usermod -G "$DOCKER_GROUP" -a "$JENKINS_USER"
 # if Docker socket exists, make sure we can access it
@@ -22,15 +22,15 @@ chown -R "${JENKINS_UID}:$JENKINS_GID" /usr/share/jenkins
 [ -f "${JENKINS_HOME}.git" ] && rm ${JENKINS_HOME}/.git
 
 if [ "${JENKINS_GITHUB_EMAIL}" ]; then
-    git config --global user.email "${JENKINS_GITHUB_EMAIL}" || term.log "Failed to set global GIT 'user.email'\n" 'warn'
+    git config --global user.email "${JENKINS_GITHUB_EMAIL}" || term::log "Failed to set global GIT 'user.email'\n" 'warn'
     unset JENKINS_GITHUB_EMAIL
 fi
 if [ "${JENKINS_GITHUB_NAME}" ]; then
-    git config --system user.name "${JENKINS_GITHUB_NAME}" || term.log "Failed to set global GIT 'user.name'\n" 'warn'
+    git config --system user.name "${JENKINS_GITHUB_NAME}" || term::log "Failed to set global GIT 'user.name'\n" 'warn'
     unset JENKINS_GITHUB_NAME
 fi
 if [ "${JENKINS_GITHUB_CREDENTIALS}" ]; then
-    git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}" || term.log "Failed to set global GIT 'credential.user'\n" 'warn'
+    git config --system credential.user "${JENKINS_GITHUB_CREDENTIALS}" || term::log "Failed to set global GIT 'credential.user'\n" 'warn'
     unset JENKINS_GITHUB_CREDENTIALS
 fi
 
@@ -49,10 +49,10 @@ if [ -d /var/ssh ] && [ $(ls -A /var/ssh/* | wc -l) -gt 0 ]; then
     ln -s "${JENKINS_HOME}/.ssh" .
 fi
 
-[ ! -f "$(crf.STARTUP)/99.workdir.sh" ] || sed -i -e 's|crf.fixupDirectory|#crf.fixupDirectory|g' "$(crf.STARTUP)/99.workdir.sh"
+[ ! -f "$(crf::STARTUP)/99.workdir.sh" ] || sed -i -e 's|crf::fixupDirectory|#crf::fixupDirectory|g' "$(crf::STARTUP)/99.workdir.sh"
 
 find "$JENKINS_HOME" ! -user "$JENKINS_UID" -name '.*' -exec chown "$JENKINS_UID" '{}' \; || :
-crf.fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
+crf::fixupDirectory "$JENKINS_HOME" "$JENKINS_UID"
 
 # fix up ssh access (do not touch original files)
 if [ -d "${JENKINS_HOME}/.ssh" ]; then
